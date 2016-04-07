@@ -12,7 +12,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<junit.version>4.12</junit.version>
+		<xuyingqi.version>0.0.1</xuyingqi.version>
 
 		<maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
 		<jdk.version>1.8</jdk.version>
@@ -20,9 +20,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<groupId>cn.xuyingqi</groupId>
+			<artifactId>jar</artifactId>
+			<version>${xuyingqi.version}</version>
 		</dependency>
 	</dependencies>
 
