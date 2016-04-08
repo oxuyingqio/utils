@@ -8,6 +8,6 @@ public class JUnitTest {
 
 	@org.junit.Test
 	public void test() {
-		logger.debug(Math.pow(2, 0));
+		logger.debug(ByteUtils.convertSpecifiedLocation2Int(new int[] { 0, 2, 3, 31 }));
 	}
 }

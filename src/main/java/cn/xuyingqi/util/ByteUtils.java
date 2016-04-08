@@ -2,6 +2,7 @@ package cn.xuyingqi.util;
 
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
+import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 
 /**
  * 字节工具类
@@ -19,7 +20,7 @@ import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
 public class ByteUtils {
 
 	/**
-	 * 将无符号字节(即8位均为数据)转换为短整型;<br>
+	 * 将无符号字节(即8位均为数据的字节)转换为有符号的短整型;<br>
 	 * 由于Java中的byte是有符号的(即首位用来表示符号位),所以无符号字节的数据范围在正数部分超出了byte所能表示的最大数,导致结果变为负数.
 	 * <br>
 	 * 因此需要使用两个字节的short类型来接此数.<br>
@@ -34,7 +35,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将无符号字节(即8位均为数据)转换为整型;
+	 * 将无符号字节(即8位均为数据的字节)转换为有符号的整型;
 	 * 
 	 * @param b
 	 * @return
@@ -44,7 +45,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将无符号字节(即8位均为数据)转换为长整型;
+	 * 将无符号字节(即8位均为数据的字节)转换为有符号的长整型;
 	 * 
 	 * @param b
 	 * @return
@@ -96,7 +97,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组(0<长度<=2)转换为短整型
+	 * 将无符号字节数组(0<长度<=2)转换为无符号短整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -115,7 +116,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组(0<长度<=4)转换为整型
+	 * 将无符号字节数组(0<长度<=4)转换为无符号整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -135,7 +136,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组(0<长度<=8)转换为长整型
+	 * 将无符号字节数组(0<长度<=8)转换为无符号长整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -152,6 +153,106 @@ public class ByteUtils {
 			}
 			return l;
 		}
+	}
+
+	/**
+	 * 将指定下标值的位转换为1,并得到对应无符号字节<br>
+	 * 
+	 * 下标值从0开始,大于等于8则抛异常
+	 * 
+	 * @param indexArray
+	 * @return
+	 */
+	public static byte convertSpecifiedLocation2Byte(int[] indexArray) {
+		// 返回的字节,默认为0
+		byte b = 0;
+		// 遍历需要转换的下标值数组
+		for (int index = 0, length = indexArray.length; index < length; index++) {
+			// 下标值
+			int indexValue = indexArray[index];
+			// 大于等于8则抛异常
+			if (indexValue < 8) {
+				b = (byte) (b | (1 << indexValue));
+			} else {
+				throw new IndexOutOfBoundsException();
+			}
+		}
+		return b;
+	}
+
+	/**
+	 * 将指定下标值的位转换为1,并得到对应无符号短整型<br>
+	 * 
+	 * 下标值从0开始,大于等于16则抛异常
+	 * 
+	 * @param indexArray
+	 * @return
+	 */
+	public static short convertSpecifiedLocation2Short(int[] indexArray) {
+		// 返回的,默认为0
+		short s = 0;
+		// 遍历需要转换的下标值数组
+		for (int index = 0, length = indexArray.length; index < length; index++) {
+			// 下标值
+			int indexValue = indexArray[index];
+			// 大于等于16则抛异常
+			if (indexValue < 16) {
+				s = (short) (s | (1 << indexValue));
+			} else {
+				throw new IndexOutOfBoundsException();
+			}
+		}
+		return s;
+	}
+
+	/**
+	 * 将指定下标值的位转换为1,并得到对应无符号整型<br>
+	 * 
+	 * 下标值从0开始,大于等于32则抛异常
+	 * 
+	 * @param indexArray
+	 * @return
+	 */
+	public static int convertSpecifiedLocation2Int(int[] indexArray) {
+		// 返回的,默认为0
+		int i = 0;
+		// 遍历需要转换的下标值数组
+		for (int index = 0, length = indexArray.length; index < length; index++) {
+			// 下标值
+			int indexValue = indexArray[index];
+			// 大于等于32则抛异常
+			if (indexValue < 32) {
+				i = i | (1 << indexValue);
+			} else {
+				throw new IndexOutOfBoundsException();
+			}
+		}
+		return i;
+	}
+
+	/**
+	 * 将指定下标值的位转换为1,并得到对应无符号整型<br>
+	 * 
+	 * 下标值从0开始,大于等于64则抛异常
+	 * 
+	 * @param indexArray
+	 * @return
+	 */
+	public static long convertSpecifiedLocation2Long(int[] indexArray) {
+		// 返回的,默认为0
+		long l = 0;
+		// 遍历需要转换的下标值数组
+		for (int index = 0, length = indexArray.length; index < length; index++) {
+			// 下标值
+			int indexValue = indexArray[index];
+			// 大于等于64则抛异常
+			if (indexValue < 64) {
+				l = l | (1 << indexValue);
+			} else {
+				throw new IndexOutOfBoundsException();
+			}
+		}
+		return l;
 	}
 
 	/**
