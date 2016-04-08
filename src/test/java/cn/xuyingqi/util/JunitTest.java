@@ -1,6 +1,6 @@
 package cn.xuyingqi.util;
 
-public class Test {
+public class JunitTest {
 
 	@org.junit.Test
 	public void test() {
