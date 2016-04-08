@@ -8,6 +8,6 @@ public class JUnitTest {
 
 	@org.junit.Test
 	public void test() {
-		logger.debug("1232313123");
+		logger.debug(Math.pow(2, 0));
 	}
 }
