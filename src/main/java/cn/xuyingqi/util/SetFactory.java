@@ -1,6 +1,7 @@
 package cn.xuyingqi.util;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Set工厂类
@@ -11,11 +12,11 @@ import java.util.HashSet;
 public class SetFactory {
 
 	/**
-	 * 获取一个新的HashSet对象
+	 * 获取一个新的Set对象,默认返回的HashSet
 	 * 
 	 * @return
 	 */
-	public static <T> HashSet<T> newInstance() {
+	public static <T> Set<T> newInstance() {
 		return new HashSet<T>();
 	}
 }

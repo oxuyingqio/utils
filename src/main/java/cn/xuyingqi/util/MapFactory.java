@@ -1,6 +1,7 @@
 package cn.xuyingqi.util;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Map工厂类
@@ -11,11 +12,11 @@ import java.util.HashMap;
 public class MapFactory {
 
 	/**
-	 * 获取一个新的HashMap对象
+	 * 获取一个新的Map对象,默认返回HashMap对象
 	 * 
 	 * @return
 	 */
-	public static <K, V> HashMap<K, V> newInstance() {
+	public static <K, V> Map<K, V> newInstance() {
 		return new HashMap<K, V>();
 	}
 }

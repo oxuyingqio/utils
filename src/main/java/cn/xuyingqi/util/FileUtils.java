@@ -21,17 +21,17 @@ public class FileUtils {
 	 * @param files
 	 *            待排序的文件数组
 	 */
-	public static List<File> sortFile(File[] resources) {
+	public static List<File> sortFileArray(File[] sources) {
 		// 文件列表
-		List<File> files = ListFactory.newInstance();
+		List<File> files = ListFactory.newInstance(ListFactory.ListType.linkedList);
 		// 文件夹列表
-		List<File> folders = ListFactory.newInstance();
+		List<File> folders = ListFactory.newInstance(ListFactory.ListType.linkedList);
 		// 返回列表
-		List<File> result = ListFactory.newInstance();
+		List<File> target = ListFactory.newInstance(ListFactory.ListType.linkedList);
 
 		// 循环
-		for (int i = 0, length = resources.length; i < length; i++) {
-			File file = resources[i];
+		for (int i = 0, length = sources.length; i < length; i++) {
+			File file = sources[i];
 
 			if (file.isFile()) {
 				files.add(file);
@@ -40,9 +40,9 @@ public class FileUtils {
 			}
 		}
 
-		result.addAll(files);
-		result.addAll(folders);
-		return result;
+		target.addAll(files);
+		target.addAll(folders);
+		return target;
 	}
 
 	/**
