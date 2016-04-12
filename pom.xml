@@ -42,8 +42,11 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
+					<!-- 源码版本 -->
 					<source>${jdk.version}</source>
+					<!-- 目标版本 -->
 					<target>${jdk.version}</target>
+					<!-- 编码格式 -->
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
@@ -53,6 +56,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
+					<!-- 跳过测试 -->
 					<skipTests>${skipTests}</skipTests>
 				</configuration>
 			</plugin>
