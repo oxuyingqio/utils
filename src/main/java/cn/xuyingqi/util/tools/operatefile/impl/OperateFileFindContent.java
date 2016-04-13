@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.tools.file.impl;
+package cn.xuyingqi.util.tools.operatefile.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
-import cn.xuyingqi.util.tools.file.OperateFile;
+import cn.xuyingqi.util.tools.operatefile.OperateFile;
 
 /**
  * 查找内容是否在文件中存在,并标明位置

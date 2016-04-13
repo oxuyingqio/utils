@@ -1,10 +1,10 @@
-package cn.xuyingqi.util.tools.file.impl;
+package cn.xuyingqi.util.tools.operatefile.impl;
 
 import java.io.File;
 
 import org.apache.log4j.Logger;
 
-import cn.xuyingqi.util.tools.file.OperateFile;
+import cn.xuyingqi.util.tools.operatefile.OperateFile;
 
 /**
  * 打印文件名称

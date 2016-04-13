@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.tools.file.impl;
+package cn.xuyingqi.util.tools.operatefile.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import cn.xuyingqi.util.tools.file.OperateFile;
+import cn.xuyingqi.util.tools.operatefile.OperateFile;
 
 /**
  * 复制文件内容到指定的文件中

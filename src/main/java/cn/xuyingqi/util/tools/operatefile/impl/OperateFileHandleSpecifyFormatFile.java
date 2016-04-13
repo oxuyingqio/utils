@@ -1,8 +1,8 @@
-package cn.xuyingqi.util.tools.file.impl;
+package cn.xuyingqi.util.tools.operatefile.impl;
 
 import java.io.File;
 
-import cn.xuyingqi.util.tools.file.OperateFile;
+import cn.xuyingqi.util.tools.operatefile.OperateFile;
 
 /**
  * 操作指定格式的文件
