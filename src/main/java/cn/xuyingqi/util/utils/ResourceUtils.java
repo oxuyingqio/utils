@@ -32,7 +32,7 @@ public class ResourceUtils {
 	}
 
 	/**
-	 * 通过jar包内文件的URL获取其jar包的URL
+	 * 通过jar包内文件的URL提取其jar包的URL
 	 * 
 	 * @param jarFileURL
 	 * @return
