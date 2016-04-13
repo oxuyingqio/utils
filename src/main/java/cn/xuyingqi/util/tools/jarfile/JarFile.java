@@ -8,6 +8,11 @@ import java.net.URL;
 
 import cn.xuyingqi.util.utils.ResourceUtils;
 
+/**
+ * 
+ * @author XuYQ
+ *
+ */
 public class JarFile {
 
 	private URL url;

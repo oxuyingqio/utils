@@ -32,29 +32,27 @@ public class ResourceUtils {
 	}
 
 	/**
-	 * 获取
+	 * 通过jar包内文件的URL获取其jar包的URL
 	 * 
-	 * @param jarUrl
+	 * @param jarFileURL
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	public static URL extractJarFileURL(URL jarUrl) throws MalformedURLException {
-		String urlFile = jarUrl.getFile();
-		System.out.println("=====================" + urlFile);
-		int separatorIndex = urlFile.indexOf(URL_JAR_SEPARATOR);
+	public static URL extractJarFileURL(URL jarFileURL) throws MalformedURLException {
+		String jarFile = jarFileURL.getFile();
+		int separatorIndex = jarFile.indexOf(URL_JAR_SEPARATOR);
 		if (separatorIndex != -1) {
-			String jarFile = urlFile.substring(0, separatorIndex);
-			System.out.println("=====================" + jarFile);
+			String jar = jarFile.substring(0, separatorIndex);
 			try {
-				return new URL(jarFile);
+				return new URL(jar);
 			} catch (MalformedURLException ex) {
-				if (!jarFile.startsWith("/")) {
-					jarFile = "/" + jarFile;
+				if (!jar.startsWith("/")) {
+					jar = "/" + jar;
 				}
-				return new URL(URL_PREFIX_FILE + jarFile);
+				return new URL(URL_PREFIX_FILE + jar);
 			}
 		} else {
-			return jarUrl;
+			return jarFileURL;
 		}
 	}
 }
