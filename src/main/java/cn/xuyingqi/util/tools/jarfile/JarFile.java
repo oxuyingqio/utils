@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.tools.jar;
+package cn.xuyingqi.util.tools.jarfile;
 
 import java.net.URL;
 
