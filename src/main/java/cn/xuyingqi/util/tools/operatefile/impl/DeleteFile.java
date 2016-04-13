@@ -10,7 +10,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFileDelete implements OperateFile {
+public class DeleteFile implements OperateFile {
 
 	@Override
 	public void operateFile(File file) {

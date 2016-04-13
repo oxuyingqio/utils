@@ -12,7 +12,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFilePrintName implements OperateFile {
+public class PrintFileName implements OperateFile {
 
 	// 日志
 	private Logger logger = Logger.getLogger(OperateFile.class);

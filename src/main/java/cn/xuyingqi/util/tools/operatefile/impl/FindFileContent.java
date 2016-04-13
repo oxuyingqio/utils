@@ -17,7 +17,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFileFindContent implements OperateFile {
+public class FindFileContent implements OperateFile {
 
 	// 日志
 	private Logger logger = Logger.getLogger(OperateFile.class);
@@ -33,7 +33,7 @@ public class OperateFileFindContent implements OperateFile {
 	 * @param findContent
 	 *            待查找的内容
 	 */
-	public OperateFileFindContent(String findContent) {
+	public FindFileContent(String findContent) {
 		this.findContent = findContent;
 	}
 
@@ -45,7 +45,7 @@ public class OperateFileFindContent implements OperateFile {
 	 * @param ignoreCase
 	 *            是否忽略大小写
 	 */
-	public OperateFileFindContent(String findContent, boolean ignoreCase) {
+	public FindFileContent(String findContent, boolean ignoreCase) {
 		this.findContent = findContent;
 		this.ignoreCase = ignoreCase;
 	}

@@ -15,7 +15,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFilePrintContent implements OperateFile {
+public class PrintFileContent implements OperateFile {
 
 	// 日志
 	private Logger logger = Logger.getLogger(OperateFile.class);
@@ -31,7 +31,7 @@ public class OperateFilePrintContent implements OperateFile {
 	/**
 	 * 打印文件内容
 	 */
-	public OperateFilePrintContent() {
+	public PrintFileContent() {
 	}
 
 	/**
@@ -40,7 +40,7 @@ public class OperateFilePrintContent implements OperateFile {
 	 * @param charsetName
 	 *            读取文件的编码格式
 	 */
-	public OperateFilePrintContent(String charsetName) {
+	public PrintFileContent(String charsetName) {
 		this.charsetName = charsetName;
 	}
 

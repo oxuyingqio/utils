@@ -14,7 +14,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFileCopyContent2SpecifiedFile implements OperateFile {
+public class CopyFileContent2SpecifiedFile implements OperateFile {
 
 	// 指定的文件
 	private File specifiedFile;
@@ -25,7 +25,7 @@ public class OperateFileCopyContent2SpecifiedFile implements OperateFile {
 	 * @param specifiedFile
 	 *            指定的文件
 	 */
-	public OperateFileCopyContent2SpecifiedFile(File specifiedFile) {
+	public CopyFileContent2SpecifiedFile(File specifiedFile) {
 		this.specifiedFile = specifiedFile;
 	}
 

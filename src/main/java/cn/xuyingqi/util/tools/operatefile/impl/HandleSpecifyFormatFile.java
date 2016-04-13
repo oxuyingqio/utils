@@ -10,7 +10,7 @@ import cn.xuyingqi.util.tools.operatefile.OperateFile;
  * @author Administrator
  *
  */
-public class OperateFileHandleSpecifyFormatFile implements OperateFile {
+public class HandleSpecifyFormatFile implements OperateFile {
 
 	// 文件类型
 	private String fileType;
@@ -25,7 +25,7 @@ public class OperateFileHandleSpecifyFormatFile implements OperateFile {
 	 * @param operateFile
 	 *            操作文件
 	 */
-	public OperateFileHandleSpecifyFormatFile(String fileType, OperateFile operateFile) {
+	public HandleSpecifyFormatFile(String fileType, OperateFile operateFile) {
 		this.fileType = fileType;
 		this.operateFile = operateFile;
 	}
