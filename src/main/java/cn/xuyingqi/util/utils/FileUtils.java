@@ -18,36 +18,6 @@ import cn.xuyingqi.util.tools.file.OperateFile;
 public class FileUtils {
 
 	/**
-	 * 对文件列表进行排序,先文件,后文件夹
-	 * 
-	 * @param files
-	 *            待排序的文件数组
-	 */
-	public static List<File> sortFileArray(File[] sources) {
-		// 文件列表
-		List<File> files = ListFactory.newInstance(ListFactory.ListType.linkedList);
-		// 文件夹列表
-		List<File> folders = ListFactory.newInstance(ListFactory.ListType.linkedList);
-		// 返回列表
-		List<File> target = ListFactory.newInstance(ListFactory.ListType.linkedList);
-
-		// 循环
-		for (int i = 0, length = sources.length; i < length; i++) {
-			File file = sources[i];
-
-			if (file.isFile()) {
-				files.add(file);
-			} else {
-				folders.add(file);
-			}
-		}
-
-		target.addAll(files);
-		target.addAll(folders);
-		return target;
-	}
-
-	/**
 	 * 将文件source复制到target (FileChannel复制)
 	 * 
 	 * @param source
@@ -107,5 +77,35 @@ public class FileUtils {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 对文件列表进行排序,先文件,后文件夹
+	 * 
+	 * @param files
+	 *            待排序的文件数组
+	 */
+	public static List<File> sortFileArray(File[] sources) {
+		// 文件列表
+		List<File> files = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		// 文件夹列表
+		List<File> folders = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		// 返回列表
+		List<File> target = ListFactory.newInstance(ListFactory.ListType.linkedList);
+
+		// 循环
+		for (int i = 0, length = sources.length; i < length; i++) {
+			File file = sources[i];
+
+			if (file.isFile()) {
+				files.add(file);
+			} else {
+				folders.add(file);
+			}
+		}
+
+		target.addAll(files);
+		target.addAll(folders);
+		return target;
 	}
 }
