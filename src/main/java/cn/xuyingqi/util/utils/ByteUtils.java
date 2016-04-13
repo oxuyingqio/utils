@@ -1,4 +1,4 @@
-package cn.xuyingqi.util;
+package cn.xuyingqi.util.utils;
 
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;

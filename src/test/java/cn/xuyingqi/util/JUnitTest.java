@@ -5,6 +5,8 @@ import java.text.DecimalFormat;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
+import cn.xuyingqi.util.utils.ByteUtils;
+
 public class JUnitTest {
 
 	private Logger logger = Logger.getLogger(JUnitTest.class);
