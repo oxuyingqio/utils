@@ -38,17 +38,18 @@ public class StringUtils {
 	}
 
 	/**
-	 * 将字符串首字母大写
+	 * 将字符串转换为首字母大写
 	 * 
 	 * @param str
 	 * @return
 	 */
 	public static String capitalize(String str) {
-		// 获取ASCii值
+		// 获取字符数组
 		char[] charArray = str.toCharArray();
-		// 若char在97-122,即a-z的范围内时,则减少32即为大写
+		// 获取首位的ASCii值
 		int c = charArray[0];
-		if (c >= 97 && c <= 122) {
+		// 若值在97-122,即a-z的范围内,则减少32即为大写
+		if (97 <= c && c <= 122) {
 			charArray[0] -= 32;
 		}
 

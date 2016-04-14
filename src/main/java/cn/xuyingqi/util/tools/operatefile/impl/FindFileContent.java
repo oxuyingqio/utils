@@ -67,20 +67,20 @@ public class FindFileContent implements OperateFile {
 					// 获取查找内容是否在文件中存在
 					int index = -1;
 					// 是否忽略大小写
-					if (ignoreCase) {
-						index = lineContent.toLowerCase().indexOf(findContent.toLowerCase());
+					if (this.ignoreCase) {
+						index = lineContent.toLowerCase().indexOf(this.findContent.toLowerCase());
 					} else {
-						index = lineContent.indexOf(findContent);
+						index = lineContent.indexOf(this.findContent);
 					}
 					// 存在,输出位置
 					if (index != -1) {
-						logger.debug(file.getPath() + " (" + line + ":" + index + ")");
+						this.logger.info(file.getPath() + " (" + line + ":" + index + ")");
 					}
 				}
 				// 关闭
 				br.close();
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				this.logger.warn("文件：" + file.getName() + "，未找到");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

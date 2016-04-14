@@ -11,6 +11,6 @@ public class JUnitTest {
 
 	@Test
 	public void test() {
-		logger.debug(ByteUtils.convertSpecifiedLocation2Int(new int[] { 0, 2, 3, 31 }));
+		this.logger.debug(ByteUtils.convertSpecifiedLocation2Int(new int[] { 0, 2, 3, 31 }));
 	}
 }

@@ -21,7 +21,7 @@ public class PrintFileName implements OperateFile {
 	public void operateFile(File file) {
 		// 文件不为空,且存在
 		if (file != null && file.exists()) {
-			logger.debug(file.getName());
+			this.logger.info(file.getName());
 		}
 	}
 }

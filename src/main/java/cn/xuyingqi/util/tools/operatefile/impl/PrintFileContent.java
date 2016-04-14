@@ -54,12 +54,12 @@ public class PrintFileContent implements OperateFile {
 				// 输出文件内容
 				byte[] temp = new byte[DEFAULT_BUFFER_SIZE];
 				while (fis.read(temp) != -1) {
-					logger.debug("\n" + new String(temp, charsetName));
+					this.logger.info("\n" + new String(temp, this.charsetName));
 				}
 				// 关闭
 				fis.close();
 			} catch (FileNotFoundException e) {
-				e.printStackTrace();
+				this.logger.warn("文件：" + file.getName() + "，未找到");
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

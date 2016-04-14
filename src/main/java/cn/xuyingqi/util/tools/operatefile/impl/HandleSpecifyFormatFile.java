@@ -35,8 +35,8 @@ public class HandleSpecifyFormatFile implements OperateFile {
 		// 文件不为空,存在
 		if (file != null && file.exists()) {
 			// 指定文件类型为*,或者文件的类型匹配指定文件类型
-			if ("*".equals(fileType) || file.getName().toLowerCase().endsWith(fileType.toLowerCase())) {
-				operateFile.operateFile(file);
+			if ("*".equals(this.fileType) || file.getName().toLowerCase().endsWith(this.fileType.toLowerCase())) {
+				this.operateFile.operateFile(file);
 			}
 		}
 	}
