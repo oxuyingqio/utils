@@ -1,6 +1,8 @@
 package cn.xuyingqi.util.utils;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Set;
 
 /**
@@ -58,5 +60,57 @@ public class ClassUtils {
 		}
 
 		return null;
+	}
+
+	/**
+	 * 获取对应字段的set方法
+	 * 
+	 * @param field
+	 * @return
+	 * @throws SecurityException
+	 * @throws NoSuchMethodException
+	 */
+	public static Method getSetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
+		String setMethodName = "set" + StringUtils.capitalize(field.getName());
+		return clazz.getMethod(setMethodName, field.getType());
+	}
+
+	/**
+	 * 获取对应字段的get方法
+	 * 
+	 * @param field
+	 * @return
+	 * @throws SecurityException
+	 * @throws NoSuchMethodException
+	 */
+	public static Method getGetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
+		String setMethodName = "get" + StringUtils.capitalize(field.getName());
+		return clazz.getMethod(setMethodName, field.getType());
+	}
+
+	public static <T> void invokeSetMethod(T t, Field field, String value) throws NoSuchMethodException,
+			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		Method setMethod = getSetMethod(t.getClass(), field);
+		if (setMethod != null) {
+			if (field.getType() == byte.class || field.getType() == Byte.class) {
+				setMethod.invoke(t, Byte.valueOf(value));
+			} else if (field.getType() == short.class || field.getType() == Short.class) {
+				setMethod.invoke(t, Short.valueOf(value));
+			} else if (field.getType() == int.class || field.getType() == Integer.class) {
+				setMethod.invoke(t, Integer.valueOf(value));
+			} else if (field.getType() == long.class || field.getType() == Long.class) {
+				setMethod.invoke(t, Long.valueOf(value));
+			} else if (field.getType() == float.class || field.getType() == Float.class) {
+				setMethod.invoke(t, Float.valueOf(value));
+			} else if (field.getType() == double.class || field.getType() == Double.class) {
+				setMethod.invoke(t, Double.valueOf(value));
+			} else if (field.getType() == char.class || field.getType() == Character.class) {
+				setMethod.invoke(t, value.toCharArray()[0]);
+			} else if (field.getType() == boolean.class || field.getType() == Boolean.class) {
+				setMethod.invoke(t, Boolean.valueOf(value));
+			} else if (field.getType() == String.class) {
+				setMethod.invoke(t, value);
+			}
+		}
 	}
 }

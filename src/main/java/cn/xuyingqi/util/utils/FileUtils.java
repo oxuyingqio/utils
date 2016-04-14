@@ -24,8 +24,9 @@ public class FileUtils {
 	 *            待复制文件
 	 * @param target
 	 *            复制的位置
+	 * @throws IOException
 	 */
-	public static void copyFileInChannel(File source, File target) {
+	public static void copyFileInChannel(File source, File target) throws IOException {
 		// 输入流
 		FileInputStream fis = null;
 		// 输出流
@@ -35,24 +36,17 @@ public class FileUtils {
 		// 输出
 		FileChannel fco = null;
 
-		try {
-			fis = new FileInputStream(source);
-			fos = new FileOutputStream(target);
-			fci = fis.getChannel();
-			fco = fos.getChannel();
-			fci.transferTo(0, fci.size(), fco);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				fis.close();
-				fci.close();
-				fos.close();
-				fco.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+		fis = new FileInputStream(source);
+		fos = new FileOutputStream(target);
+		fci = fis.getChannel();
+		fco = fos.getChannel();
+
+		fci.transferTo(0, fci.size(), fco);
+
+		fis.close();
+		fci.close();
+		fos.close();
+		fco.close();
 	}
 
 	/**
