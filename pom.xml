@@ -56,7 +56,7 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<!-- 跳过测试 -->
+					<!-- 打包时跳过测试 -->
 					<skipTests>${skipTests}</skipTests>
 				</configuration>
 			</plugin>
