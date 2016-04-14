@@ -36,4 +36,22 @@ public class StringUtils {
 		}
 		return true;
 	}
+
+	/**
+	 * 将字符串首字母大写
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static String capitalize(String str) {
+		// 获取ASCii值
+		char[] charArray = str.toCharArray();
+		// 若char在97-122,即a-z的范围内时,则减少32即为大写
+		int c = charArray[0];
+		if (c >= 97 && c <= 122) {
+			charArray[0] -= 32;
+		}
+
+		return String.valueOf(charArray);
+	}
 }
