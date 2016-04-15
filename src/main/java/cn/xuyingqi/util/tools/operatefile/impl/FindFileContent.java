@@ -74,7 +74,10 @@ public class FindFileContent implements OperateFile {
 					}
 					// 存在,输出位置
 					if (index != -1) {
-						this.logger.info(file.getPath() + " (" + line + ":" + index + ")");
+						this.logger.info("[ 文件  ]  " + file.getPath());
+						this.logger.info("[ 位置  ]  " + line + ":" + index);
+						this.logger.info("[ 内容  ]  " + lineContent.trim());
+						this.logger.info("");
 					}
 				}
 				// 关闭
