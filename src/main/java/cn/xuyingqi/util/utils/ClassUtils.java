@@ -88,8 +88,21 @@ public class ClassUtils {
 		return clazz.getMethod(setMethodName, field.getType());
 	}
 
+	/**
+	 * 调用对象的set方法,仅支持byte,short,int,long,float,char,boolean,String类型及其封装类型
+	 * 
+	 * @param t
+	 * @param field
+	 * @param value
+	 * @throws NoSuchMethodException
+	 * @throws SecurityException
+	 * @throws IllegalAccessException
+	 * @throws IllegalArgumentException
+	 * @throws InvocationTargetException
+	 */
 	public static <T> void invokeSetMethod(T t, Field field, String value) throws NoSuchMethodException,
 			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		// 获取set方法
 		Method setMethod = getSetMethod(t.getClass(), field);
 		if (setMethod != null) {
 			if (field.getType() == byte.class || field.getType() == Byte.class) {

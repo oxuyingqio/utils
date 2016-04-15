@@ -38,9 +38,9 @@ public class FileUtils {
 
 		fis = new FileInputStream(source);
 		fos = new FileOutputStream(target);
+
 		fci = fis.getChannel();
 		fco = fos.getChannel();
-
 		fci.transferTo(0, fci.size(), fco);
 
 		fis.close();
