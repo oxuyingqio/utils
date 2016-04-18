@@ -2,6 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
+	<!-- 模块信息 -->
 	<groupId>cn.xuyingqi</groupId>
 	<artifactId>util</artifactId>
 	<version>0.0.1</version>
@@ -9,6 +10,7 @@
 	<name>工具</name>
 	<url>http://maven.apache.org</url>
 
+	<!-- 公共配置 -->
 	<properties>
 		<project.build.jdk.version>1.8</project.build.jdk.version>
 		<project.build.encoding>UTF-8</project.build.encoding>
@@ -18,8 +20,10 @@
 
 		<maven-compiler-plugin.version>3.5</maven-compiler-plugin.version>
 		<maven-surefire-plugin.version>2.19.1</maven-surefire-plugin.version>
+		<maven-jar-plugin.version>2.6</maven-jar-plugin.version>
 	</properties>
 
+	<!-- 依赖包 -->
 	<dependencies>
 		<dependency>
 			<groupId>log4j</groupId>
@@ -34,6 +38,17 @@
 	</dependencies>
 
 	<build>
+		<!-- 除src/main/java外的源码包 -->
+		<resources>
+			<resource>
+				<directory>src/main/config</directory>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
+		<!-- 插件 -->
 		<plugins>
 			<!-- maven编译插件 -->
 			<plugin>
@@ -55,9 +70,28 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
-					<!-- 打包时跳过测试 -->
+					<!-- 跳过测试 -->
 					<skipTests>true</skipTests>
 				</configuration>
+			</plugin>
+
+			<!-- maven打jar包插件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven-jar-plugin.version}</version>
+				<configuration>
+					<!-- 分类器,若不配置此项,则在本地仓库中仅生成war而不生成jar -->
+					<classifier>java</classifier>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
