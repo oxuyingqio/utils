@@ -1,7 +1,9 @@
-package cn.xuyingqi.util.utils;
+package cn.xuyingqi.util.util;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+
+import cn.xuyingqi.util.util.StringUtils;
 
 public class StringUtilsTest {
 

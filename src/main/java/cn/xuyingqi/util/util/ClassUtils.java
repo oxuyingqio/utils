@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.utils;
+package cn.xuyingqi.util.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;

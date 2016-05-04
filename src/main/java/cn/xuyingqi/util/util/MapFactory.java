@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.utils;
+package cn.xuyingqi.util.util;
 
 import java.util.HashMap;
 import java.util.Map;

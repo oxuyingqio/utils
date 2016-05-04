@@ -3,7 +3,7 @@ package cn.xuyingqi.util;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 
-import cn.xuyingqi.util.utils.ByteUtils;
+import cn.xuyingqi.util.util.ByteUtils;
 
 public class JUnitTest {
 

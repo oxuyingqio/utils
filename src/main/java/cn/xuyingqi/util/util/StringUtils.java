@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.utils;
+package cn.xuyingqi.util.util;
 
 /**
  * 字符串工具类
