@@ -5,6 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Set;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 /**
  * 类工具类
  * 
@@ -71,7 +73,7 @@ public class ClassUtils {
 	 * @throws NoSuchMethodException
 	 */
 	public static Method getSetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
-		String setMethodName = "set" + StringUtils.capitalize(field.getName());
+		String setMethodName = "set" + WordUtils.capitalize(field.getName());
 		return clazz.getMethod(setMethodName, field.getType());
 	}
 
@@ -84,7 +86,7 @@ public class ClassUtils {
 	 * @throws NoSuchMethodException
 	 */
 	public static Method getGetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
-		String setMethodName = "get" + StringUtils.capitalize(field.getName());
+		String setMethodName = "get" + WordUtils.capitalize(field.getName());
 		return clazz.getMethod(setMethodName, field.getType());
 	}
 

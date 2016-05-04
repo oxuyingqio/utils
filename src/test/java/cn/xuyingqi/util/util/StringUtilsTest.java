@@ -1,9 +1,8 @@
 package cn.xuyingqi.util.util;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.apache.log4j.Logger;
 import org.junit.Test;
-
-import cn.xuyingqi.util.util.StringUtils;
 
 public class StringUtilsTest {
 
@@ -11,6 +10,6 @@ public class StringUtilsTest {
 
 	@Test
 	public void test() {
-		this.logger.debug(StringUtils.capitalize("a123"));
+		this.logger.debug(WordUtils.capitalize("1adfsdf123"));
 	}
 }
