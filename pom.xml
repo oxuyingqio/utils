@@ -15,6 +15,7 @@
 		<project.build.jdk.version>1.8</project.build.jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+		<org.apache.commons.version>3.4</org.apache.commons.version>
 		<log4j.version>1.2.17</log4j.version>
 		<junit.version>4.12</junit.version>
 
@@ -25,6 +26,12 @@
 
 	<!-- 依赖包 -->
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${org.apache.commons.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>

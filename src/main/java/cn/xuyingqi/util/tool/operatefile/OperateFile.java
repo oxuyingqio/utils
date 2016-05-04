@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.tools.operatefile;
+package cn.xuyingqi.util.tool.operatefile;
 
 import java.io.File;
 

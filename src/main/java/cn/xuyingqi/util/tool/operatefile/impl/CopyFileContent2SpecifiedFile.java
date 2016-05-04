@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.tools.operatefile.impl;
+package cn.xuyingqi.util.tool.operatefile.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.io.IOException;
 
 import org.apache.log4j.Logger;
 
-import cn.xuyingqi.util.tools.operatefile.OperateFile;
+import cn.xuyingqi.util.tool.operatefile.OperateFile;
 
 /**
  * 复制文件内容到指定的文件中

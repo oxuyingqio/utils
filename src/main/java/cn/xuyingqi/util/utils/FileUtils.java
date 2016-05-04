@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.util.List;
 
-import cn.xuyingqi.util.tools.operatefile.OperateFile;
+import cn.xuyingqi.util.tool.operatefile.OperateFile;
 
 /**
  * 文件工具类
