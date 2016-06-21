@@ -1,6 +1,7 @@
 package cn.xuyingqi.util.util;
 
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
+import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
 import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 
@@ -331,6 +332,32 @@ public class ByteUtils {
 		}
 
 		return reverseByteArray;
+	}
+
+	/**
+	 * 将两个字节数组进行异或操作,字节数组长度必须一致
+	 * 
+	 * @param byteArray1
+	 * @param byteArray2
+	 * @return
+	 */
+	public static byte[] byteArrayXOR(byte[] byteArray1, byte[] byteArray2) {
+
+		// 长度不一致,则抛出异常
+		if (byteArray1.length != byteArray2.length) {
+			throw new ByteArrayLengthErrorException();
+		}
+
+		// 返回的字节数组
+		byte[] byteArray = new byte[byteArray1.length];
+		// 遍历传入的字节数组
+		for (int i = 0; i < byteArray1.length; i++) {
+
+			// 异或
+			byteArray[i] = (byte) (byteArray1[i] ^ byteArray2[i]);
+		}
+
+		return byteArray;
 	}
 
 	/**
