@@ -30,8 +30,8 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static short byte2Short(byte b) {
-		// 十进制255即为11111111
-		return (short) (b & 255);
+		// 16进制0xff即为11111111
+		return (short) (b & 0xff);
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static int byte2Int(byte b) {
-		return (b & 255);
+		return (b & 0xff);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static long byte2Long(byte b) {
-		return (b & 255);
+		return (b & 0xff);
 	}
 
 	/**
@@ -268,5 +268,25 @@ public class ByteUtils {
 		}
 
 		return reverseByteArray;
+	}
+
+	/**
+	 * BCD码转字符串
+	 * 
+	 * @param bcd
+	 *            bcd码
+	 * @return
+	 */
+	public static String bcd2String(byte[] bcd) {
+
+		// 临时字符串
+		StringBuffer sb = new StringBuffer(bcd.length * 2);
+		// 遍历BCD码
+		for (int i = 0; i < bcd.length; i++) {
+			sb.append((byte) ((bcd[i] & 0xf0) >> 4));
+			sb.append((byte) (bcd[i] & 0x0f));
+		}
+
+		return sb.toString();
 	}
 }
