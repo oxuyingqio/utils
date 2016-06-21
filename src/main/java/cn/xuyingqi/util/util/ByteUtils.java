@@ -30,6 +30,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static short byte2Short(byte b) {
+
 		// 16进制0xff即为11111111
 		return (short) (b & 0xff);
 	}
@@ -41,6 +42,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static int byte2Int(byte b) {
+
 		return (b & 0xff);
 	}
 
@@ -51,6 +53,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static long byte2Long(byte b) {
+
 		return (b & 0xff);
 	}
 
@@ -61,10 +64,13 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] short2ByteArray(short s) {
+
+		// 保存的数组
 		byte[] byteArray = new byte[2];
 		// 高字节右移8位,即把低字节舍去.再强转为byte,即仅取右移后的8位低字节
 		byteArray[0] = (byte) (s >> 8);
 		byteArray[1] = (byte) s;
+
 		return byteArray;
 	}
 
@@ -75,10 +81,19 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] int2ByteArray(int i) {
+
+		// 保存的字节数组
 		byte[] byteArray = new byte[4];
-		for (int index = 0; index < 4; index++) {
-			byteArray[index] = (byte) (i >> (8 * (3 - index)));
+		// 数组的长度
+		int length = byteArray.length;
+
+		// 遍历数组
+		for (int index = 1; index <= length; index++) {
+
+			// 数组的第index-1位,要向右移length-index字节
+			byteArray[index - 1] = (byte) (i >> (8 * (length - index)));
 		}
+
 		return byteArray;
 	}
 
@@ -89,10 +104,19 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] long2ByteArray(long l) {
+
+		// 保存的字节数组
 		byte[] byteArray = new byte[8];
-		for (int index = 0; index < 8; index++) {
-			byteArray[index] = (byte) (l >> (8 * (7 - index)));
+		// 数组的长度
+		int length = byteArray.length;
+
+		// 遍历数组
+		for (int index = 1; index <= length; index++) {
+
+			// 数组的第index-1位,要向右移length-index字节
+			byteArray[index - 1] = (byte) (l >> (8 * (length - index)));
 		}
+
 		return byteArray;
 	}
 
@@ -103,6 +127,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static short byteArray2Short(byte[] byteArray) {
+
 		switch (byteArray.length) {
 		case 0:
 			throw new ByteArrayIsEmptyException();
@@ -122,15 +147,25 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static int byteArray2Int(byte[] byteArray) {
-		if (byteArray.length == 0) {
+
+		// 字节数组长度
+		int length = byteArray.length;
+
+		if (length == 0) {
 			throw new ByteArrayIsEmptyException();
-		} else if (byteArray.length > 4) {
+		} else if (length > 4) {
 			throw new ByteArrayLengthOutOfBoundsException();
 		} else {
-			int i = ByteUtils.byte2Int(byteArray[byteArray.length - 1]);
-			for (int index = byteArray.length - 2; index >= 0; index--) {
-				i = i | (ByteUtils.byte2Int(byteArray[index]) << (8 * (3 - index)));
+			// 获取最末位的字节
+			int i = ByteUtils.byte2Int(byteArray[length - 1]);
+
+			// 遍历字节数组,从倒数第二位向前
+			for (int index = length - 1; index > 0; index--) {
+
+				// 数组的第index-1位,要向左移length-index字节
+				i = i | (ByteUtils.byte2Int(byteArray[index - 1]) << (8 * (length - index)));
 			}
+
 			return i;
 		}
 	}
@@ -142,15 +177,25 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static long byteArray2Long(byte[] byteArray) {
-		if (byteArray.length == 0) {
+
+		// 字节数组长度
+		int length = byteArray.length;
+
+		if (length == 0) {
 			throw new ByteArrayIsEmptyException();
-		} else if (byteArray.length > 8) {
+		} else if (length > 8) {
 			throw new ByteArrayLengthOutOfBoundsException();
 		} else {
-			long l = ByteUtils.byte2Long(byteArray[byteArray.length - 1]);
-			for (int index = byteArray.length - 2; index >= 0; index--) {
-				l = l | (ByteUtils.byte2Long(byteArray[index]) << (8 * (7 - index)));
+			// 获取最末位的字节
+			long l = ByteUtils.byte2Long(byteArray[length - 1]);
+
+			// 遍历字节数组,从倒数第二位向前
+			for (int index = length - 1; index > 0; index--) {
+
+				// 数组的第index-1位,要向左移length-index字节
+				l = l | (ByteUtils.byte2Long(byteArray[index - 1]) << (8 * (length - index)));
 			}
+
 			return l;
 		}
 	}
@@ -164,10 +209,13 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte convertSpecifiedLocation2Byte(int[] indexArray) {
+
 		// 返回的字节,默认为0
 		byte b = 0;
+
 		// 遍历需要转换的下标值数组
 		for (int index = 0, length = indexArray.length; index < length; index++) {
+
 			// 下标值
 			int indexValue = indexArray[index];
 			// 大于等于8则抛异常
@@ -177,6 +225,7 @@ public class ByteUtils {
 				throw new IndexOutOfBoundsException();
 			}
 		}
+
 		return b;
 	}
 
@@ -189,10 +238,13 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static short convertSpecifiedLocation2Short(int[] indexArray) {
+
 		// 返回的,默认为0
 		short s = 0;
+
 		// 遍历需要转换的下标值数组
 		for (int index = 0, length = indexArray.length; index < length; index++) {
+
 			// 下标值
 			int indexValue = indexArray[index];
 			// 大于等于16则抛异常
@@ -202,6 +254,7 @@ public class ByteUtils {
 				throw new IndexOutOfBoundsException();
 			}
 		}
+
 		return s;
 	}
 
@@ -214,10 +267,13 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static int convertSpecifiedLocation2Int(int[] indexArray) {
+
 		// 返回的,默认为0
 		int i = 0;
+
 		// 遍历需要转换的下标值数组
 		for (int index = 0, length = indexArray.length; index < length; index++) {
+
 			// 下标值
 			int indexValue = indexArray[index];
 			// 大于等于32则抛异常
@@ -227,6 +283,7 @@ public class ByteUtils {
 				throw new IndexOutOfBoundsException();
 			}
 		}
+
 		return i;
 	}
 
@@ -239,10 +296,13 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static long convertSpecifiedLocation2Long(int[] indexArray) {
+
 		// 返回的,默认为0
 		long l = 0;
+
 		// 遍历需要转换的下标值数组
 		for (int index = 0, length = indexArray.length; index < length; index++) {
+
 			// 下标值
 			int indexValue = indexArray[index];
 			// 大于等于64则抛异常
@@ -252,6 +312,7 @@ public class ByteUtils {
 				throw new IndexOutOfBoundsException();
 			}
 		}
+
 		return l;
 	}
 
@@ -262,8 +323,10 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] reverse(byte[] byteArray) {
+
 		byte[] reverseByteArray = new byte[byteArray.length];
 		for (int i = 0; i < reverseByteArray.length; i++) {
+
 			reverseByteArray[i] = byteArray[reverseByteArray.length - 1 - i];
 		}
 
@@ -283,6 +346,7 @@ public class ByteUtils {
 		StringBuffer sb = new StringBuffer(bcd.length * 2);
 		// 遍历BCD码
 		for (int i = 0; i < bcd.length; i++) {
+
 			sb.append((byte) ((bcd[i] & 0xf0) >> 4));
 			sb.append((byte) (bcd[i] & 0x0f));
 		}
