@@ -30,8 +30,10 @@ public class ByteUtilsTest {
 		// } catch (ParseException e) {
 		// e.printStackTrace();
 		// }
+		// // string2ByteArray
+		// byte[] strByteArray = ByteUtils.string2ByteArray(bcdStr);
 		// // byteArray2BCD
-		// byte[] bcd2 = ByteUtils.byteArray2BCD(byteArray);
+		// byte[] bcd2 = ByteUtils.byteArray2BCD(strByteArray);
 		// System.out.println(ByteUtils.byteArray2String(bcd2));
 
 		// byte[] byteArray = { 0, 0 };
@@ -43,8 +45,9 @@ public class ByteUtilsTest {
 		// System.out.println(0xffff);
 		// System.out.println(i == 0xffff);
 
-		byte[] a = { 1, 2, 3, 4, 5, 7 };
-		byte[] b = { 1, 2, 3, 4, 5, 6 };
-		System.out.println(ByteUtils.compare(a, b));
+		// //compare
+		// byte[] a = { 1, 2, 3, 4, 5, 7 };
+		// byte[] b = { 1, 2, 3, 4, 5, 6 };
+		// System.out.println(ByteUtils.compare(a, b));
 	}
 }

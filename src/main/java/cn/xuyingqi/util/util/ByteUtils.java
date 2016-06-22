@@ -145,6 +145,25 @@ public class ByteUtils {
 	}
 
 	/**
+	 * 将字符串拆分为字节数组.本方法为取出每一个字符,将其转为byte
+	 * 
+	 * @param str
+	 * @return
+	 */
+	public static byte[] string2ByteArray(String str) {
+
+		// 拆分后的字节数组
+		byte[] byteArray = new byte[str.length()];
+		// 遍历字符串每一个字符
+		for (int i = 0, length = str.length(); i < length; i++) {
+
+			byteArray[i] = Byte.valueOf(str.charAt(i) + "");
+		}
+
+		return byteArray;
+	}
+
+	/**
 	 * 将字节数组(0<长度<=2)合并为短整型
 	 * 
 	 * @param byteArray
