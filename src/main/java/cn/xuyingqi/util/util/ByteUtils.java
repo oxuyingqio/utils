@@ -3,17 +3,16 @@ package cn.xuyingqi.util.util;
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
-import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 
 /**
- * 字节工具类
- * 
- * 1.byte 1字节8位; short 2字节16位; int 4字节32位; long 8字节64位;
- * 2.byte,short,int,long均为有符号数据,即第一位均为符号位.
- * 
- * 3.&(与)操作.若两位均为1,则结果为1;1或0与上1都为它本身.
- * 
- * 4.|(或)操作.若两位有一位为1,则结果为1;1或0或上0都为它本身.
+ * 字节工具类<br>
+ * <br>
+ * 1.byte 1字节8位; short 2字节16位; int 4字节32位; long 8字节64位;<br>
+ * 2.byte,short,int,long均为有符号数据,即第一位均为符号位.<br>
+ * <br>
+ * 3.&(与)操作.若两位均为1,则结果为1;1或0与上1都为它本身.<br>
+ * 4.|(或)操作.若两位有一位为1,则结果为1;1或0或上0都为它本身.<br>
+ * 5.^(异或)操作.若两位不同则为1,相同则为0.<br>
  * 
  * @author Administrator
  *
@@ -28,6 +27,7 @@ public class ByteUtils {
 	 * 若直接强转,则Java内部认为byte的首位依旧是short的符号位,因此数据依旧错误.所以需要使用&进行位与操作.<br>
 	 * 
 	 * @param b
+	 *            无符号字节
 	 * @return
 	 */
 	public static short byte2Short(byte b) {
@@ -40,6 +40,7 @@ public class ByteUtils {
 	 * 将无符号字节(即8位均为数据的字节)转换为有符号的整型;
 	 * 
 	 * @param b
+	 *            无符号字节
 	 * @return
 	 */
 	public static int byte2Int(byte b) {
@@ -51,6 +52,7 @@ public class ByteUtils {
 	 * 将无符号字节(即8位均为数据的字节)转换为有符号的长整型;
 	 * 
 	 * @param b
+	 *            无符号字节
 	 * @return
 	 */
 	public static long byte2Long(byte b) {
@@ -59,14 +61,14 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将短整型转换为2个字节
+	 * 将短整型拆分为长度为2的字节数组
 	 * 
 	 * @param s
 	 * @return
 	 */
 	public static byte[] short2ByteArray(short s) {
 
-		// 保存的数组
+		// 拆分后的字节数组
 		byte[] byteArray = new byte[2];
 		// 高字节右移8位,即把低字节舍去.再强转为byte,即仅取右移后的8位低字节
 		byteArray[0] = (byte) (s >> 8);
@@ -76,53 +78,74 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将整型转换为4个字节
+	 * 将整型拆分为长度为4的字节数组
 	 * 
 	 * @param i
 	 * @return
 	 */
 	public static byte[] int2ByteArray(int i) {
 
-		// 保存的字节数组
+		// 拆分后的字节数组
 		byte[] byteArray = new byte[4];
-		// 数组的长度
+		// 数组长度
 		int length = byteArray.length;
 
 		// 遍历数组
 		for (int index = 1; index <= length; index++) {
 
-			// 数组的第index-1位,要向右移length-index字节
-			byteArray[index - 1] = (byte) (i >> (8 * (length - index)));
+			// 数组的第(index-1)位,要向右移(length-index)字节
+			byteArray[index - 1] = (byte) (i >> ((length - index) * 8));
 		}
 
 		return byteArray;
 	}
 
 	/**
-	 * 将长整型转换为8个字节
+	 * 将长整型拆分为长度为8的字节数组
 	 * 
 	 * @param l
 	 * @return
 	 */
 	public static byte[] long2ByteArray(long l) {
 
-		// 保存的字节数组
+		// 拆分后的字节数组
 		byte[] byteArray = new byte[8];
-		// 数组的长度
+		// 数组长度
 		int length = byteArray.length;
 
 		// 遍历数组
 		for (int index = 1; index <= length; index++) {
 
-			// 数组的第index-1位,要向右移length-index字节
-			byteArray[index - 1] = (byte) (l >> (8 * (length - index)));
+			// 数组的第(index-1)位,要向右移(length-index)字节
+			byteArray[index - 1] = (byte) (l >> ((length - index) * 8));
 		}
 
 		return byteArray;
 	}
 
 	/**
-	 * 将字节数组(0<长度<=2)转换为短整型
+	 * BCD码转字节数组
+	 * 
+	 * @param bcd
+	 *            bcd码
+	 * @return
+	 */
+	public static byte[] bcd2ByteArray(byte[] bcd) {
+
+		// 转换后字节数组
+		byte[] byteArray = new byte[bcd.length * 2];
+		// 遍历BCD码
+		for (int i = 0, length = bcd.length; i < length; i++) {
+
+			byteArray[i * 2] = (byte) ((bcd[i] & 0xf0) >> 4);
+			byteArray[i * 2 + 1] = (byte) (bcd[i] & 0x0f);
+		}
+
+		return byteArray;
+	}
+
+	/**
+	 * 将字节数组(0<长度<=2)合并为短整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -142,7 +165,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组(0<长度<=4)转换为整型
+	 * 将字节数组(0<长度<=4)合并为整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -163,8 +186,8 @@ public class ByteUtils {
 			// 遍历字节数组,从倒数第二位向前
 			for (int index = length - 1; index > 0; index--) {
 
-				// 数组的第index-1位,要向左移length-index字节
-				i = i | (ByteUtils.byte2Int(byteArray[index - 1]) << (8 * (length - index)));
+				// 数组的第(index-1)位,要向左移(length-index)字节
+				i = i | (ByteUtils.byte2Int(byteArray[index - 1]) << ((length - index) * 8));
 			}
 
 			return i;
@@ -172,7 +195,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组(0<长度<=8)转换为长整型
+	 * 将字节数组(0<长度<=8)合并为长整型
 	 * 
 	 * @param byteArray
 	 * @return
@@ -193,8 +216,8 @@ public class ByteUtils {
 			// 遍历字节数组,从倒数第二位向前
 			for (int index = length - 1; index > 0; index--) {
 
-				// 数组的第index-1位,要向左移length-index字节
-				l = l | (ByteUtils.byte2Long(byteArray[index - 1]) << (8 * (length - index)));
+				// 数组的第(index-1)位,要向左移(length-index)字节
+				l = l | (ByteUtils.byte2Long(byteArray[index - 1]) << ((length - index) * 8));
 			}
 
 			return l;
@@ -202,119 +225,49 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将指定下标值的位转换为1,并得到对应字节<br>
+	 * 字节数组转BCD码,字节数组长度必须为2的倍数
 	 * 
-	 * 下标值从0开始,大于等于8则抛异常
-	 * 
-	 * @param indexArray
+	 * @param byteArray
 	 * @return
 	 */
-	public static byte convertSpecifiedLocation2Byte(int[] indexArray) {
+	public static byte[] byteArray2BCD(byte[] byteArray) {
 
-		// 返回的字节,默认为0
-		byte b = 0;
-
-		// 遍历需要转换的下标值数组
-		for (int index = 0, length = indexArray.length; index < length; index++) {
-
-			// 下标值
-			int indexValue = indexArray[index];
-			// 大于等于8则抛异常
-			if (indexValue < 8) {
-				b = (byte) (b | (1 << indexValue));
-			} else {
-				throw new IndexOutOfBoundsException();
-			}
+		// 字节数组长度
+		int byteArrayLength = byteArray.length;
+		// 若长度不为2的倍数,则抛出异常
+		if (byteArrayLength % 2 != 0) {
+			throw new ByteArrayLengthErrorException();
 		}
 
-		return b;
+		// BCD码
+		byte[] bcd = new byte[byteArrayLength / 2];
+		// 遍历字节数组
+		for (int i = 0, length = bcd.length; i < length; i++) {
+
+			// 前字节向左位移4位,与上后字节
+			bcd[i] = (byte) (((byte) (byteArray[i * 2] << 4)) | (byteArray[i * 2 + 1]));
+		}
+
+		return bcd;
 	}
 
 	/**
-	 * 将指定下标值的位转换为1,并得到对应短整型<br>
+	 * 将字节数组合并为字符串.本方法为取出每一位字节,直接拼成一个字符串
 	 * 
-	 * 下标值从0开始,大于等于16则抛异常
-	 * 
-	 * @param indexArray
+	 * @param byteArray
 	 * @return
 	 */
-	public static short convertSpecifiedLocation2Short(int[] indexArray) {
+	public static String byteArray2String(byte[] byteArray) {
 
-		// 返回的,默认为0
-		short s = 0;
+		// 合并后的字符串
+		StringBuffer sb = new StringBuffer(byteArray.length);
+		// 遍历字节数组
+		for (int i = 0, length = byteArray.length; i < length; i++) {
 
-		// 遍历需要转换的下标值数组
-		for (int index = 0, length = indexArray.length; index < length; index++) {
-
-			// 下标值
-			int indexValue = indexArray[index];
-			// 大于等于16则抛异常
-			if (indexValue < 16) {
-				s = (short) (s | (1 << indexValue));
-			} else {
-				throw new IndexOutOfBoundsException();
-			}
+			sb.append(byteArray[i]);
 		}
 
-		return s;
-	}
-
-	/**
-	 * 将指定下标值的位转换为1,并得到对应整型<br>
-	 * 
-	 * 下标值从0开始,大于等于32则抛异常
-	 * 
-	 * @param indexArray
-	 * @return
-	 */
-	public static int convertSpecifiedLocation2Int(int[] indexArray) {
-
-		// 返回的,默认为0
-		int i = 0;
-
-		// 遍历需要转换的下标值数组
-		for (int index = 0, length = indexArray.length; index < length; index++) {
-
-			// 下标值
-			int indexValue = indexArray[index];
-			// 大于等于32则抛异常
-			if (indexValue < 32) {
-				i = i | (1 << indexValue);
-			} else {
-				throw new IndexOutOfBoundsException();
-			}
-		}
-
-		return i;
-	}
-
-	/**
-	 * 将指定下标值的位转换为1,并得到对应长整型<br>
-	 * 
-	 * 下标值从0开始,大于等于64则抛异常
-	 * 
-	 * @param indexArray
-	 * @return
-	 */
-	public static long convertSpecifiedLocation2Long(int[] indexArray) {
-
-		// 返回的,默认为0
-		long l = 0;
-
-		// 遍历需要转换的下标值数组
-		for (int index = 0, length = indexArray.length; index < length; index++) {
-
-			// 下标值
-			int indexValue = indexArray[index];
-			// 大于等于64则抛异常
-			if (indexValue < 64) {
-				l = l | (1 << indexValue);
-			} else {
-				throw new IndexOutOfBoundsException();
-			}
-		}
-
-		return l;
+		return sb.toString();
 	}
 
 	/**
@@ -325,23 +278,25 @@ public class ByteUtils {
 	 */
 	public static byte[] reverse(byte[] byteArray) {
 
+		// 反转后的字节数组
 		byte[] reverseByteArray = new byte[byteArray.length];
-		for (int i = 0; i < reverseByteArray.length; i++) {
+		// 遍历字节数组
+		for (int i = 1; i <= reverseByteArray.length; i++) {
 
-			reverseByteArray[i] = byteArray[reverseByteArray.length - 1 - i];
+			reverseByteArray[i - 1] = byteArray[reverseByteArray.length - i];
 		}
 
 		return reverseByteArray;
 	}
 
 	/**
-	 * 将两个字节数组进行异或操作,字节数组长度必须一致
+	 * 异或.将两个字节数组进行异或操作.
 	 * 
 	 * @param byteArray1
 	 * @param byteArray2
 	 * @return
 	 */
-	public static byte[] byteArrayXOR(byte[] byteArray1, byte[] byteArray2) {
+	public static byte[] xor(byte[] byteArray1, byte[] byteArray2) {
 
 		// 长度不一致,则抛出异常
 		if (byteArray1.length != byteArray2.length) {
@@ -358,26 +313,5 @@ public class ByteUtils {
 		}
 
 		return byteArray;
-	}
-
-	/**
-	 * BCD码转字符串
-	 * 
-	 * @param bcd
-	 *            bcd码
-	 * @return
-	 */
-	public static String bcd2String(byte[] bcd) {
-
-		// 临时字符串
-		StringBuffer sb = new StringBuffer(bcd.length * 2);
-		// 遍历BCD码
-		for (int i = 0; i < bcd.length; i++) {
-
-			sb.append((byte) ((bcd[i] & 0xf0) >> 4));
-			sb.append((byte) (bcd[i] & 0x0f));
-		}
-
-		return sb.toString();
 	}
 }
