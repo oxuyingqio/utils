@@ -314,4 +314,30 @@ public class ByteUtils {
 
 		return byteArray;
 	}
+
+	/**
+	 * 比较两个字节数组是否一致,比较的是数组内容
+	 * 
+	 * @param byteArray1
+	 * @param byteArray2
+	 * @return
+	 */
+	public static boolean compare(byte[] byteArray1, byte[] byteArray2) {
+
+		// 若长度不一致,则直接返回false
+		if (byteArray1.length != byteArray2.length) {
+			return false;
+		} else {
+
+			// 遍历字节数组内容,判断是否一致
+			for (int i = 0, length = byteArray1.length; i < length; i++) {
+
+				if (byteArray1[i] != byteArray2[i]) {
+					return false;
+				}
+			}
+
+			return true;
+		}
+	}
 }
