@@ -321,7 +321,7 @@ public class ByteUtils {
 	 */
 	public static byte xor(byte byte1, byte byte2) {
 
-		return (byte) (byte2Short(byte1) ^ byte2Short(byte2));
+		return (byte) (byte1 ^ byte2);
 	}
 
 	/**
@@ -343,7 +343,7 @@ public class ByteUtils {
 		// 遍历传入的字节数组
 		for (int i = 0; i < byteArray1.length; i++) {
 
-			// 异或
+			// 异或每一位
 			byteArray[i] = xor(byteArray1[i], byteArray2[i]);
 		}
 
