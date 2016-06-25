@@ -321,7 +321,7 @@ public class ByteUtils {
 	 */
 	public static byte xor(byte byte1, byte byte2) {
 
-		return (byte) (byte2Short(byte1) ^ byte2Short(byte1));
+		return (byte) (byte2Short(byte1) ^ byte2Short(byte2));
 	}
 
 	/**
