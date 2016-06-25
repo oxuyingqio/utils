@@ -313,7 +313,19 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 异或.将两个字节数组进行异或操作.
+	 * 异或.将两个字节作为无符号数据进行异或操作.
+	 * 
+	 * @param byte1
+	 * @param byte2
+	 * @return
+	 */
+	public static byte xor(byte byte1, byte byte2) {
+
+		return (byte) (byte2Short(byte1) ^ byte2Short(byte1));
+	}
+
+	/**
+	 * 异或.将两个字节数组作为无符号进行异或操作.
 	 * 
 	 * @param byteArray1
 	 * @param byteArray2
@@ -332,7 +344,7 @@ public class ByteUtils {
 		for (int i = 0; i < byteArray1.length; i++) {
 
 			// 异或
-			byteArray[i] = (byte) (byteArray1[i] ^ byteArray2[i]);
+			byteArray[i] = xor(byteArray1[i], byteArray2[i]);
 		}
 
 		return byteArray;
