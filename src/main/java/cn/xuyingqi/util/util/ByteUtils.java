@@ -26,122 +26,119 @@ public class ByteUtils {
 	 * 因此需要使用两个字节的short类型来接此数.<br>
 	 * 若直接强转,则Java内部认为byte的首位依旧是short的符号位,因此数据依旧错误.所以需要使用&进行位与操作.<br>
 	 * 
-	 * @param b
+	 * @param source
 	 *            无符号字节
 	 * @return
 	 */
-	public static short byte2Short(byte b) {
+	public static short byte2Short(byte source) {
 
 		// 16进制0xff即为11111111
-		return (short) (b & 0xff);
+		return (short) (source & 0xff);
 	}
 
 	/**
 	 * 将无符号字节(即8位均为数据的字节)转换为有符号的整型;
 	 * 
-	 * @param b
+	 * @param source
 	 *            无符号字节
 	 * @return
 	 */
-	public static int byte2Int(byte b) {
+	public static int byte2Int(byte source) {
 
-		return (b & 0xff);
+		return (source & 0xff);
 	}
 
 	/**
 	 * 将无符号字节(即8位均为数据的字节)转换为有符号的长整型;
 	 * 
-	 * @param b
+	 * @param source
 	 *            无符号字节
 	 * @return
 	 */
-	public static long byte2Long(byte b) {
+	public static long byte2Long(byte source) {
 
-		return (b & 0xff);
+		return (source & 0xff);
 	}
 
 	/**
 	 * 将短整型拆分为长度为2的字节数组
 	 * 
-	 * @param s
+	 * @param source
+	 *            短整型
 	 * @return
 	 */
-	public static byte[] short2ByteArray(short s) {
+	public static byte[] short2ByteArray(short source) {
 
 		// 拆分后的字节数组
-		byte[] byteArray = new byte[2];
+		byte[] target = new byte[2];
 		// 高字节右移8位,即把低字节舍去.再强转为byte,即仅取右移后的8位低字节
-		byteArray[0] = (byte) (s >> 8);
-		byteArray[1] = (byte) s;
+		target[0] = (byte) (source >> 8);
+		target[1] = (byte) source;
 
-		return byteArray;
+		return target;
 	}
 
 	/**
 	 * 将整型拆分为长度为4的字节数组
 	 * 
-	 * @param i
+	 * @param source
+	 *            整型
 	 * @return
 	 */
-	public static byte[] int2ByteArray(int i) {
+	public static byte[] int2ByteArray(int source) {
 
 		// 拆分后的字节数组
-		byte[] byteArray = new byte[4];
-		// 数组长度
-		int length = byteArray.length;
-
+		byte[] target = new byte[4];
 		// 遍历数组
-		for (int index = 1; index <= length; index++) {
+		for (int index = 1, length = target.length; index <= length; index++) {
 
 			// 数组的第(index-1)位,要向右移(length-index)字节
-			byteArray[index - 1] = (byte) (i >> ((length - index) * 8));
+			target[index - 1] = (byte) (source >> ((length - index) * 8));
 		}
 
-		return byteArray;
+		return target;
 	}
 
 	/**
 	 * 将长整型拆分为长度为8的字节数组
 	 * 
-	 * @param l
+	 * @param source
+	 *            长整型
 	 * @return
 	 */
-	public static byte[] long2ByteArray(long l) {
+	public static byte[] long2ByteArray(long source) {
 
 		// 拆分后的字节数组
-		byte[] byteArray = new byte[8];
-		// 数组长度
-		int length = byteArray.length;
-
+		byte[] target = new byte[8];
 		// 遍历数组
-		for (int index = 1; index <= length; index++) {
+		for (int index = 1, length = target.length; index <= length; index++) {
 
 			// 数组的第(index-1)位,要向右移(length-index)字节
-			byteArray[index - 1] = (byte) (l >> ((length - index) * 8));
+			target[index - 1] = (byte) (source >> ((length - index) * 8));
 		}
 
-		return byteArray;
+		return target;
 	}
 
 	/**
 	 * BCD码转字节数组
 	 * 
-	 * @param bcd
+	 * @param source
 	 *            bcd码
 	 * @return
 	 */
-	public static byte[] bcd2ByteArray(byte[] bcd) {
+	public static byte[] bcd2ByteArray(byte[] source) {
 
 		// 转换后字节数组
-		byte[] byteArray = new byte[bcd.length * 2];
+		byte[] target = new byte[source.length * 2];
 		// 遍历BCD码
-		for (int i = 0, length = bcd.length; i < length; i++) {
+		for (int index = 0, length = source.length; index < length; index++) {
 
-			byteArray[i * 2] = (byte) ((bcd[i] & 0xf0) >> 4);
-			byteArray[i * 2 + 1] = (byte) (bcd[i] & 0x0f);
+			target[index * 2] = (byte) ((source[index] & 0xf0) >> 4);
+			target[index * 2 + 1] = (byte) (source[index] & 0x0f);
 		}
 
-		return byteArray;
+		return target;
 	}
 
 	/**
@@ -149,37 +146,39 @@ public class ByteUtils {
 	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
 	 * 例如:字符1->字节1,而不是字符1->字节49(字符1的ASCII值是49)
 	 * 
-	 * @param str
+	 * @param source
+	 *            字符串
 	 * @return
 	 */
-	public static byte[] string2ByteArray(String str) {
+	public static byte[] string2ByteArray(String source) {
 
 		// 拆分后的字节数组
-		byte[] byteArray = new byte[str.length()];
+		byte[] target = new byte[source.length()];
 		// 遍历字符串每一个字符
-		for (int i = 0, length = str.length(); i < length; i++) {
+		for (int index = 0, length = source.length(); index < length; index++) {
 
-			byteArray[i] = Byte.valueOf(str.charAt(i) + "");
+			target[index] = Byte.valueOf(source.charAt(index) + "");
 		}
 
-		return byteArray;
+		return target;
 	}
 
 	/**
 	 * 将字节数组(0<长度<=2)合并为短整型
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static short byteArray2Short(byte[] byteArray) {
+	public static short byteArray2Short(byte[] source) {
 
-		switch (byteArray.length) {
+		switch (source.length) {
 		case 0:
 			throw new ByteArrayIsEmptyException();
 		case 1:
-			return ByteUtils.byte2Short(byteArray[0]);
+			return ByteUtils.byte2Short(source[0]);
 		case 2:
-			return (short) ((ByteUtils.byte2Short(byteArray[0]) << 8) | (ByteUtils.byte2Short(byteArray[1])));
+			return (short) ((ByteUtils.byte2Short(source[0]) << 8) | (ByteUtils.byte2Short(source[1])));
 		default:
 			throw new ByteArrayLengthOutOfBoundsException();
 		}
@@ -188,88 +187,103 @@ public class ByteUtils {
 	/**
 	 * 将字节数组(0<长度<=4)合并为整型
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static int byteArray2Int(byte[] byteArray) {
+	public static int byteArray2Int(byte[] source) {
 
-		// 字节数组长度
-		int length = byteArray.length;
+		// 字节数组的长度
+		int length = source.length;
 
-		if (length == 0) {
+		switch (length) {
+		case 0:
 			throw new ByteArrayIsEmptyException();
-		} else if (length > 4) {
-			throw new ByteArrayLengthOutOfBoundsException();
-		} else {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
 			// 获取最末位的字节
-			int i = ByteUtils.byte2Int(byteArray[length - 1]);
+			int target = ByteUtils.byte2Int(source[length - 1]);
 
 			// 遍历字节数组,从倒数第二位向前
 			for (int index = length - 1; index > 0; index--) {
 
 				// 数组的第(index-1)位,要向左移(length-index)字节
-				i = i | (ByteUtils.byte2Int(byteArray[index - 1]) << ((length - index) * 8));
+				target = target | (ByteUtils.byte2Int(source[index - 1]) << ((length - index) * 8));
 			}
 
-			return i;
+			return target;
+		default:
+			throw new ByteArrayLengthOutOfBoundsException();
 		}
 	}
 
 	/**
 	 * 将字节数组(0<长度<=8)合并为长整型
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static long byteArray2Long(byte[] byteArray) {
+	public static long byteArray2Long(byte[] source) {
 
-		// 字节数组长度
-		int length = byteArray.length;
+		// 字节数组的长度
+		int length = source.length;
 
-		if (length == 0) {
+		switch (length) {
+		case 0:
 			throw new ByteArrayIsEmptyException();
-		} else if (length > 8) {
-			throw new ByteArrayLengthOutOfBoundsException();
-		} else {
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+		case 8:
 			// 获取最末位的字节
-			long l = ByteUtils.byte2Long(byteArray[length - 1]);
+			long target = ByteUtils.byte2Long(source[length - 1]);
 
 			// 遍历字节数组,从倒数第二位向前
 			for (int index = length - 1; index > 0; index--) {
 
 				// 数组的第(index-1)位,要向左移(length-index)字节
-				l = l | (ByteUtils.byte2Long(byteArray[index - 1]) << ((length - index) * 8));
+				target = target | (ByteUtils.byte2Long(source[index - 1]) << ((length - index) * 8));
 			}
 
-			return l;
+			return target;
+		default:
+			throw new ByteArrayLengthOutOfBoundsException();
 		}
 	}
 
 	/**
 	 * 字节数组转BCD码,字节数组长度必须为2的倍数
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static byte[] byteArray2BCD(byte[] byteArray) {
+	public static byte[] byteArray2BCD(byte[] source) {
 
 		// 字节数组长度
-		int byteArrayLength = byteArray.length;
+		int sourceLength = source.length;
 		// 若长度不为2的倍数,则抛出异常
-		if (byteArrayLength % 2 != 0) {
+		if (sourceLength % 2 != 0) {
 			throw new ByteArrayLengthErrorException();
 		}
 
 		// BCD码
-		byte[] bcd = new byte[byteArrayLength / 2];
+		byte[] target = new byte[sourceLength / 2];
 		// 遍历字节数组
-		for (int i = 0, length = bcd.length; i < length; i++) {
+		for (int index = 0, length = target.length; index < length; index++) {
 
 			// 前字节向左位移4位,与上后字节
-			bcd[i] = (byte) (((byte) (byteArray[i * 2] << 4)) | (byteArray[i * 2 + 1]));
+			target[index] = (byte) (((byte) (source[index * 2] << 4)) | (source[index * 2 + 1]));
 		}
 
-		return bcd;
+		return target;
 	}
 
 	/**
@@ -277,102 +291,204 @@ public class ByteUtils {
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
 	 * 例如:字节49->字符49,而不是字节49->字符1(字符1的ASCII值是49)
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static String byteArray2String(byte[] byteArray) {
+	public static String byteArray2String(byte[] source) {
 
 		// 合并后的字符串
-		StringBuffer sb = new StringBuffer(byteArray.length);
+		StringBuffer target = new StringBuffer(source.length);
 		// 遍历字节数组
-		for (int i = 0, length = byteArray.length; i < length; i++) {
+		for (int index = 0, length = source.length; index < length; index++) {
 
-			sb.append(byteArray[i]);
+			target.append(source[index]);
 		}
 
-		return sb.toString();
+		return target.toString();
 	}
 
 	/**
 	 * 将字节数组顺序反转
 	 * 
-	 * @param byteArray
+	 * @param source
+	 *            字节数组
 	 * @return
 	 */
-	public static byte[] reverse(byte[] byteArray) {
+	public static byte[] reverse(byte[] source) {
 
 		// 反转后的字节数组
-		byte[] reverseByteArray = new byte[byteArray.length];
-		// 遍历字节数组
-		for (int i = 1; i <= reverseByteArray.length; i++) {
+		byte[] target = new byte[source.length];
 
-			reverseByteArray[i - 1] = byteArray[reverseByteArray.length - i];
+		// 遍历需要反转的字节数组,反转只需遍历一半即可
+		for (int index = 1, length = (source.length / 2); index <= length; index++) {
+
+			// 反转字节数组的(i-1)即为原始数组的(length-i)位
+			target[index - 1] = source[source.length - index];
+			// 反转字节数组的(length-i)即为原始数组的(i-1)位
+			target[target.length - index] = source[index - 1];
 		}
 
-		return reverseByteArray;
+		// 若长度为单数,则进行赋值
+		if (source.length % 2 == 1) {
+			target[target.length / 2] = source[source.length / 2];
+		}
+
+		return target;
 	}
 
 	/**
-	 * 异或.将两个字节作为无符号数据进行异或操作.
+	 * 异或.将两个字节进行异或操作.
 	 * 
-	 * @param byte1
-	 * @param byte2
+	 * @param source1
+	 *            字节1
+	 * @param source2
+	 *            字节2
 	 * @return
 	 */
-	public static byte xor(byte byte1, byte byte2) {
+	public static byte xor(byte source1, byte source2) {
 
-		return (byte) (byte1 ^ byte2);
+		return (byte) (source1 ^ source2);
 	}
 
 	/**
-	 * 异或.将两个字节数组作为无符号进行异或操作.
+	 * 异或.将两个字节数组进行异或操作.
 	 * 
-	 * @param byteArray1
-	 * @param byteArray2
+	 * @param source1
+	 *            字节数组1
+	 * @param source2
+	 *            字节数组2
 	 * @return
 	 */
-	public static byte[] xor(byte[] byteArray1, byte[] byteArray2) {
+	public static byte[] xor(byte[] source1, byte[] source2) {
 
 		// 长度不一致,则抛出异常
-		if (byteArray1.length != byteArray2.length) {
+		if (source1.length != source2.length) {
 			throw new ByteArrayLengthErrorException();
 		}
 
 		// 返回的字节数组
-		byte[] byteArray = new byte[byteArray1.length];
+		byte[] target = new byte[source1.length];
 		// 遍历传入的字节数组
-		for (int i = 0; i < byteArray1.length; i++) {
+		for (int index = 0; index < source1.length; index++) {
 
 			// 异或每一位
-			byteArray[i] = xor(byteArray1[i], byteArray2[i]);
+			target[index] = xor(source1[index], source2[index]);
 		}
 
-		return byteArray;
+		return target;
 	}
 
 	/**
 	 * 比较两个字节数组是否一致,比较的是数组内容
 	 * 
-	 * @param byteArray1
-	 * @param byteArray2
+	 * @param source1
+	 *            字节数组1
+	 * @param source2
+	 *            字节数组2
 	 * @return
 	 */
-	public static boolean compare(byte[] byteArray1, byte[] byteArray2) {
+	public static boolean compare(byte[] source1, byte[] source2) {
 
 		// 若长度不一致,则直接返回false
-		if (byteArray1.length != byteArray2.length) {
+		if (source1.length != source2.length) {
 			return false;
 		} else {
 
 			// 遍历字节数组内容,判断是否一致
-			for (int i = 0, length = byteArray1.length; i < length; i++) {
+			for (int index = 0, length = source1.length; index < length; index++) {
 
-				if (byteArray1[i] != byteArray2[i]) {
+				if (source1[index] != source2[index]) {
 					return false;
 				}
 			}
 
 			return true;
 		}
+	}
+
+	/**
+	 * 查找字节数组中,某段字节数组的位置
+	 * 
+	 * @param source
+	 *            待查找的字节数组
+	 * @param target
+	 *            查找的字节数组
+	 * @return
+	 */
+	public static int indexOf(byte[] source, byte[] target) {
+
+		return indexOf(source, target, 0);
+	}
+
+	/**
+	 * 查找字节数组中,某段字节数组的位置
+	 * 
+	 * @param source
+	 *            待查找的字节数组
+	 * @param target
+	 *            查找的字节数组
+	 * @param fromIndex
+	 *            待查找的字节数组的起始位置
+	 * @return
+	 */
+	public static int indexOf(byte[] source, byte[] target, int fromIndex) {
+
+		return indexOf(source, 0, source.length, target, 0, target.length, fromIndex);
+	}
+
+	/**
+	 * 查找字节数组中,某段字节数组的位置
+	 * 
+	 * @param source
+	 *            待查找的字节数组
+	 * @param sourceOffset
+	 *            查找的起始位置
+	 * @param sourceCount
+	 *            查找的长度
+	 * @param target
+	 *            查找的字节数组
+	 * @param targetOffset
+	 *            查找的字节数组的起始位置
+	 * @param targetCount
+	 *            查找的字节数组的长度
+	 * @param fromIndex
+	 *            查找的起始位置
+	 * @return
+	 */
+	public static int indexOf(byte[] source, int sourceOffset, int sourceCount, byte[] target, int targetOffset,
+			int targetCount, int fromIndex) {
+
+		if (fromIndex >= sourceCount) {
+			return (targetCount == 0 ? sourceCount : -1);
+		}
+		if (fromIndex < 0) {
+			fromIndex = 0;
+		}
+		if (targetCount == 0) {
+			return fromIndex;
+		}
+
+		byte first = target[targetOffset];
+		int max = sourceOffset + (sourceCount - targetCount);
+
+		for (int index = sourceOffset + fromIndex; index <= max; index++) {
+			if (source[index] != first) {
+				while (++index <= max && source[index] != first)
+					;
+			}
+
+			if (index <= max) {
+				int j = index + 1;
+				int end = j + targetCount - 1;
+				for (int k = targetOffset + 1; j < end && source[j] == target[k]; j++, k++)
+					;
+
+				if (j == end) {
+					return index - sourceOffset;
+				}
+			}
+		}
+		return -1;
 	}
 }
