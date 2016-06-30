@@ -380,34 +380,6 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 比较两个字节数组是否一致,比较的是数组内容
-	 * 
-	 * @param source1
-	 *            字节数组1
-	 * @param source2
-	 *            字节数组2
-	 * @return
-	 */
-	public static boolean compare(byte[] source1, byte[] source2) {
-
-		// 若长度不一致,则直接返回false
-		if (source1.length != source2.length) {
-			return false;
-		} else {
-
-			// 遍历字节数组内容,判断是否一致
-			for (int index = 0, length = source1.length; index < length; index++) {
-
-				if (source1[index] != source2[index]) {
-					return false;
-				}
-			}
-
-			return true;
-		}
-	}
-
-	/**
 	 * 查找字节数组中,某段字节数组的位置
 	 * 
 	 * @param source
