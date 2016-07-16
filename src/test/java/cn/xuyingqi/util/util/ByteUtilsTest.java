@@ -44,10 +44,5 @@ public class ByteUtilsTest {
 		// System.out.println(i);
 		// System.out.println(0xffff);
 		// System.out.println(i == 0xffff);
-
-		// //compare
-		// byte[] a = { 1, 2, 3, 4, 5, 7 };
-		// byte[] b = { 1, 2, 3, 4, 5, 6 };
-		// System.out.println(ByteUtils.compare(a, b));
 	}
 }
