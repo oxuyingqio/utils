@@ -1,33 +1,31 @@
 package cn.xuyingqi.util;
 
+import java.io.UnsupportedEncodingException;
+
 import org.junit.Test;
 
 public class JUnitTest {
 
 	@Test
-	public void test() {
+	public void test() throws UnsupportedEncodingException {
 
-		byte[] demo = new byte[] { -94, 19, 16, -111, -1, -1, -127, 21, 105, 119, 120, 102, 124, -122, -72, -92, 12, 40,
-				61, -102, 36, -46, 118, 0, 0, 4, 0, -1, -1, -1, -1, -1, 21, 35, -66, -124, -31, 108, -42, 22, 6, -66,
-				-126, 21, 58, -88, -125, -56, 48, 80, 0, 16, 0, -80, 64, -80, 36, 94, 13, 28, 6, -73, 71, -65, 118, 18,
-				77, -56, 67, -69, -117, -90, 6, 2, 29, 8, 3, 27, 11, 6, 0, 0, 0, 1, -16, -45, -61, -69, -89, 0, 0, 0, 0,
-				0, 0, -23, 0, 0, 0, 0, 9, 27, 16, 9, 36, 73, 50, -10, -98, 125, 73, 52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-				0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < demo.length; i++) {
-
-			String s = Integer.toHexString(demo[i] & 0xff);
-			if (s.length() == 1) {
-				sb.append(0);
-			}
-
-			sb.append(s);
-		}
-
-		System.out.println(sb.toString().toUpperCase());
+		byte[] demo = new byte[] { -46, -75, -50, -15, -49, -75, -51, -77, -78, -69, -76, -26, -44, -38, -74, -44, -45,
+				-90, -75, -60, -65, -88, -70, -59, -93, -95, 0, 0, 0, 0, 0, 0 };
+		
+		
+		System.out.println(new String(demo, "GBK"));
+		
+//		StringBuffer sb = new StringBuffer();
+//		for (int i = 0; i < demo.length; i++) {
+//
+//			String s = Integer.toHexString(demo[i] & 0xff);
+//			if (s.length() == 1) {
+//				sb.append(0);
+//			}
+//
+//			sb.append(s);
+//		}
+//
+//		System.out.println(sb.toString().toUpperCase());
 	}
 }

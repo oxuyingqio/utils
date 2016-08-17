@@ -44,5 +44,12 @@ public class ByteUtilsTest {
 		// System.out.println(i);
 		// System.out.println(0xffff);
 		// System.out.println(i == 0xffff);
+		
+		short a = 421;
+		System.out.println(ByteUtils.demo(a, 7));
+		System.out.println(ByteUtils.demo(a, 8));
+		System.out.println(ByteUtils.demo(a, 9));
+		System.out.println(ByteUtils.demo(a, 10));
+		System.out.println(ByteUtils.demo(a, 11));
 	}
 }
