@@ -151,7 +151,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] string2ByteArray(String source) {
-
+		
 		// 拆分后的字节数组
 		byte[] target = new byte[source.length()];
 		// 遍历字符串每一个字符
