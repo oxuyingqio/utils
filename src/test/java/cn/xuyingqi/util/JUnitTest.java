@@ -1,8 +1,12 @@
 package cn.xuyingqi.util;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
+
+import cn.xuyingqi.util.util.ListFactory;
 
 public class JUnitTest {
 
@@ -29,7 +33,35 @@ public class JUnitTest {
 //		System.out.println(sb.toString().toUpperCase());
 		
 		
-		String s = "10";
-		System.out.println(Integer.parseInt(s, 16));
+//		String s = "10";
+//		System.out.println(Integer.parseInt(s, 16));
+		
+		
+		List<Integer> list = ListFactory.newInstance();
+		for (int i = 0; i < 20; i++) {
+			list.add(i);
+		}
+		
+		List<Integer> test = ListFactory.newInstance();
+
+		int i = 0;
+		while (list.size() > 0) {
+
+			if (list.size() > 4) {
+				test = list.subList(4 * i, (4 * i) + 4);
+			} else {
+				test = list.subList(4 * i, (4 * i) + list.size());
+			}
+
+			System.out.println(i + "==当前list长度：" + list.size());
+			System.out.println(i + "==当前list内容：" + Arrays.toString(list.toArray()));
+			System.out.println(i + "==当前test长度：" + test.size());
+			System.out.println(i + "==当前test内容：" + Arrays.toString(test.toArray()));
+
+			i++;
+			if (i >= 5) {
+				break;
+			}
+		}
 	}
 }
