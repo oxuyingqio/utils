@@ -38,11 +38,11 @@ public class JUnitTest {
 		int count = 4;
 
 		List<Integer> list = ListFactory.newInstance();
-		for (int i = 0; i < 20; i++) {
+		for (int i = 0; i < 18; i++) {
 			list.add(i);
 		}
 
-		double maxTime = Math.ceil(list.size() / count);
+		double maxTime = Math.ceil((double) list.size() / count);
 
 		int time = 0;
 		while (time < maxTime) {
