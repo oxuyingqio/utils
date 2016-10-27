@@ -151,7 +151,7 @@ public class ByteUtils {
 	 * @return
 	 */
 	public static byte[] string2ByteArray(String source) {
-		
+
 		// 拆分后的字节数组
 		byte[] target = new byte[source.length()];
 		// 遍历字符串每一个字符
@@ -471,28 +471,42 @@ public class ByteUtils {
 	 * @param index
 	 * @return
 	 */
-	public static byte demo(short data, int index) {
+	public static byte bitAt(short data, int index) {
 
 		if (index >= (2 * 8)) {
-			throw new RuntimeException("下标越界");
+			throw new IndexOutOfBoundsException();
 		}
 
 		return (byte) (data >> (16 - index - 1) & 1);
 	}
 
-	public static byte demo(int data, int index) {
+	/**
+	 * 获取指定下标位的值
+	 * 
+	 * @param data
+	 * @param index
+	 * @return
+	 */
+	public static byte bitAt(int data, int index) {
 
 		if (index >= (4 * 8)) {
-			throw new RuntimeException("下标越界");
+			throw new IndexOutOfBoundsException();
 		}
 
 		return (byte) (data >> (16 - index - 1) & 1);
 	}
 
-	public static byte demo(long data, int index) {
+	/**
+	 * 获取指定下标位的值
+	 * 
+	 * @param data
+	 * @param index
+	 * @return
+	 */
+	public static byte bitAt(long data, int index) {
 
 		if (index >= (8 * 8)) {
-			throw new RuntimeException("下标越界");
+			throw new IndexOutOfBoundsException();
 		}
 
 		return (byte) (data >> (16 - index - 1) & 1);
