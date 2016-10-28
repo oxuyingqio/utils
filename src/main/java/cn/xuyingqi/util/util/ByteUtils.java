@@ -1,5 +1,6 @@
 package cn.xuyingqi.util.util;
 
+import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
@@ -465,6 +466,22 @@ public class ByteUtils {
 	}
 
 	/**
+	 * 获取指定下标位的值,下标从左向右,从0开始
+	 * 
+	 * @param data
+	 * @param index
+	 * @return
+	 */
+	public static byte bitAt(byte data, int index) {
+
+		if (index >= 8) {
+			throw new IndexOutOfBoundsException();
+		}
+
+		return (byte) (data >> (8 - index - 1) & 1);
+	}
+
+	/**
 	 * 获取指定下标位的值
 	 * 
 	 * @param data
@@ -473,7 +490,7 @@ public class ByteUtils {
 	 */
 	public static byte bitAt(short data, int index) {
 
-		if (index >= (2 * 8)) {
+		if (index >= 16) {
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -489,11 +506,11 @@ public class ByteUtils {
 	 */
 	public static byte bitAt(int data, int index) {
 
-		if (index >= (4 * 8)) {
+		if (index >= 32) {
 			throw new IndexOutOfBoundsException();
 		}
 
-		return (byte) (data >> (16 - index - 1) & 1);
+		return (byte) (data >> (32 - index - 1) & 1);
 	}
 
 	/**
@@ -505,10 +522,106 @@ public class ByteUtils {
 	 */
 	public static byte bitAt(long data, int index) {
 
-		if (index >= (8 * 8)) {
+		if (index >= 64) {
 			throw new IndexOutOfBoundsException();
 		}
 
-		return (byte) (data >> (16 - index - 1) & 1);
+		return (byte) (data >> (64 - index - 1) & 1);
+	}
+
+	/**
+	 * 设置某位的值
+	 * 
+	 * @param data
+	 *            数据
+	 * @param index
+	 *            指定位
+	 * @param value
+	 *            值,true为1,false为0
+	 * @return
+	 */
+	public static byte setBit(byte data, int index, boolean value) {
+
+		if (index <= 0 || index >= 8) {
+			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+		}
+
+		if (value) {
+			return (byte) (data | (1 << (7 - index)));
+		} else {
+			return (byte) (data & ~(1 << (7 - index)));
+		}
+	}
+
+	/**
+	 * 设置某位的值
+	 * 
+	 * @param data
+	 *            数据
+	 * @param index
+	 *            指定位
+	 * @param value
+	 *            值,true为1,false为0
+	 * @return
+	 */
+	public static short setBit(short data, int index, boolean value) {
+
+		if (index <= 0 || index >= 16) {
+			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+		}
+
+		if (value) {
+			return (short) (data | (1 << (16 - index)));
+		} else {
+			return (short) (data & ~(1 << (16 - index)));
+		}
+	}
+
+	/**
+	 * 设置某位的值
+	 * 
+	 * @param data
+	 *            数据
+	 * @param index
+	 *            指定位
+	 * @param value
+	 *            值,true为1,false为0
+	 * @return
+	 */
+	public static int setBit(int data, int index, boolean value) {
+
+		if (index <= 0 || index > 7) {
+			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+		}
+
+		if (value) {
+			return (byte) (data | (1 << (32 - index)));
+		} else {
+			return (byte) (data & ~(1 << (32 - index)));
+		}
+	}
+
+	/**
+	 * 设置某位的值
+	 * 
+	 * @param data
+	 *            数据
+	 * @param index
+	 *            指定位
+	 * @param value
+	 *            值,true为1,false为0
+	 * @return
+	 */
+	public static long setBit(long data, int index, boolean value) {
+
+		if (index <= 0 || index > 7) {
+			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+		}
+
+		if (value) {
+			return (byte) (data | (1 << (64 - index)));
+		} else {
+			return (byte) (data & ~(1 << (64 - index)));
+		}
 	}
 }
