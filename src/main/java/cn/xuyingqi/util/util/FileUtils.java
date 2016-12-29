@@ -4,6 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -29,47 +30,53 @@ public class FileUtils {
 	 *            待复制文件
 	 * @param target
 	 *            复制的位置
-	 * @throws IOException
 	 */
-	public static void copyFileInChannel(File source, File target) throws IOException {
+	public static void copyFileByChannel(File source, File target) {
 
-		// 输入流
-		FileInputStream fis = null;
-		// 输出流
-		FileOutputStream fos = null;
-		// 输入
-		FileChannel fci = null;
-		// 输出
-		FileChannel fco = null;
+		try {
 
-		fis = new FileInputStream(source);
-		fos = new FileOutputStream(target);
+			// 文件输入流
+			FileInputStream fis = new FileInputStream(source);
+			// 文件输出流
+			FileOutputStream fos = new FileOutputStream(target);
 
-		fci = fis.getChannel();
-		fco = fos.getChannel();
-		fci.transferTo(0, fci.size(), fco);
+			// 文件输入通道
+			FileChannel fci = fis.getChannel();
+			// 文件输出通道
+			FileChannel fco = fos.getChannel();
 
-		fis.close();
-		fci.close();
-		fos.close();
-		fco.close();
+			// 复制
+			fci.transferTo(0, fci.size(), fco);
+
+			// 关闭
+			fis.close();
+			fci.close();
+			fos.close();
+			fco.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
 	 * 递归文件目录,并操作文件
 	 * 
-	 * @param path
+	 * @param file
 	 * @param operateFile
 	 */
 	public static void recursionFile(File file, OperateFile operateFile) {
 
 		// 判断文件是否为空,且存在
 		if (file != null && file.exists()) {
+
 			// 操作文件
 			operateFile.operateFile(file);
 
 			// 文件是否为目录
 			if (file.isDirectory()) {
+
 				// 获取子文件,并排序
 				List<File> files = FileUtils.sortFileArray(file.listFiles());
 				// 遍历子文件,并操作子文件
@@ -97,6 +104,7 @@ public class FileUtils {
 
 		// 循环
 		for (int i = 0, length = sources.length; i < length; i++) {
+
 			File file = sources[i];
 
 			if (file.isFile()) {
@@ -108,6 +116,7 @@ public class FileUtils {
 
 		target.addAll(files);
 		target.addAll(folders);
+
 		return target;
 	}
 
@@ -120,11 +129,6 @@ public class FileUtils {
 	 *            本地文件夹
 	 */
 	public static void downloadNetworkResource(String resourceURLStr, File file) {
-
-		// 缓冲输入流
-		BufferedInputStream bis = null;
-		// 缓冲输出流
-		BufferedOutputStream bos = null;
 
 		try {
 
@@ -145,9 +149,9 @@ public class FileUtils {
 			downloadFile.createNewFile();
 
 			// 获取网络资源的输入流
-			bis = new BufferedInputStream(httpURLConnection.getInputStream());
+			BufferedInputStream bis = new BufferedInputStream(httpURLConnection.getInputStream());
 			// 获取本地文件的输出流
-			bos = new BufferedOutputStream(new FileOutputStream(downloadFile));
+			BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(downloadFile));
 
 			// 缓冲区长度
 			int len = 1024;
@@ -165,20 +169,14 @@ public class FileUtils {
 			// 关闭
 			bis.close();
 			// 关闭
+			bos.close();
+			// 关闭
 			httpURLConnection.disconnect();
 
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally {
-
-			try {
-				bis.close();
-				bos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 }
