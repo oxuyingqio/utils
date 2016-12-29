@@ -24,6 +24,24 @@ import cn.xuyingqi.util.tool.operatefile.OperateFile;
 public class FileUtils {
 
 	/**
+	 * 文件排序
+	 * 
+	 * @author XuYQ
+	 *
+	 */
+	public enum Order {
+
+		/**
+		 * 先文件,后文件夹
+		 */
+		FILE_FOLDER,
+		/**
+		 * 先文件夹,后文件
+		 */
+		FOLDER_FILE
+	}
+
+	/**
 	 * 将文件source复制到target (FileChannel复制)
 	 * 
 	 * @param source
@@ -61,6 +79,53 @@ public class FileUtils {
 	}
 
 	/**
+	 * 对文件列表进行排序
+	 * 
+	 * @param files
+	 *            待排序的文件数组
+	 * @param order
+	 *            排序规则
+	 */
+	public static List<File> sortFileArray(File[] sources, FileUtils.Order order) {
+
+		// 文件列表
+		List<File> files = ListFactory.newInstance(ListFactory.Type.LINKED_LIST);
+		// 文件夹列表
+		List<File> folders = ListFactory.newInstance(ListFactory.Type.LINKED_LIST);
+		// 返回列表
+		List<File> target = ListFactory.newInstance(ListFactory.Type.LINKED_LIST);
+
+		// 遍历资源文件集合
+		int i = 0;
+		while (i++ < sources.length) {
+
+			// 获取当前文件
+			File file = sources[i - 1];
+
+			// 判断类型
+			if (file.isFile()) {
+				files.add(file);
+			} else {
+				folders.add(file);
+			}
+		}
+
+		// 判断排序方式
+		switch (order) {
+		case FILE_FOLDER:
+			target.addAll(files);
+			target.addAll(folders);
+			break;
+		case FOLDER_FILE:
+			target.addAll(folders);
+			target.addAll(files);
+			break;
+		}
+
+		return target;
+	}
+
+	/**
 	 * 递归文件目录,并操作文件
 	 * 
 	 * @param file
@@ -77,47 +142,46 @@ public class FileUtils {
 			// 文件是否为目录
 			if (file.isDirectory()) {
 
-				// 获取子文件,并排序
-				List<File> files = FileUtils.sortFileArray(file.listFiles());
+				// 获取子文件集合
+				File[] files = file.listFiles();
+
 				// 遍历子文件,并操作子文件
-				for (int i = 0, length = files.size(); i < length; i++) {
-					recursionFile(files.get(i), operateFile);
+				int i = 0;
+				while (i++ < files.length) {
+
+					// 获取当前文件
+					recursionFile(files[i - 1], operateFile);
 				}
 			}
 		}
 	}
 
 	/**
-	 * 对文件列表进行排序,先文件,后文件夹
+	 * 递归文件目录,并操作文件
 	 * 
-	 * @param files
-	 *            待排序的文件数组
+	 * @param file
+	 * @param order
+	 * @param operateFile
 	 */
-	public static List<File> sortFileArray(File[] sources) {
+	public static void recursionFile(File file, FileUtils.Order order, OperateFile operateFile) {
 
-		// 文件列表
-		List<File> files = ListFactory.newInstance(ListFactory.ListType.linkedList);
-		// 文件夹列表
-		List<File> folders = ListFactory.newInstance(ListFactory.ListType.linkedList);
-		// 返回列表
-		List<File> target = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		// 判断文件是否为空,且存在
+		if (file != null && file.exists()) {
 
-		// 循环
-		for (int i = 0, length = sources.length; i < length; i++) {
+			// 操作文件
+			operateFile.operateFile(file);
 
-			File file = sources[i];
+			// 文件是否为目录
+			if (file.isDirectory()) {
 
-			if (file.isFile()) {
-				files.add(file);
-			} else {
-				folders.add(file);
+				// 获取子文件,并排序
+				List<File> files = FileUtils.sortFileArray(file.listFiles(), order);
+				// 遍历子文件,并操作子文件
+				for (int i = 0, length = files.size(); i < length; i++) {
+					recursionFile(files.get(i), order, operateFile);
+				}
 			}
 		}
-
-		target.addAll(files);
-		target.addAll(folders);
-
-		return target;
 	}
 
 	/**

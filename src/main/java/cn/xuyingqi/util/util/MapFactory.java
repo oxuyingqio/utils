@@ -17,6 +17,7 @@ public class MapFactory {
 	 * @return
 	 */
 	public static <K, V> Map<K, V> newInstance() {
+
 		return new HashMap<K, V>();
 	}
 }

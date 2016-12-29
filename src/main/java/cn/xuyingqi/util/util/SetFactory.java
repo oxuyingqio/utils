@@ -17,6 +17,7 @@ public class SetFactory {
 	 * @return
 	 */
 	public static <T> Set<T> newInstance() {
+
 		return new HashSet<T>();
 	}
 }
