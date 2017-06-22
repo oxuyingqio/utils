@@ -143,7 +143,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字符串拆分为字节数组.<br>
+	 * 将十进制字符串拆分为字节数组.<br>
 	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
 	 * 例如:字符1->字节1,而不是字符1->字节49(字符1的ASCII值是49)
 	 * 
@@ -159,6 +159,28 @@ public class ByteUtils {
 		for (int index = 0, length = source.length(); index < length; index++) {
 
 			target[index] = Byte.valueOf(source.charAt(index) + "");
+		}
+
+		return target;
+	}
+
+	/**
+	 * 将十六进制字符串拆分为字节数组.<br>
+	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
+	 * 例如:字符1->字节1,而不是字符1->字节49(字符1的ASCII值是49)
+	 * 
+	 * @param source
+	 *            字符串
+	 * @return
+	 */
+	public static byte[] hexString2ByteArray(String source) {
+
+		// 拆分后的字节数组
+		byte[] target = new byte[source.length()];
+		// 遍历字符串每一个字符
+		for (int index = 0, length = source.length(); index < length; index++) {
+
+			target[index] = Byte.valueOf(source.charAt(index) + "", 16);
 		}
 
 		return target;
@@ -288,7 +310,7 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组合并为字符串.<br>
+	 * 将字节数组合并为十进制字符串.<br>
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
 	 * 例如:字节49->字符49,而不是字节49->字符1(字符1的ASCII值是49)
 	 * 
@@ -304,6 +326,28 @@ public class ByteUtils {
 		for (int index = 0, length = source.length; index < length; index++) {
 
 			target.append(source[index]);
+		}
+
+		return target.toString();
+	}
+
+	/**
+	 * 将字节数组合并为十六进制字符串.<br>
+	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
+	 * 例如:字节49->字符49,而不是字节49->字符1(字符1的ASCII值是49)
+	 * 
+	 * @param source
+	 *            字节数组
+	 * @return
+	 */
+	public static String byteArray2HexString(byte[] source) {
+
+		// 合并后的字符串
+		StringBuffer target = new StringBuffer(source.length);
+		// 遍历字节数组
+		for (int index = 0, length = source.length; index < length; index++) {
+
+			target.append(Integer.toHexString(source[index]).toUpperCase());
 		}
 
 		return target.toString();
