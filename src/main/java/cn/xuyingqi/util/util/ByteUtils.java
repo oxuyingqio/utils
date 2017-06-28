@@ -1,9 +1,9 @@
 package cn.xuyingqi.util.util;
 
-import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
+import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 
 /**
  * 字节工具类<br>
@@ -11,8 +11,8 @@ import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
  * 1.byte 1字节8位; short 2字节16位; int 4字节32位; long 8字节64位;<br>
  * 2.byte,short,int,long均为有符号数据,即第一位均为符号位.<br>
  * <br>
- * 3.&(与)操作.若两位均为1,则结果为1;1或0与上1都为它本身.<br>
- * 4.|(或)操作.若两位有一位为1,则结果为1;1或0或上0都为它本身.<br>
+ * 3.&(与)操作.若两位均为1,则结果为1;1或0,与上1都为它本身.<br>
+ * 4.|(或)操作.若两位有一位为1,则结果为1;1或0,或上0都为它本身.<br>
  * 5.^(异或)操作.若两位不同则为1,相同则为0.<br>
  * 
  * @author Administrator
@@ -347,7 +347,13 @@ public class ByteUtils {
 		// 遍历字节数组
 		for (int index = 0, length = source.length; index < length; index++) {
 
-			target.append(Integer.toHexString(source[index]).toUpperCase());
+			// 获取对应16进制字符串
+			String hex = Integer.toHexString(ByteUtils.byte2Int(source[index])).toUpperCase();
+			// 判断是否仅一位
+			if (hex.length() == 1) {
+				target.append("0");
+			}
+			target.append(hex);
 		}
 
 		return target.toString();
@@ -587,7 +593,7 @@ public class ByteUtils {
 	public static byte setBit(byte data, int index, boolean value) {
 
 		if (index <= 0 || index >= 8) {
-			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
@@ -611,7 +617,7 @@ public class ByteUtils {
 	public static short setBit(short data, int index, boolean value) {
 
 		if (index <= 0 || index >= 16) {
-			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
@@ -635,7 +641,7 @@ public class ByteUtils {
 	public static int setBit(int data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
-			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
@@ -659,7 +665,7 @@ public class ByteUtils {
 	public static long setBit(long data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
-			throw new cn.xuyingqi.util.exception.IndexOutOfBoundsException();
+			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
@@ -667,5 +673,16 @@ public class ByteUtils {
 		} else {
 			return (byte) (data & ~(1 << (64 - index)));
 		}
+	}
+
+	/**
+	 * Main函数测试
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		byte[] a = new byte[] { (byte) 0xbf, 0x00 };
+		System.out.println(ByteUtils.byteArray2HexString(a));
 	}
 }
