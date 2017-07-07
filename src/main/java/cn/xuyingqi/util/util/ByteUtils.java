@@ -11,11 +11,11 @@ import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
  * 1.byte 1字节8位; short 2字节16位; int 4字节32位; long 8字节64位;<br>
  * 2.byte,short,int,long均为有符号数据,即第一位均为符号位.<br>
  * <br>
- * 3.&(与)操作.若两位均为1,则结果为1;1或0,与上1都为它本身.<br>
- * 4.|(或)操作.若两位有一位为1,则结果为1;1或0,或上0都为它本身.<br>
+ * 3.&(与)操作.若两位均为1,则结果为1;任意值与上1都为它本身.<br>
+ * 4.|(或)操作.若两位有一位为1,则结果为1;任意值或上0都为它本身.<br>
  * 5.^(异或)操作.若两位不同则为1,相同则为0.<br>
  * 
- * @author Administrator
+ * @author XuYQ
  *
  */
 public class ByteUtils {
@@ -33,7 +33,6 @@ public class ByteUtils {
 	 */
 	public static short byte2Short(byte source) {
 
-		// 16进制0xff即为11111111
 		return (short) (source & 0xff);
 	}
 
@@ -167,7 +166,7 @@ public class ByteUtils {
 	/**
 	 * 将十六进制字符串拆分为字节数组.<br>
 	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
-	 * 例如:字符1->字节1,而不是字符1->字节49(字符1的ASCII值是49)
+	 * 例如:字符A->字节10,而不是字符A->字节65(字符A的ASCII值是65)
 	 * 
 	 * @param source
 	 *            字符串
@@ -180,9 +179,9 @@ public class ByteUtils {
 		// 遍历字符串每两个字符
 		for (int index = 0; index < target.length; index++) {
 
-			// 获取值
+			// 获取值.使用短整型接,预防数值越界
 			short value = Short.valueOf(source.charAt(2 * index) + "" + source.charAt(2 * index + 1), 16);
-			// 强转为byte,预防数值越界
+			// 强转为byte
 			target[index] = (byte) value;
 		}
 
@@ -297,6 +296,7 @@ public class ByteUtils {
 		int sourceLength = source.length;
 		// 若长度不为2的倍数,则抛出异常
 		if (sourceLength % 2 != 0) {
+
 			throw new ByteArrayLengthErrorException();
 		}
 
@@ -337,7 +337,7 @@ public class ByteUtils {
 	/**
 	 * 将字节数组合并为十六进制字符串.<br>
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
-	 * 例如:字节49->字符49,而不是字节49->字符1(字符1的ASCII值是49)
+	 * 例如:字节10->字符A,而不是字节65->字符A(字符A的ASCII值是65)
 	 * 
 	 * @param source
 	 *            字节数组
@@ -352,8 +352,9 @@ public class ByteUtils {
 
 			// 获取对应16进制字符串
 			String hex = Integer.toHexString(ByteUtils.byte2Int(source[index])).toUpperCase();
-			// 判断是否仅一位
+			// 判断是否仅一位.仅一位则补0
 			if (hex.length() == 1) {
+
 				target.append("0");
 			}
 			target.append(hex);
@@ -385,6 +386,7 @@ public class ByteUtils {
 
 		// 若长度为单数,则进行赋值
 		if (source.length % 2 == 1) {
+
 			target[target.length / 2] = source[source.length / 2];
 		}
 
@@ -418,6 +420,7 @@ public class ByteUtils {
 
 		// 长度不一致,则抛出异常
 		if (source1.length != source2.length) {
+
 			throw new ByteArrayLengthErrorException();
 		}
 
@@ -486,12 +489,15 @@ public class ByteUtils {
 			int targetCount, int fromIndex) {
 
 		if (fromIndex >= sourceCount) {
+
 			return (targetCount == 0 ? sourceCount : -1);
 		}
 		if (fromIndex < 0) {
+
 			fromIndex = 0;
 		}
 		if (targetCount == 0) {
+
 			return fromIndex;
 		}
 
@@ -499,18 +505,22 @@ public class ByteUtils {
 		int max = sourceOffset + (sourceCount - targetCount);
 
 		for (int index = sourceOffset + fromIndex; index <= max; index++) {
+
 			if (source[index] != first) {
+
 				while (++index <= max && source[index] != first)
 					;
 			}
 
 			if (index <= max) {
+
 				int j = index + 1;
 				int end = j + targetCount - 1;
 				for (int k = targetOffset + 1; j < end && source[j] == target[k]; j++, k++)
 					;
 
 				if (j == end) {
+
 					return index - sourceOffset;
 				}
 			}
@@ -528,6 +538,7 @@ public class ByteUtils {
 	public static byte bitAt(byte data, int index) {
 
 		if (index >= 8) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -544,6 +555,7 @@ public class ByteUtils {
 	public static byte bitAt(short data, int index) {
 
 		if (index >= 16) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -560,6 +572,7 @@ public class ByteUtils {
 	public static byte bitAt(int data, int index) {
 
 		if (index >= 32) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -576,6 +589,7 @@ public class ByteUtils {
 	public static byte bitAt(long data, int index) {
 
 		if (index >= 64) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
@@ -596,12 +610,15 @@ public class ByteUtils {
 	public static byte setBit(byte data, int index, boolean value) {
 
 		if (index <= 0 || index >= 8) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
+
 			return (byte) (data | (1 << (7 - index)));
 		} else {
+
 			return (byte) (data & ~(1 << (7 - index)));
 		}
 	}
@@ -620,12 +637,15 @@ public class ByteUtils {
 	public static short setBit(short data, int index, boolean value) {
 
 		if (index <= 0 || index >= 16) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
+
 			return (short) (data | (1 << (16 - index)));
 		} else {
+
 			return (short) (data & ~(1 << (16 - index)));
 		}
 	}
@@ -644,12 +664,15 @@ public class ByteUtils {
 	public static int setBit(int data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
+
 			return (byte) (data | (1 << (32 - index)));
 		} else {
+
 			return (byte) (data & ~(1 << (32 - index)));
 		}
 	}
@@ -668,12 +691,15 @@ public class ByteUtils {
 	public static long setBit(long data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
+
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
+
 			return (byte) (data | (1 << (64 - index)));
 		} else {
+
 			return (byte) (data & ~(1 << (64 - index)));
 		}
 	}
