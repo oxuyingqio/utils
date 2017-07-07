@@ -176,11 +176,14 @@ public class ByteUtils {
 	public static byte[] hexString2ByteArray(String source) {
 
 		// 拆分后的字节数组
-		byte[] target = new byte[source.length()];
-		// 遍历字符串每一个字符
-		for (int index = 0, length = source.length(); index < length; index++) {
+		byte[] target = new byte[source.length() / 2];
+		// 遍历字符串每两个字符
+		for (int index = 0; index < target.length; index++) {
 
-			target[index] = Byte.valueOf(source.charAt(index) + "", 16);
+			// 获取值
+			short value = Short.valueOf(source.charAt(2 * index) + "" + source.charAt(2 * index + 1), 16);
+			// 强转为byte,预防数值越界
+			target[index] = (byte) value;
 		}
 
 		return target;
