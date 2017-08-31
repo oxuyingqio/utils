@@ -1,5 +1,7 @@
 package cn.xuyingqi.util.util;
 
+import java.util.Arrays;
+
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
@@ -37,30 +39,6 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将无符号字节(即8位均为数据的字节)转换为有符号的整型;
-	 * 
-	 * @param source
-	 *            无符号字节
-	 * @return
-	 */
-	public static int byte2Int(byte source) {
-
-		return (source & 0xff);
-	}
-
-	/**
-	 * 将无符号字节(即8位均为数据的字节)转换为有符号的长整型;
-	 * 
-	 * @param source
-	 *            无符号字节
-	 * @return
-	 */
-	public static long byte2Long(byte source) {
-
-		return (source & 0xff);
-	}
-
-	/**
 	 * 将短整型拆分为长度为2的字节数组
 	 * 
 	 * @param source
@@ -74,116 +52,6 @@ public class ByteUtils {
 		// 高字节右移8位,即把低字节舍去.再强转为byte,即仅取右移后的8位低字节
 		target[0] = (byte) (source >> 8);
 		target[1] = (byte) source;
-
-		return target;
-	}
-
-	/**
-	 * 将整型拆分为长度为4的字节数组
-	 * 
-	 * @param source
-	 *            整型
-	 * @return
-	 */
-	public static byte[] int2ByteArray(int source) {
-
-		// 拆分后的字节数组
-		byte[] target = new byte[4];
-		// 遍历数组
-		for (int index = 1, length = target.length; index <= length; index++) {
-
-			// 数组的第(index-1)位,要向右移(length-index)字节
-			target[index - 1] = (byte) (source >> ((length - index) * 8));
-		}
-
-		return target;
-	}
-
-	/**
-	 * 将长整型拆分为长度为8的字节数组
-	 * 
-	 * @param source
-	 *            长整型
-	 * @return
-	 */
-	public static byte[] long2ByteArray(long source) {
-
-		// 拆分后的字节数组
-		byte[] target = new byte[8];
-		// 遍历数组
-		for (int index = 1, length = target.length; index <= length; index++) {
-
-			// 数组的第(index-1)位,要向右移(length-index)字节
-			target[index - 1] = (byte) (source >> ((length - index) * 8));
-		}
-
-		return target;
-	}
-
-	/**
-	 * BCD码转字节数组
-	 * 
-	 * @param source
-	 *            bcd码
-	 * @return
-	 */
-	public static byte[] bcd2ByteArray(byte[] source) {
-
-		// 转换后字节数组
-		byte[] target = new byte[source.length * 2];
-		// 遍历BCD码
-		for (int index = 0, length = source.length; index < length; index++) {
-
-			target[index * 2] = (byte) ((source[index] & 0xf0) >> 4);
-			target[index * 2 + 1] = (byte) (source[index] & 0x0f);
-		}
-
-		return target;
-	}
-
-	/**
-	 * 将十进制字符串拆分为字节数组.<br>
-	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
-	 * 例如:字符1->字节1,而不是字符1->字节49(字符1的ASCII值是49)
-	 * 
-	 * @param source
-	 *            字符串
-	 * @return
-	 */
-	public static byte[] string2ByteArray(String source) {
-
-		// 拆分后的字节数组
-		byte[] target = new byte[source.length()];
-		// 遍历字符串每一个字符
-		for (int index = 0, length = source.length(); index < length; index++) {
-
-			target[index] = Byte.valueOf(source.charAt(index) + "");
-		}
-
-		return target;
-	}
-
-	/**
-	 * 将十六进制字符串拆分为字节数组.<br>
-	 * 本方法为取出每一个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
-	 * 例如:字符A->字节10,而不是字符A->字节65(字符A的ASCII值是65)
-	 * 
-	 * @param source
-	 *            字符串
-	 * @return
-	 */
-	public static byte[] hexString2ByteArray(String source) {
-
-		// 拆分后的字节数组
-		byte[] target = new byte[source.length() / 2];
-		// 遍历字符串每两个字符
-		for (int index = 0; index < target.length; index++) {
-
-			// 获取值.使用短整型接,预防数值越界
-			short value = Short.valueOf(source.charAt(2 * index) + "" + source.charAt(2 * index + 1), 16);
-			// 强转为byte
-			target[index] = (byte) value;
-		}
 
 		return target;
 	}
@@ -207,6 +75,39 @@ public class ByteUtils {
 		default:
 			throw new ByteArrayLengthOutOfBoundsException();
 		}
+	}
+
+	/**
+	 * 将无符号字节(即8位均为数据的字节)转换为有符号的整型;
+	 * 
+	 * @param source
+	 *            无符号字节
+	 * @return
+	 */
+	public static int byte2Int(byte source) {
+
+		return (source & 0xff);
+	}
+
+	/**
+	 * 将整型拆分为长度为4的字节数组
+	 * 
+	 * @param source
+	 *            整型
+	 * @return
+	 */
+	public static byte[] int2ByteArray(int source) {
+
+		// 拆分后的字节数组
+		byte[] target = new byte[4];
+		// 遍历数组
+		for (int index = 1, length = target.length; index <= length; index++) {
+
+			// 数组的第(index-1)位,要向右移(length-index)*8字节
+			target[index - 1] = (byte) (source >> ((length - index) * 8));
+		}
+
+		return target;
 	}
 
 	/**
@@ -242,6 +143,39 @@ public class ByteUtils {
 		default:
 			throw new ByteArrayLengthOutOfBoundsException();
 		}
+	}
+
+	/**
+	 * 将无符号字节(即8位均为数据的字节)转换为有符号的长整型;
+	 * 
+	 * @param source
+	 *            无符号字节
+	 * @return
+	 */
+	public static long byte2Long(byte source) {
+
+		return (source & 0xff);
+	}
+
+	/**
+	 * 将长整型拆分为长度为8的字节数组
+	 * 
+	 * @param source
+	 *            长整型
+	 * @return
+	 */
+	public static byte[] long2ByteArray(long source) {
+
+		// 拆分后的字节数组
+		byte[] target = new byte[8];
+		// 遍历数组
+		for (int index = 1, length = target.length; index <= length; index++) {
+
+			// 数组的第(index-1)位,要向右移(length-index)字节
+			target[index - 1] = (byte) (source >> ((length - index) * 8));
+		}
+
+		return target;
 	}
 
 	/**
@@ -284,6 +218,27 @@ public class ByteUtils {
 	}
 
 	/**
+	 * BCD码转字节数组
+	 * 
+	 * @param source
+	 *            bcd码
+	 * @return
+	 */
+	public static byte[] bcd2ByteArray(byte[] source) {
+
+		// 转换后字节数组
+		byte[] target = new byte[source.length * 2];
+		// 遍历BCD码
+		for (int index = 0, length = source.length; index < length; index++) {
+
+			target[index * 2] = (byte) ((source[index] & 0xf0) >> 4);
+			target[index * 2 + 1] = (byte) (source[index] & 0x0f);
+		}
+
+		return target;
+	}
+
+	/**
 	 * 字节数组转BCD码,字节数组长度必须为2的倍数
 	 * 
 	 * @param source
@@ -313,37 +268,85 @@ public class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组合并为十进制字符串.<br>
+	 * 将单字符十六进制字符串拆分为字节数组.<br>
+	 * 本方法为取出每一个十六进制字符,将其直接转为byte,而非使用ASCII值进行转换<br>
+	 * 例如:字符A->字节10,而不是字符A->字节65(字符A的ASCII值是65)
+	 * 
+	 * @param source
+	 *            字符串
+	 * @return
+	 */
+	public static byte[] singleHexString2ByteArray(String source) {
+
+		// 拆分后的字节数组
+		byte[] target = new byte[source.length()];
+		// 遍历字符串每一个字符
+		for (int index = 0, length = source.length(); index < length; index++) {
+
+			target[index] = Byte.valueOf(source.charAt(index) + "", 16);
+		}
+
+		return target;
+	}
+
+	/**
+	 * 将字节数组合并为单字符十六进制字符串.<br>
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
-	 * 例如:字节49->字符49,而不是字节49->字符1(字符1的ASCII值是49)
+	 * 例如:字节65->字符65,而不是字节65->字符A(字符A的ASCII值是65)
 	 * 
 	 * @param source
 	 *            字节数组
 	 * @return
 	 */
-	public static String byteArray2String(byte[] source) {
+	public static String byteArray2SingleHexString(byte[] source) {
 
 		// 合并后的字符串
 		StringBuffer target = new StringBuffer(source.length);
 		// 遍历字节数组
 		for (int index = 0, length = source.length; index < length; index++) {
 
-			target.append(source[index]);
+			target.append(Integer.toHexString(ByteUtils.byte2Int(source[index])).toUpperCase());
 		}
 
 		return target.toString();
 	}
 
 	/**
-	 * 将字节数组合并为十六进制字符串.<br>
+	 * 将双字符十六进制字符串拆分为字节数组.<br>
+	 * 本方法为取出每两个字符,将其直接转为byte,而非使用ASCII值进行转换<br>
+	 * 例如:字符0A->字节10,而不是字符0A->字节65(字符A的ASCII值是65)<br>
+	 * 本方法与单字符的区别在于一个是两个字符代表一位字节,一个是一个字符代表一位字节.
+	 * 
+	 * @param source
+	 *            字符串
+	 * @return
+	 */
+	public static byte[] doubleHexString2ByteArray(String source) {
+
+		// 拆分后的字节数组
+		byte[] target = new byte[source.length() / 2];
+		// 遍历字符串每两个字符
+		for (int index = 0; index < target.length; index++) {
+
+			// 获取值.使用短整型接,预防数值越界
+			short value = Short.valueOf(source.charAt(2 * index) + "" + source.charAt(2 * index + 1), 16);
+			// 强转为byte
+			target[index] = (byte) value;
+		}
+
+		return target;
+	}
+
+	/**
+	 * 将字节数组合并为双字符十六进制字符串.<br>
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
-	 * 例如:字节10->字符A,而不是字节65->字符A(字符A的ASCII值是65)
+	 * 例如:字节65->字符65,而不是字节65->字符0A(字符0A的ASCII值是65)
 	 * 
 	 * @param source
 	 *            字节数组
 	 * @return
 	 */
-	public static String byteArray2HexString(byte[] source) {
+	public static String byteArray2DoubleHexString(byte[] source) {
 
 		// 合并后的字符串
 		StringBuffer target = new StringBuffer(source.length);
@@ -711,7 +714,8 @@ public class ByteUtils {
 	 */
 	public static void main(String[] args) {
 
-		byte[] a = new byte[] { (byte) 0xbf, 0x00 };
-		System.out.println(ByteUtils.byteArray2HexString(a));
+		byte[] temp = ByteUtils.singleHexString2ByteArray("FF");
+		System.out.println(Arrays.toString(temp));
+		System.out.println(ByteUtils.byteArray2SingleHexString(temp));
 	}
 }
