@@ -717,5 +717,7 @@ public class ByteUtils {
 		byte[] temp = ByteUtils.singleHexString2ByteArray("FF");
 		System.out.println(Arrays.toString(temp));
 		System.out.println(ByteUtils.byteArray2SingleHexString(temp));
+
+		System.out.println(ByteUtils.byteArray2Long(new byte[] { 0, 0, 0, 0, 0, -103, -128, -31 }));
 	}
 }
