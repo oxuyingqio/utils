@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * List工厂类
  * 
- * @author Administrator
+ * @author XuYQ
  *
  */
-public class ListFactory {
+public final class ListFactory {
 
 	/**
 	 * List类型
@@ -19,7 +19,15 @@ public class ListFactory {
 	 *
 	 */
 	public static enum ListType {
-		arrayList, linkedList
+
+		ARRAY_LIST, LINKED_LIST
+	}
+
+	/**
+	 * 私有构造方法
+	 */
+	private ListFactory() {
+
 	}
 
 	/**
@@ -27,8 +35,9 @@ public class ListFactory {
 	 * 
 	 * @return
 	 */
-	public static <T> List<T> newInstance() {
-		return new ArrayList<T>();
+	public static final <T> List<T> newInstance() {
+
+		return ListFactory.newInstance(ListType.ARRAY_LIST);
 	}
 
 	/**
@@ -36,13 +45,17 @@ public class ListFactory {
 	 * 
 	 * @return
 	 */
-	public static <T> List<T> newInstance(ListFactory.ListType listType) {
+	public static final <T> List<T> newInstance(ListFactory.ListType listType) {
+
 		switch (listType) {
-		case arrayList:
+		case ARRAY_LIST:
+
 			return new ArrayList<T>();
-		case linkedList:
+		case LINKED_LIST:
+
 			return new LinkedList<T>();
 		default:
+
 			return new ArrayList<T>();
 		}
 	}

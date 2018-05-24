@@ -3,24 +3,31 @@ package cn.xuyingqi.util.util;
 import java.math.BigDecimal;
 
 /**
- * 数学计算工具
+ * 数学工具类
  * 
  * @author XuYQ
  * 
  */
-public class MathUtils {
+public final class MathUtils {
+
+	/**
+	 * 私有构造方法
+	 */
+	private MathUtils() {
+
+	}
 
 	/**
 	 * 加法 d1+d2
 	 * 
-	 * @param d1
-	 * @param d2
+	 * @param i1
+	 * @param i2
 	 * @return
 	 */
-	public static Double add(Integer d1, Integer d2) {
+	public static final Double add(Integer i1, Integer i2) {
 
-		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
-		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
+		BigDecimal bd1 = new BigDecimal(i1 == null ? "0" : i1.toString());
+		BigDecimal bd2 = new BigDecimal(i2 == null ? "0" : i2.toString());
 
 		return bd1.add(bd2).doubleValue();
 	}
@@ -32,7 +39,7 @@ public class MathUtils {
 	 * @param d2
 	 * @return
 	 */
-	public static Double add(Double d1, Double d2) {
+	public static final Double add(Double d1, Double d2) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
@@ -47,7 +54,7 @@ public class MathUtils {
 	 * @param d2
 	 * @return
 	 */
-	public static Double sub(Double d1, Double d2) {
+	public static final Double sub(Double d1, Double d2) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
@@ -62,7 +69,7 @@ public class MathUtils {
 	 * @param d2
 	 * @return
 	 */
-	public static Double mul(Double d1, Double d2) {
+	public static final Double mul(Double d1, Double d2) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
@@ -79,7 +86,7 @@ public class MathUtils {
 	 *            精度
 	 * @return
 	 */
-	public static Double mul(Double d1, Double d2, int precision) {
+	public static final Double mul(Double d1, Double d2, int precision) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
@@ -94,7 +101,7 @@ public class MathUtils {
 	 * @param d2
 	 * @return
 	 */
-	public static Double div(Double d1, Double d2) {
+	public static final Double div(Double d1, Double d2) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
@@ -111,7 +118,7 @@ public class MathUtils {
 	 *            精度
 	 * @return
 	 */
-	public static Double div(Double d1, Double d2, int precision) {
+	public static final Double div(Double d1, Double d2, int precision) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());

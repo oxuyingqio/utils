@@ -6,17 +6,25 @@ import java.util.Set;
 /**
  * Set工厂类
  * 
- * @author Administrator
+ * @author XuYQ
  *
  */
-public class SetFactory {
+public final class SetFactory {
+
+	/**
+	 * 私有构造方法
+	 */
+	private SetFactory() {
+
+	}
 
 	/**
 	 * 获取一个新的Set对象,默认返回的HashSet
 	 * 
 	 * @return
 	 */
-	public static <T> Set<T> newInstance() {
+	public static final <T> Set<T> newInstance() {
+
 		return new HashSet<T>();
 	}
 }

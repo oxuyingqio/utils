@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.util;
+package cn.xuyingqi.util;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -7,13 +7,22 @@ import java.util.Set;
 
 import org.apache.commons.lang3.text.WordUtils;
 
+import cn.xuyingqi.util.util.SetFactory;
+
 /**
  * 类工具类
  * 
  * @author XuYQ
  *
  */
-public class ClassUtils {
+public final class ClassUtils {
+
+	/**
+	 * 私有构造方法
+	 */
+	private ClassUtils() {
+
+	}
 
 	/**
 	 * 获取类字段,及递归获取父类字段,忽略访问级别
@@ -21,18 +30,22 @@ public class ClassUtils {
 	 * @param clazz
 	 * @return
 	 */
-	public static Set<Field> getFieldSet(Class<?> clazz) {
+	public static final Set<Field> getFieldSet(Class<?> clazz) {
+
+		// 字段集合
 		Set<Field> fieldSet = SetFactory.newInstance();
 
 		// 查找本类字段
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i = 0, length = fields.length; i < length; i++) {
+
 			fieldSet.add(fields[i]);
 		}
 
 		// 递归调用查找父类字段
 		Class<?> claSuper = clazz.getSuperclass();
 		if (claSuper != null) {
+
 			fieldSet.addAll(getFieldSet(claSuper));
 		}
 
@@ -46,11 +59,14 @@ public class ClassUtils {
 	 * @param fieldName
 	 * @return
 	 */
-	public static Field getField(Class<?> clazz, String fieldName) {
+	public static final Field getField(Class<?> clazz, String fieldName) {
+
 		// 查找本类字段
 		Field[] fields = clazz.getDeclaredFields();
 		for (int i = 0; i < fields.length; i++) {
+
 			if (fieldName.equals(fields[i].getName())) {
+
 				return fields[i];
 			}
 		}
@@ -58,6 +74,7 @@ public class ClassUtils {
 		// 递归调用查找父类字段
 		Class<?> claSuper = clazz.getSuperclass();
 		if (claSuper != null) {
+
 			return getField(claSuper, fieldName);
 		}
 
@@ -72,8 +89,11 @@ public class ClassUtils {
 	 * @throws SecurityException
 	 * @throws NoSuchMethodException
 	 */
-	public static Method getSetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
+	public static final Method getSetMethod(Class<?> clazz, Field field)
+			throws NoSuchMethodException, SecurityException {
+
 		String setMethodName = "set" + WordUtils.capitalize(field.getName());
+
 		return clazz.getMethod(setMethodName, field.getType());
 	}
 
@@ -85,8 +105,11 @@ public class ClassUtils {
 	 * @throws SecurityException
 	 * @throws NoSuchMethodException
 	 */
-	public static Method getGetMethod(Class<?> clazz, Field field) throws NoSuchMethodException, SecurityException {
+	public static final Method getGetMethod(Class<?> clazz, Field field)
+			throws NoSuchMethodException, SecurityException {
+
 		String setMethodName = "get" + WordUtils.capitalize(field.getName());
+
 		return clazz.getMethod(setMethodName, field.getType());
 	}
 
@@ -102,28 +125,40 @@ public class ClassUtils {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static <T> void invokeSetMethod(T t, Field field, String value) throws NoSuchMethodException,
+	public static final <T> void invokeSetMethod(T t, Field field, String value) throws NoSuchMethodException,
 			SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+
 		// 获取set方法
 		Method setMethod = getSetMethod(t.getClass(), field);
+
 		if (setMethod != null) {
+
 			if (field.getType() == byte.class || field.getType() == Byte.class) {
+
 				setMethod.invoke(t, Byte.valueOf(value));
 			} else if (field.getType() == short.class || field.getType() == Short.class) {
+
 				setMethod.invoke(t, Short.valueOf(value));
 			} else if (field.getType() == int.class || field.getType() == Integer.class) {
+
 				setMethod.invoke(t, Integer.valueOf(value));
 			} else if (field.getType() == long.class || field.getType() == Long.class) {
+
 				setMethod.invoke(t, Long.valueOf(value));
 			} else if (field.getType() == float.class || field.getType() == Float.class) {
+
 				setMethod.invoke(t, Float.valueOf(value));
 			} else if (field.getType() == double.class || field.getType() == Double.class) {
+
 				setMethod.invoke(t, Double.valueOf(value));
 			} else if (field.getType() == char.class || field.getType() == Character.class) {
+
 				setMethod.invoke(t, value.toCharArray()[0]);
 			} else if (field.getType() == boolean.class || field.getType() == Boolean.class) {
+
 				setMethod.invoke(t, Boolean.valueOf(value));
 			} else if (field.getType() == String.class) {
+
 				setMethod.invoke(t, value);
 			}
 		}

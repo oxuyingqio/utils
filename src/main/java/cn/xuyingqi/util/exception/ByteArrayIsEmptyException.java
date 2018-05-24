@@ -1,9 +1,14 @@
 package cn.xuyingqi.util.exception;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+import cn.xuyingqi.util.util.ByteUtils;
+
 /**
  * 字节数组为空
  * 
- * @author Administrator
+ * @author XuYQ
  *
  */
 public class ByteArrayIsEmptyException extends RuntimeException {
@@ -13,24 +18,34 @@ public class ByteArrayIsEmptyException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * 异常描述
+	 */
+	private static String MSG = null;
+
+	static {
+
+		// 获取国际化文件
+		ResourceBundle rb = ResourceBundle.getBundle("net.newcapec.gas.util.i18n.message", Locale.getDefault());
+		// 获取异常描述
+		MSG = rb.getString("ByteArrayIsEmptyException");
+	}
+
+	/**
+	 * 字节数组为空
+	 */
 	public ByteArrayIsEmptyException() {
-		super();
+
+		super(MSG);
 	}
 
-	public ByteArrayIsEmptyException(String message) {
-		super(message);
-	}
+	/**
+	 * Main函数测试
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
 
-	public ByteArrayIsEmptyException(String message, Throwable cause) {
-		super(message, cause);
-	}
-
-	public ByteArrayIsEmptyException(Throwable cause) {
-		super(cause);
-	}
-
-	protected ByteArrayIsEmptyException(String message, Throwable cause, boolean enableSuppression,
-			boolean writableStackTrace) {
-		super(message, cause, enableSuppression, writableStackTrace);
+		System.out.println(ByteUtils.byteArray2Short(new byte[] {}));
 	}
 }

@@ -5,22 +5,27 @@ import java.io.UnsupportedEncodingException;
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
-import cn.xuyingqi.util.exception.IndexOutOfBoundsException;
 
 /**
  * 字节工具类<br>
  * <br>
  * 1.byte 1字节8位; short 2字节16位; int 4字节32位; long 8字节64位;<br>
  * 2.byte,short,int,long均为有符号数据,即第一位均为符号位.<br>
- * <br>
- * 3.&(与)操作.若两位均为1,则结果为1;任意值与上1都为它本身.<br>
- * 4.|(或)操作.若两位有一位为1,则结果为1;任意值或上0都为它本身.<br>
- * 5.^(异或)操作.若两位不同则为1,相同则为0.<br>
+ * 3.&(与)操作. 若两位均为1,则结果为1; 任意值与上1都为它本身.<br>
+ * 4.|(或)操作. 若两位有一位为1,则结果为1; 任意值或上0都为它本身.<br>
+ * 5.^(异或)操作. 若两位不同则为1,相同则为0.<br>
  * 
  * @author XuYQ
  *
  */
-public class ByteUtils {
+public final class ByteUtils {
+
+	/**
+	 * 私有构造方法
+	 */
+	private ByteUtils() {
+
+	}
 
 	/**
 	 * 将无符号字节(即8位均为数据的字节)转换为有符号的短整型;<br>
@@ -33,7 +38,7 @@ public class ByteUtils {
 	 *            无符号字节
 	 * @return
 	 */
-	public static short byte2Short(byte source) {
+	public static final short byte2Short(byte source) {
 
 		return (short) (source & 0xff);
 	}
@@ -45,7 +50,7 @@ public class ByteUtils {
 	 *            短整型
 	 * @return
 	 */
-	public static byte[] short2ByteArray(short source) {
+	public static final byte[] short2ByteArray(short source) {
 
 		// 拆分后的字节数组
 		byte[] target = new byte[2];
@@ -63,7 +68,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static short byteArray2Short(byte[] source) {
+	public static final short byteArray2Short(byte[] source) {
 
 		switch (source.length) {
 		case 0:
@@ -84,7 +89,7 @@ public class ByteUtils {
 	 *            无符号字节
 	 * @return
 	 */
-	public static int byte2Int(byte source) {
+	public static final int byte2Int(byte source) {
 
 		return (source & 0xff);
 	}
@@ -96,7 +101,7 @@ public class ByteUtils {
 	 *            整型
 	 * @return
 	 */
-	public static byte[] int2ByteArray(int source) {
+	public static final byte[] int2ByteArray(int source) {
 
 		// 拆分后的字节数组
 		byte[] target = new byte[4];
@@ -117,7 +122,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static int byteArray2Int(byte[] source) {
+	public static final int byteArray2Int(byte[] source) {
 
 		// 字节数组的长度
 		int length = source.length;
@@ -152,7 +157,7 @@ public class ByteUtils {
 	 *            无符号字节
 	 * @return
 	 */
-	public static long byte2Long(byte source) {
+	public static final long byte2Long(byte source) {
 
 		return (source & 0xff);
 	}
@@ -164,7 +169,7 @@ public class ByteUtils {
 	 *            长整型
 	 * @return
 	 */
-	public static byte[] long2ByteArray(long source) {
+	public static final byte[] long2ByteArray(long source) {
 
 		// 拆分后的字节数组
 		byte[] target = new byte[8];
@@ -185,7 +190,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static long byteArray2Long(byte[] source) {
+	public static final long byteArray2Long(byte[] source) {
 
 		// 字节数组的长度
 		int length = source.length;
@@ -224,7 +229,7 @@ public class ByteUtils {
 	 *            bcd码
 	 * @return
 	 */
-	public static byte[] bcd2ByteArray(byte[] source) {
+	public static final byte[] bcd2ByteArray(byte[] source) {
 
 		// 转换后字节数组
 		byte[] target = new byte[source.length * 2];
@@ -245,7 +250,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static byte[] byteArray2BCD(byte[] source) {
+	public static final byte[] byteArray2BCD(byte[] source) {
 
 		// 字节数组长度
 		int sourceLength = source.length;
@@ -276,7 +281,7 @@ public class ByteUtils {
 	 *            字符串
 	 * @return
 	 */
-	public static byte[] singleHexString2ByteArray(String source) {
+	public static final byte[] singleHexString2ByteArray(String source) {
 
 		// 拆分后的字节数组
 		byte[] target = new byte[source.length()];
@@ -298,7 +303,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static String byteArray2SingleHexString(byte[] source) {
+	public static final String byteArray2SingleHexString(byte[] source) {
 
 		// 合并后的字符串
 		StringBuffer target = new StringBuffer(source.length);
@@ -321,7 +326,7 @@ public class ByteUtils {
 	 *            字符串
 	 * @return
 	 */
-	public static byte[] doubleHexString2ByteArray(String source) {
+	public static final byte[] doubleHexString2ByteArray(String source) {
 
 		// 拆分后的字节数组
 		byte[] target = new byte[source.length() / 2];
@@ -346,7 +351,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static String byteArray2DoubleHexString(byte[] source) {
+	public static final String byteArray2DoubleHexString(byte[] source) {
 
 		// 合并后的字符串
 		StringBuffer target = new StringBuffer(source.length);
@@ -373,7 +378,7 @@ public class ByteUtils {
 	 *            字节数组
 	 * @return
 	 */
-	public static byte[] reverse(byte[] source) {
+	public static final byte[] reverse(byte[] source) {
 
 		// 反转后的字节数组
 		byte[] target = new byte[source.length];
@@ -405,7 +410,7 @@ public class ByteUtils {
 	 *            字节2
 	 * @return
 	 */
-	public static byte xor(byte source1, byte source2) {
+	public static final byte xor(byte source1, byte source2) {
 
 		return (byte) (source1 ^ source2);
 	}
@@ -419,7 +424,7 @@ public class ByteUtils {
 	 *            字节数组2
 	 * @return
 	 */
-	public static byte[] xor(byte[] source1, byte[] source2) {
+	public static final byte[] xor(byte[] source1, byte[] source2) {
 
 		// 长度不一致,则抛出异常
 		if (source1.length != source2.length) {
@@ -448,7 +453,7 @@ public class ByteUtils {
 	 *            查找的字节数组
 	 * @return
 	 */
-	public static int indexOf(byte[] source, byte[] target) {
+	public static final int indexOf(byte[] source, byte[] target) {
 
 		return indexOf(source, target, 0);
 	}
@@ -464,7 +469,7 @@ public class ByteUtils {
 	 *            待查找的字节数组的起始位置
 	 * @return
 	 */
-	public static int indexOf(byte[] source, byte[] target, int fromIndex) {
+	public static final int indexOf(byte[] source, byte[] target, int fromIndex) {
 
 		return indexOf(source, 0, source.length, target, 0, target.length, fromIndex);
 	}
@@ -488,7 +493,7 @@ public class ByteUtils {
 	 *            查找的起始位置
 	 * @return
 	 */
-	public static int indexOf(byte[] source, int sourceOffset, int sourceCount, byte[] target, int targetOffset,
+	public static final int indexOf(byte[] source, int sourceOffset, int sourceCount, byte[] target, int targetOffset,
 			int targetCount, int fromIndex) {
 
 		if (fromIndex >= sourceCount) {
@@ -538,7 +543,7 @@ public class ByteUtils {
 	 * @param index
 	 * @return
 	 */
-	public static byte bitAt(byte data, int index) {
+	public static final byte bitAt(byte data, int index) {
 
 		if (index >= 8) {
 
@@ -555,7 +560,7 @@ public class ByteUtils {
 	 * @param index
 	 * @return
 	 */
-	public static byte bitAt(short data, int index) {
+	public static final byte bitAt(short data, int index) {
 
 		if (index >= 16) {
 
@@ -572,7 +577,7 @@ public class ByteUtils {
 	 * @param index
 	 * @return
 	 */
-	public static byte bitAt(int data, int index) {
+	public static final byte bitAt(int data, int index) {
 
 		if (index >= 32) {
 
@@ -589,7 +594,7 @@ public class ByteUtils {
 	 * @param index
 	 * @return
 	 */
-	public static byte bitAt(long data, int index) {
+	public static final byte bitAt(long data, int index) {
 
 		if (index >= 64) {
 
@@ -610,7 +615,7 @@ public class ByteUtils {
 	 *            值,true为1,false为0
 	 * @return
 	 */
-	public static byte setBit(byte data, int index, boolean value) {
+	public static final byte setBit(byte data, int index, boolean value) {
 
 		if (index <= 0 || index >= 8) {
 
@@ -637,7 +642,7 @@ public class ByteUtils {
 	 *            值,true为1,false为0
 	 * @return
 	 */
-	public static short setBit(short data, int index, boolean value) {
+	public static final short setBit(short data, int index, boolean value) {
 
 		if (index <= 0 || index >= 16) {
 
@@ -664,7 +669,7 @@ public class ByteUtils {
 	 *            值,true为1,false为0
 	 * @return
 	 */
-	public static int setBit(int data, int index, boolean value) {
+	public static final int setBit(int data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
 
@@ -691,7 +696,7 @@ public class ByteUtils {
 	 *            值,true为1,false为0
 	 * @return
 	 */
-	public static long setBit(long data, int index, boolean value) {
+	public static final long setBit(long data, int index, boolean value) {
 
 		if (index <= 0 || index > 7) {
 

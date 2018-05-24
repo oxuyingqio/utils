@@ -91,11 +91,11 @@ public class FileUtils {
 	public static List<File> sortFileArray(File[] sources, FileUtils.Order order) {
 
 		// 文件列表
-		List<File> files = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		List<File> files = ListFactory.newInstance(ListFactory.ListType.LINKED_LIST);
 		// 文件夹列表
-		List<File> folders = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		List<File> folders = ListFactory.newInstance(ListFactory.ListType.LINKED_LIST);
 		// 返回列表
-		List<File> target = ListFactory.newInstance(ListFactory.ListType.linkedList);
+		List<File> target = ListFactory.newInstance(ListFactory.ListType.LINKED_LIST);
 
 		// 遍历资源文件集合
 		int i = 0;
