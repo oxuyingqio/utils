@@ -14,94 +14,23 @@ public class XiaYing {
 	 */
 	private Integer id;
 	/**
-	 * 情缘ID
+	 * 名称
 	 */
-	private Integer[] qingYuanIdS = null;
+	private String name;
+	/**
+	 * 品质
+	 */
+	private Quality quality;
+	/**
+	 * 联系ID
+	 */
+	private Integer[] contactIdS = null;
 
 	/**
 	 * 
 	 * @param id
 	 */
 	public XiaYing(Integer id) {
-
-		this.id = id;
-
-		if (this.id == 1) {
-
-			this.qingYuanIdS = new Integer[] { 4, 16, 3, 5 };
-		} else if (this.id == 2) {
-
-			this.qingYuanIdS = new Integer[] { 16, 18, 4, 6 };
-		} else if (this.id == 3) {
-
-			this.qingYuanIdS = new Integer[] { 14, 4, 1, 2 };
-		} else if (this.id == 4) {
-
-			this.qingYuanIdS = new Integer[] { 1, 14, 17, 3 };
-		} else if (this.id == 5) {
-
-			this.qingYuanIdS = new Integer[] { 2, 12, 1, 24 };
-		} else if (this.id == 6) {
-
-			this.qingYuanIdS = new Integer[] { 2, 11, 21, 8 };
-		} else if (this.id == 7) {
-
-			this.qingYuanIdS = new Integer[] { 1, 2, 4, 18 };
-		} else if (this.id == 8) {
-
-			this.qingYuanIdS = new Integer[] { 1, 18, 22, 21 };
-		} else if (this.id == 9) {
-
-			this.qingYuanIdS = new Integer[] { 18, 2, 10, 7 };
-		} else if (this.id == 10) {
-
-			this.qingYuanIdS = new Integer[] { 22, 18, 9, 25 };
-		} else if (this.id == 11) {
-
-			this.qingYuanIdS = new Integer[] { 6, 25, 3, 21 };
-		} else if (this.id == 12) {
-
-			this.qingYuanIdS = new Integer[] { 20, 13, 17, 5 };
-		} else if (this.id == 13) {
-
-			this.qingYuanIdS = new Integer[] { 12, 15, 4, 17 };
-		} else if (this.id == 14) {
-
-			this.qingYuanIdS = new Integer[] { 15, 3, 4, 19 };
-		} else if (this.id == 15) {
-
-			this.qingYuanIdS = new Integer[] { 19, 16, 13, 14 };
-		} else if (this.id == 16) {
-
-			this.qingYuanIdS = new Integer[] { 15, 17, 1, 14 };
-		} else if (this.id == 17) {
-
-			this.qingYuanIdS = new Integer[] { 13, 16, 20, 4 };
-		} else if (this.id == 18) {
-
-			this.qingYuanIdS = new Integer[] { 1, 2, 3, 9 };
-		} else if (this.id == 19) {
-
-			this.qingYuanIdS = new Integer[] { 16, 3, 23, 4 };
-		} else if (this.id == 20) {
-
-			this.qingYuanIdS = new Integer[] { 12, 13, 17, 18 };
-		} else if (this.id == 21) {
-
-			this.qingYuanIdS = new Integer[] { 17, 6, 25, 8 };
-		} else if (this.id == 22) {
-
-			this.qingYuanIdS = new Integer[] { 16, 3, 14, 8 };
-		} else if (this.id == 23) {
-
-			this.qingYuanIdS = new Integer[] { 14, 15, 19, 3 };
-		} else if (this.id == 24) {
-
-			this.qingYuanIdS = new Integer[] { 5, 1, 12, 23 };
-		} else if (this.id == 25) {
-
-			this.qingYuanIdS = new Integer[] { 21, 6, 18, 11 };
-		}
 
 		// TXY 1 [4,16,3,5]
 		// ZWS 2 [16,18,4,6]
@@ -128,6 +57,136 @@ public class XiaYing {
 		// ZF 23 [14,15,19,3]
 		// LYM 24 [5,1,12,23]
 		// LZX 25 [21,6,18,11]
+
+		this.id = id;
+
+		switch (this.id) {
+		case 1:
+			this.name = "佟湘玉";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 4, 16, 3, 5 };
+			break;
+		case 2:
+			this.name = "祝无双";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 16, 18, 4, 6 };
+			break;
+		case 3:
+			this.name = "郭芙蓉";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 14, 4, 1, 2 };
+			break;
+		case 4:
+			this.name = "吕轻侯";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 1, 14, 17, 3 };
+			break;
+		case 5:
+			this.name = "莫小贝";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 2, 12, 1, 24 };
+			break;
+		case 6:
+			this.name = "燕小六";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 2, 11, 21, 8 };
+			break;
+		case 7:
+			this.name = "南宫残花";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 1, 2, 4, 18 };
+			break;
+		case 8:
+			this.name = "小米";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 1, 18, 22, 21 };
+			break;
+		case 9:
+			this.name = "杨惠兰";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 18, 2, 10, 7 };
+			break;
+		case 10:
+			this.name = "洪大师";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 22, 18, 9, 25 };
+			break;
+		case 11:
+			this.name = "一二三";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 6, 25, 3, 21 };
+			break;
+		case 12:
+			this.name = "岳松涛";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 20, 13, 17, 5 };
+			break;
+		case 13:
+			this.name = "公孙乌龙";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 12, 15, 4, 17 };
+			break;
+		case 14:
+			this.name = "郭巨侠";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 15, 3, 4, 19 };
+			break;
+		case 15:
+			this.name = "白三娘";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 19, 16, 13, 14 };
+			break;
+		case 16:
+			this.name = "白展堂";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 15, 17, 1, 14 };
+			break;
+		case 17:
+			this.name = "姬无命";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 13, 16, 20, 4 };
+			break;
+		case 18:
+			this.name = "李秀莲";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 1, 2, 3, 9 };
+			break;
+		case 19:
+			this.name = "展红绫";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 16, 3, 23, 4 };
+			break;
+		case 20:
+			this.name = "上官云顿";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 12, 13, 17, 18 };
+			break;
+		case 21:
+			this.name = "邢玉森";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 17, 6, 25, 8 };
+			break;
+		case 22:
+			this.name = "恭长老";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 16, 3, 14, 8 };
+			break;
+		case 23:
+			this.name = "追风";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 14, 15, 19, 3 };
+			break;
+		case 24:
+			this.name = "路一鸣";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 5, 1, 12, 23 };
+			break;
+		case 25:
+			this.name = "娄知县";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 21, 6, 18, 11 };
+			break;
+		}
 	}
 
 	/**
@@ -140,13 +199,76 @@ public class XiaYing {
 		return this.id;
 	}
 
+	/**
+	 * 获取名称
+	 * 
+	 * @return
+	 */
+	public String getName() {
+
+		return this.name;
+	}
+
+	/**
+	 * 获取品质
+	 * 
+	 * @return
+	 */
+	public Quality getQuality() {
+
+		return this.quality;
+	}
+
+	/**
+	 * 是否相同
+	 * 
+	 * @param xy
+	 * @return
+	 */
 	public boolean equals(XiaYing xy) {
 
 		return this.getId().equals(xy.getId());
 	}
 
-	public boolean isQingYuan(XiaYing xy) {
+	/**
+	 * 是否有联系
+	 * 
+	 * @param xy
+	 * @return
+	 */
+	public boolean hadContact(XiaYing xy) {
 
-		return Arrays.asList(this.qingYuanIdS).contains(xy.getId());
+		return Arrays.asList(this.contactIdS).contains(xy.getId());
+	}
+
+	/**
+	 * 品质
+	 * 
+	 * @author XuYQ
+	 *
+	 */
+	public enum Quality {
+
+		GREEN("绿卡"), BLUE("蓝卡"), PURPLE("紫卡"), YELLOW("金卡");
+
+		/**
+		 * 描述
+		 */
+		private String desc;
+
+		/**
+		 * 描述
+		 * 
+		 * @param desc
+		 */
+		private Quality(String desc) {
+
+			this.desc = desc;
+		}
+
+		public String getDesc() {
+
+			return this.desc;
+		}
 	}
 }
