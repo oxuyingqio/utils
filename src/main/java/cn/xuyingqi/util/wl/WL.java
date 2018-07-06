@@ -25,9 +25,9 @@ public class WL {
 								ShangZhen sz = new ShangZhen(a1, a2, a3, a4, a5, a6);
 
 								// 是否合法,情缘个数
-								if (sz.isLegal() && sz.contacts() == 17
-//										&& (sz.quality(Quality.YELLOW) + sz.quality(Quality.PURPLE)) >= 5
-										&& sz.quality(Quality.YELLOW)==0&&  sz.quality(Quality.PURPLE) >= 4
+								if (sz.isLegal() && sz.contacts() == 16
+										&& (sz.quality(Quality.YELLOW) + sz.quality(Quality.PURPLE)) >= 5
+//										&& sz.quality(Quality.YELLOW)==0&&  sz.quality(Quality.PURPLE) >= 4
 										) {
 
 									System.out.println("【情缘数：" + sz.contacts() + "】   " + sz);
