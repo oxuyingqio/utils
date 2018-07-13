@@ -51,12 +51,40 @@ public class ShangZhen {
 			return false;
 		}
 
+//		// 1.佟湘玉不合法
+//		if (this.xy1.getId() == 1 || this.xy2.getId() == 1 || this.xy3.getId() == 1 || this.xy4.getId() == 1
+//				|| this.xy5.getId() == 1 || this.xy6.getId() == 1) {
+//
+//			return false;
+//		}
+
+		// 14.郭巨侠不合法
+		if (this.xy1.getId() == 14 || this.xy2.getId() == 14 || this.xy3.getId() == 14 || this.xy4.getId() == 14
+				|| this.xy5.getId() == 14 || this.xy6.getId() == 14) {
+
+			return false;
+		}
+		
+		// 15.白三娘不合法
+		if (this.xy1.getId() == 15 || this.xy2.getId() == 15 || this.xy3.getId() == 15 || this.xy4.getId() == 15
+				|| this.xy5.getId() == 15 || this.xy6.getId() == 15) {
+
+			return false;
+		}
+		
 		// 16.白展堂不合法
 		if (this.xy1.getId() == 16 || this.xy2.getId() == 16 || this.xy3.getId() == 16 || this.xy4.getId() == 16
 				|| this.xy5.getId() == 16 || this.xy6.getId() == 16) {
 
 			return false;
 		}
+		
+//		// 18.李秀莲不合法
+//		if (this.xy1.getId() == 18 || this.xy2.getId() == 18 || this.xy3.getId() == 18 || this.xy4.getId() == 18
+//				|| this.xy5.getId() == 18 || this.xy6.getId() == 18) {
+//
+//			return false;
+//		}
 
 		return true;
 	}

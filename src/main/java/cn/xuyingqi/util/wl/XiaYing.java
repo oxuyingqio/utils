@@ -58,6 +58,11 @@ public class XiaYing {
 		// LYM 24 [5,1,12,23]
 		// LZX 25 [21,6,18,11]
 
+		// PGYDH 26 [14,16,4,27]
+		// ZT 27 [2,26,1,17]
+		// ML 28 [29,3,19,25]
+		// DZ 29 [28,2,7,8]
+
 		this.id = id;
 
 		switch (this.id) {
@@ -185,6 +190,27 @@ public class XiaYing {
 			this.name = "娄知县";
 			this.quality = Quality.GREEN;
 			this.contactIdS = new Integer[] { 21, 6, 18, 11 };
+			break;
+
+		case 26:
+			this.name = "平谷一点红";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 14, 16, 4, 27 };
+			break;
+		case 27:
+			this.name = "展堂";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 2, 26, 1, 17 };
+			break;
+		case 28:
+			this.name = "美丽";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 29, 3, 19, 25 };
+			break;
+		case 29:
+			this.name = "打折";
+			this.quality = Quality.GREEN;
+			this.contactIdS = new Integer[] { 28, 2, 7, 8 };
 			break;
 		}
 	}

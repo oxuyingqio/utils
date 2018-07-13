@@ -7,7 +7,7 @@ public class WL {
 	public static void main(String[] args) {
 
 		// 总个数
-		int size = 25;
+		int size = 29;
 
 		for (int a1 = 1; a1 <= size - 5; a1++) {
 
@@ -25,8 +25,9 @@ public class WL {
 								ShangZhen sz = new ShangZhen(a1, a2, a3, a4, a5, a6);
 
 								// 是否合法,情缘个数
-								if (sz.isLegal() && sz.contacts() == 16
-										&& (sz.quality(Quality.YELLOW) + sz.quality(Quality.PURPLE)) >= 5
+								if (sz.isLegal() && sz.contacts() ==16
+										&& sz.quality(Quality.GREEN)==0
+//										&& (sz.quality(Quality.YELLOW) + sz.quality(Quality.PURPLE)) >= 5
 //										&& sz.quality(Quality.YELLOW)==0&&  sz.quality(Quality.PURPLE) >= 4
 										) {
 
