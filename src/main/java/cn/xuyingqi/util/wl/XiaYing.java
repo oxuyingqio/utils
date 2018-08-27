@@ -32,36 +32,48 @@ public class XiaYing {
 	 */
 	public XiaYing(Integer id) {
 
-		// TXY 1 [4,16,3,5]
-		// ZWS 2 [16,18,4,6]
-		// GFR 3 [14,4,1,2]
-		// LQH 4 [1,14,17,3]
-		// MXB 5 [2,12,1,24]
-		// YXL 6 [2,11,21,8]
-		// NGCH 7 [1,2,4,18]
-		// XM 8 [1,18,22,21]
-		// YHL 9 [18,2,10,7]
-		// HDS 10 [22,18,9,25]
-		// YES 11 [6,25,3,21]
-		// YST 12 [20,13,17,5]
-		// GSWL 13 [12,15,4,17]
-		// GJX 14 [15,3,4,19]
-		// BSN 15 [19,16,13,14]
-		// BZT 16 [15,17,1,14]
-		// JWM 17 [13,16,20,4]
-		// LXL 18 [1,2,3,9]
-		// ZHL 19 [16,3,23,4]
-		// SGYD 20 [12,13,17,18]
-		// XYS 21 [17,6,25,8]
-		// GZL 22 [16,3,14,8]
-		// ZF 23 [14,15,19,3]
-		// LYM 24 [5,1,12,23]
-		// LZX 25 [21,6,18,11]
+		// 佟湘玉 1 [4,16,3,5]
+		// 祝无双 2 [16,18,4,6]
+		// 郭芙蓉 3 [14,4,1,2]
+		// 吕轻侯 4 [1,14,17,3]
+		// 莫小贝 5 [2,12,1,24]
+		// 燕小六 6 [2,11,21,8]
+		// 南宫残花 7 [1,2,4,18]
+		// 小米 8 [1,18,22,21]
+		// 杨惠兰 9 [18,2,10,7]
+		// 洪大师 10 [22,18,9,25]
+		// 一二三 11 [6,25,3,21]
+		// 岳松涛 12 [20,13,17,5]
+		// 公孙乌龙 13 [12,15,4,17]
+		// 郭巨侠 14 [15,3,4,19]
+		// 白三娘 15 [19,16,13,14]
+		// 白展堂 16 [15,17,1,14]
+		// 姬无命 17 [13,16,20,4]
+		// 李秀莲 18 [1,2,3,9]
+		// 展红绫 19 [16,3,23,4]
+		// 上官云顿 20 [12,13,17,18]
+		// 邢玉森 21 [17,6,25,8]
+		// 恭长老 22 [16,3,14,8]
+		// 追风 23 [14,15,19,3]
+		// 路一鸣 24 [5,1,12,23]
+		// 娄知县 25 [21,6,18,11]
 
-		// PGYDH 26 [14,16,4,27]
-		// ZT 27 [2,26,1,17]
-		// ML 28 [29,3,19,25]
-		// DZ 29 [28,2,7,8]
+		// 平谷一点红 26 [14,16,4,27]
+		// 展堂 27 [2,26,1,17]
+		// 美丽 28 [29,3,19,25]
+		// 打折 29 [28,2,7,8]
+
+		// 凌腾云 30 [31,26,27,34]
+		// 莫小宝 31 [30,27,38,36]
+		// 断指轩辕 32 [33,18,13,35]
+		// 佟伯达 33 [32,1,17,37]
+
+		// 金长老 34 [36,30,26,38]
+		// 姬无病 35 [37,17,16,32]
+		// 银长老 36 [34,31,27,28]
+		// 姬无力 37 [35,17,18,33]
+
+		// 祝小云 38 [31,29,24,5]
 
 		this.id = id;
 
@@ -199,18 +211,66 @@ public class XiaYing {
 			break;
 		case 27:
 			this.name = "展堂";
-			this.quality = Quality.GREEN;
+			this.quality = Quality.PURPLE;
 			this.contactIdS = new Integer[] { 2, 26, 1, 17 };
 			break;
 		case 28:
 			this.name = "美丽";
-			this.quality = Quality.GREEN;
+			this.quality = Quality.BLUE;
 			this.contactIdS = new Integer[] { 29, 3, 19, 25 };
 			break;
 		case 29:
 			this.name = "打折";
-			this.quality = Quality.GREEN;
+			this.quality = Quality.BLUE;
 			this.contactIdS = new Integer[] { 28, 2, 7, 8 };
+			break;
+
+		case 30:
+			this.name = "凌腾云";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 31, 26, 27, 34 };
+			break;
+		case 31:
+			this.name = "莫小宝";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 30, 27, 38, 36 };
+			break;
+		case 32:
+			this.name = "断指轩辕";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 33, 18, 13, 35 };
+			break;
+		case 33:
+			this.name = "佟伯达";
+			this.quality = Quality.YELLOW;
+			this.contactIdS = new Integer[] { 32, 1, 17, 37 };
+			break;
+
+		case 34:
+			this.name = "金长老";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 36, 30, 26, 38 };
+			break;
+		case 35:
+			this.name = "姬无病";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 37, 17, 16, 32 };
+			break;
+		case 36:
+			this.name = "银长老";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 34, 31, 27, 28 };
+			break;
+		case 37:
+			this.name = "姬无力";
+			this.quality = Quality.PURPLE;
+			this.contactIdS = new Integer[] { 35, 17, 18, 33 };
+			break;
+
+		case 38:
+			this.name = "祝小云";
+			this.quality = Quality.BLUE;
+			this.contactIdS = new Integer[] { 31, 29, 24, 5 };
 			break;
 		}
 	}
