@@ -1,7 +1,5 @@
 package cn.xuyingqi.util.util;
 
-import java.io.UnsupportedEncodingException;
-
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
 import cn.xuyingqi.util.exception.ByteArrayLengthOutOfBoundsException;
@@ -719,23 +717,5 @@ public final class ByteUtils {
 	 */
 	public static void main(String[] args) {
 
-		byte[] a = new byte[] { 0x38, 0x36, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0,
-				(byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0, (byte) 0xD0,
-				0x00, 0x00, 0x00, 0x00, 0x00 };
-		try {
-
-			System.out.println(a.length);
-			System.out.println(new String(a, "gbk"));
-		} catch (UnsupportedEncodingException e) {
-
-			e.printStackTrace();
-		}
-
-		// byte[] temp = ByteUtils.singleHexString2ByteArray("FF");
-		// System.out.println(Arrays.toString(temp));
-		// System.out.println(ByteUtils.byteArray2SingleHexString(temp));
-		//
-		// System.out.println(ByteUtils.byteArray2Long(new byte[] { 0, 0, 0, 0,
-		// 0, -103, -128, -31 }));
 	}
 }
