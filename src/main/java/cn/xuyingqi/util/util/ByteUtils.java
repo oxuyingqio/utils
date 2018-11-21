@@ -717,5 +717,8 @@ public final class ByteUtils {
 	 */
 	public static void main(String[] args) {
 
+		byte[] a = new byte[] { (byte) 0xFF };
+		System.out.println(a[0]);
+		System.out.println(0xff);
 	}
 }
