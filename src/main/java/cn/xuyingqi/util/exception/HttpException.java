@@ -1,7 +1,7 @@
 package cn.xuyingqi.util.exception;
 
 /**
- * Http请求异常
+ * HTTP异常
  * 
  * @author XuYQ
  *
@@ -14,7 +14,9 @@ public class HttpException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Http请求异常
+	 * HTTP异常
+	 * 
+	 * @param msg
 	 */
 	public HttpException(String msg) {
 

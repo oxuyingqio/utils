@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.util;
+package cn.xuyingqi.util;
 
 import java.math.BigDecimal;
 
@@ -101,6 +101,7 @@ public final class MathUtils {
 	 * @param d2
 	 * @return
 	 */
+	@Deprecated
 	public static final Double div(Double d1, Double d2) {
 
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
@@ -123,6 +124,16 @@ public final class MathUtils {
 		BigDecimal bd1 = new BigDecimal(d1 == null ? "0" : d1.toString());
 		BigDecimal bd2 = new BigDecimal(d2 == null ? "0" : d2.toString());
 
-		return bd1.divide(bd2).setScale(precision, BigDecimal.ROUND_HALF_UP).doubleValue();
+		return bd1.divide(bd2, precision, BigDecimal.ROUND_HALF_UP).doubleValue();
+	}
+
+	/**
+	 * Main函数测试
+	 * 
+	 * @param args
+	 */
+	public static void main(String[] args) {
+
+		System.out.println(MathUtils.div(1d, 4d, 2));
 	}
 }

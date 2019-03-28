@@ -108,6 +108,6 @@ public final class UUIDUtils {
 	 */
 	public static void main(String[] args) {
 
-		System.out.println(UUIDUtils.get4UUID());
+		System.out.println(UUID.randomUUID().toString());
 	}
 }

@@ -1,4 +1,10 @@
-package cn.xuyingqi.util.util;
+package cn.xuyingqi.util;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Date;
 
 import cn.xuyingqi.util.exception.ByteArrayIsEmptyException;
 import cn.xuyingqi.util.exception.ByteArrayLengthErrorException;
@@ -293,7 +299,7 @@ public final class ByteUtils {
 	}
 
 	/**
-	 * 将字节数组合并为单字符十六进制字符串.<br>
+	 * 将字节数组合并为单字符十六进制字符串.(单字节不能超过16)<br>
 	 * 本方法为取出每一位字节,直接作为字符处理,而不是作为ASCII值<br>
 	 * 例如:字节65->字符65,而不是字节65->字符A(字符A的ASCII值是65)
 	 * 
@@ -669,17 +675,17 @@ public final class ByteUtils {
 	 */
 	public static final int setBit(int data, int index, boolean value) {
 
-		if (index <= 0 || index > 7) {
+		if (index <= 0 || index >= 32) {
 
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
 
-			return (byte) (data | (1 << (32 - index)));
+			return (int) (data | (1 << (32 - index)));
 		} else {
 
-			return (byte) (data & ~(1 << (32 - index)));
+			return (int) (data & ~(1 << (32 - index)));
 		}
 	}
 
@@ -696,18 +702,341 @@ public final class ByteUtils {
 	 */
 	public static final long setBit(long data, int index, boolean value) {
 
-		if (index <= 0 || index > 7) {
+		if (index <= 0 || index >= 64) {
 
 			throw new IndexOutOfBoundsException();
 		}
 
 		if (value) {
 
-			return (byte) (data | (1 << (64 - index)));
+			return (long) (data | (1 << (64 - index)));
 		} else {
 
-			return (byte) (data & ~(1 << (64 - index)));
+			return (long) (data & ~(1 << (64 - index)));
 		}
+	}
+
+	/**
+	 * 时间转换为十六进制七字节字节数组(年低字节在前高字节在后物联网表协议专用)
+	 * 
+	 * @author xujh
+	 * 
+	 * @param date
+	 *            时间
+	 * 
+	 * @return 时间字节数组
+	 */
+	public static final byte[] date2ByteArray(Date date) {
+
+		// 目标字节数组
+		byte[] target = new byte[7];
+
+		// 获得当前日期字符串
+		String dateStr = DateUtils.formatDate(date, "yyyy MM dd HH mm ss");
+		// 分割字符串
+		String[] dateStrs = dateStr.split(" ");
+
+		// 设置字节数组数据
+		short year = Short.valueOf(dateStrs[0]);
+		target[0] = (byte) year;
+		target[1] = (byte) (year >> 8);
+		target[2] = Byte.valueOf(dateStrs[1]);
+		target[3] = Byte.valueOf(dateStrs[2]);
+		target[4] = Byte.valueOf(dateStrs[3]);
+		target[5] = Byte.valueOf(dateStrs[4]);
+		target[6] = Byte.valueOf(dateStrs[5]);
+
+		return target;
+	}
+
+	/**
+	 * 时间(年月日)转换为十六进制两个字节字节数组(低字节在前高字节在后物联网表协议专用)
+	 * 
+	 * @author xujh
+	 * 
+	 * @param date
+	 *            时间
+	 * 
+	 * @return 时间(年月日YYMMDD)字节数组
+	 */
+	public static final byte[] date2DoubleByteArray(Date date) {
+
+		// 待返回字节数组
+		byte[] target = new byte[2];
+
+		// 格式化当前时间
+		String dateStr = DateUtils.formatDate(date, "yyyy MM dd");
+		// 时间数组
+		String[] dateStrs = dateStr.split(" ");
+
+		// 年
+		int year = Integer.parseInt(dateStrs[0]);
+		// 月
+		int month = Integer.parseInt(dateStrs[1]);
+		// 日
+		int day = Integer.parseInt(dateStrs[2]);
+		// 年求余
+		year = year % 100;
+		// 年左移9位
+		year = year << 9;
+		// 月左移5位
+		month = month << 5;
+
+		int newDate = year | month | day;
+		// 获得低字节在前高字节在后双字节字节数组
+		target = ByteUtils.reverse(ByteUtils.short2ByteArray((short) newDate));
+
+		// 返回两字节字节数组
+		return target;
+	}
+
+	/**
+	 * 压缩的双字节日期字节数组转换成标准日期
+	 * 
+	 * @author xujh
+	 * @since 2018-1-29 16:57:35
+	 * 
+	 * @param dateByte
+	 * 
+	 * @return 标准日期(yyyy-MM-dd)
+	 */
+	public static final Date doubleDateByteArray2Date(byte[] dateByte) {
+
+		// 获得年
+		int year = (dateByte[0] >> 1) + 2000;
+		// 获得月
+		int month = ((ByteUtils.byteArray2Int(dateByte)) & 0x01E0) >> 5;
+		// 获得日
+		int day = (dateByte[1] & 0x1f);
+
+		String formatDate = year + "-" + month + "-" + day;
+
+		return DateUtils.parseDate(formatDate);
+	}
+
+	/**
+	 * 七个字节数组日期转换成时间格式
+	 * 
+	 * @param dateByteArray
+	 *            时间字节数组(年是低字节在前高字节在后)
+	 * 
+	 * @author xujh
+	 * 
+	 * @since 2017-10-11 12:15:16
+	 * 
+	 * @return 格式化后时间(yyyy-MM-dd HH:mm:ss)
+	 */
+	public static final Date byteArray2Date(byte[] dateByteArray) {
+
+		// 上报时间字节数组
+		String month = "";
+		String day = "";
+		String hours = "";
+		String minute = "";
+		String second = "";
+		// 月
+		if ((int) dateByteArray[2] < 10) {
+
+			month = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[2] });
+		} else {
+
+			month = ByteUtils.byteArray2Int(new byte[] { dateByteArray[2] }) + "";
+		}
+		// 日
+		if ((int) dateByteArray[3] < 10) {
+
+			day = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[3] });
+		} else {
+
+			day = ByteUtils.byteArray2Int(new byte[] { dateByteArray[3] }) + "";
+		}
+		// 时
+		if ((int) dateByteArray[4] < 10) {
+
+			hours = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[4] });
+		} else {
+
+			hours = ByteUtils.byteArray2Int(new byte[] { dateByteArray[4] }) + "";
+		}
+
+		// 分
+		if ((int) dateByteArray[5] < 10) {
+
+			minute = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[5] });
+		} else {
+
+			minute = ByteUtils.byteArray2Int(new byte[] { dateByteArray[5] }) + "";
+		}
+
+		// 秒
+		if ((int) dateByteArray[6] < 10) {
+
+			second = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[6] });
+		} else {
+
+			second = ByteUtils.byteArray2Int(new byte[] { dateByteArray[6] }) + "";
+		}
+
+		// 上报时间
+		String date = ByteUtils.byteArray2Int(new byte[] { dateByteArray[1], dateByteArray[0] }) + "-" + month + "-"
+				+ day + " " + hours + ":" + minute + ":" + second;
+
+		return DateUtils.parseDateTime(date);
+	}
+
+	/**
+	 * 四个字节数组日期转换成时间格式
+	 * 
+	 * @param dateByteArray
+	 *            时间字节数组(年是低字节在前高字节在后)
+	 * 
+	 * @author xujh
+	 * 
+	 * @since 2018-8-9 15:38:02
+	 * 
+	 * @return 格式化后时间(yyyy-MM-dd HH:mm:ss)
+	 */
+	public static final Date fourByteArray2Date(byte[] dateByteArray) {
+
+		// 上报时间字节数组
+		String month = "";
+		String day = "";
+
+		// 月
+		if ((int) dateByteArray[2] < 10) {
+
+			month = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[2] });
+		} else {
+
+			month = ByteUtils.byteArray2Int(new byte[] { dateByteArray[2] }) + "";
+		}
+		// 日
+		if ((int) dateByteArray[3] < 10) {
+
+			day = "0" + ByteUtils.byteArray2Int(new byte[] { dateByteArray[3] });
+		} else {
+
+			day = ByteUtils.byteArray2Int(new byte[] { dateByteArray[3] }) + "";
+		}
+
+		// 上报时间
+		String date = ByteUtils.byteArray2Int(new byte[] { dateByteArray[1], dateByteArray[0] }) + "-" + month + "-"
+				+ day;
+
+		return DateUtils.parseDate(date);
+	}
+
+	/**
+	 * 字节数组转成16进制拼接字符串(字节空格间隔)
+	 * 
+	 * @since 2017-10-18 17:04:41
+	 * 
+	 * @param byteArray
+	 *            待转换字节数组
+	 * 
+	 * @return 拼接后的16进制字符串
+	 */
+	public static final String byteArray2HexStringAppend(byte[] byteArray) {
+
+		// 待返回字符串
+		StringBuffer buffer = new StringBuffer();
+		// 遍历拼接
+		for (byte dByte : byteArray) {
+
+			String str = Integer.toHexString(ByteUtils.byte2Short(dByte));
+			buffer.append(str.length() < 2 ? ("0" + str) : str).append(" ");
+		}
+		// 返回
+		return buffer.toString();
+	}
+
+	/**
+	 * 字节数组累加和取反
+	 * 
+	 * @param byteArray
+	 *            待累加和取反字节数组
+	 * 
+	 * @return 返回累加和取反
+	 */
+	public static final byte byteArray2SumNegation(byte[] byteArray) {
+
+		long dataSumNegation = 0;
+		if (byteArray != null && byteArray.length > 0) {
+
+			for (int i = 0; i < byteArray.length; i++) {
+
+				dataSumNegation += (long) (byteArray[i] & 0xff);
+			}
+			// 取反
+			dataSumNegation = ~dataSumNegation;
+		}
+
+		return (byte) dataSumNegation;
+	}
+
+	/**
+	 * 天信MODBUS协议计算CRC16校验码
+	 *
+	 * @param bytes
+	 * 
+	 * @return 十六进制字符串
+	 */
+	public static String getCRC(byte[] bytes) {
+		int CRC = 0x0000ffff;
+		int POLYNOMIAL = 0x0000a001;
+
+		int i, j;
+		for (i = 0; i < bytes.length; i++) {
+			CRC ^= ((int) bytes[i] & 0x000000ff);
+			for (j = 0; j < 8; j++) {
+				if ((CRC & 0x00000001) != 0) {
+					CRC >>= 1;
+					CRC ^= POLYNOMIAL;
+				} else {
+					CRC >>= 1;
+				}
+			}
+		}
+		return Integer.toHexString(CRC);
+	}
+
+	/**
+	 * 获取文件内某段文件
+	 * 
+	 * @param file
+	 *            文件
+	 * 
+	 * @param byteLength
+	 *            索要文件字节大小
+	 * 
+	 * @param count
+	 *            索要文件段
+	 * 
+	 * @return 索要文件字节数组
+	 */
+	@SuppressWarnings("resource")
+	public static byte[] getDataByteArrayFromFile(File file, int byteLength, int count) {
+		FileInputStream fileInputStream = null;
+		try {
+			fileInputStream = new FileInputStream(file);
+			int length = 0;
+			byte[] buf = new byte[byteLength]; // 建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
+			int i = 1;
+			while ((length = fileInputStream.read(buf)) != -1) {
+				if (i == count) {
+					byte[] rtnByteArray = new byte[length];
+					System.arraycopy(buf, 0, rtnByteArray, 0, rtnByteArray.length);
+					return rtnByteArray;
+				}
+				i++;
+			}
+			fileInputStream.close(); // 关闭资源
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**
@@ -716,9 +1045,39 @@ public final class ByteUtils {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String str = "88 00 2f 00 68 d4 ac e3 6b c1 0a 32 30 31 38 31 31 30 38 30 30 30 30 30 30 31 36 52 14 00 00 00 01 04 3e 24 24 0f 00 00 00 00 e2 07 0b 07 32 33 30 ad 16 77 ";
+		str = str.replaceAll(" ", "");
+		System.out.println(str);
+		// System.out.println(BigDecimal.valueOf(Long.valueOf("123456395900")).divide(new
+		// BigDecimal(100)).longValue());
+		// String str = "2863311530";
+		// Integer in = Integer.valueOf(str);
+		// System.out.println(in);
+		// byte[] bt = ByteUtils.long2ByteArray(Long.valueOf(str));
+		// byte[] bt1 = new byte[4];
+		// System.arraycopy(bt, 4, bt1, 0, bt1.length);
+		// System.out.println(ByteUtils.byteArray2DoubleHexString(bt1));
+		// File file = new File("D:/filePath/default/APP2.bin");
+		//
+		// System.out.println("文件名称："+file.getName()+"文件大小："+file.length());
+		//
+		// FileInputStream fileInputStream = null;
+		// try {
+		// fileInputStream = new FileInputStream(file);
+		// int length = 0;
+		// byte[] buf = new byte[fileInputStream.available()];
+		// //建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
+		// while((length = fileInputStream.read(buf))!=-1){
+		// System.out.println("CRC校验码："+ByteUtils.getCRC(buf));
+		// }
+		// fileInputStream.close(); //关闭资源
+		// } catch (FileNotFoundException e) {
+		// e.printStackTrace();
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// System.out.println(BigDecimal.valueOf(2.2).multiply(new
+		// BigDecimal(100)).intValue());
 
-		byte[] a = new byte[] { (byte) 0xFF };
-		System.out.println(a[0]);
-		System.out.println(0xff);
 	}
 }

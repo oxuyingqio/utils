@@ -3,15 +3,13 @@ package cn.xuyingqi.util.exception;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import cn.xuyingqi.util.ByteUtils;
-
 /**
- * 字节数组为空
+ * 日期解析异常
  * 
  * @author XuYQ
  *
  */
-public class ByteArrayIsEmptyException extends RuntimeException {
+public class DateParseException extends RuntimeException {
 
 	/**
 	 * 
@@ -28,24 +26,16 @@ public class ByteArrayIsEmptyException extends RuntimeException {
 		// 获取国际化文件
 		ResourceBundle rb = ResourceBundle.getBundle("net.newcapec.gas.util.i18n.message", Locale.getDefault());
 		// 获取异常描述
-		MSG = rb.getString("ByteArrayIsEmptyException");
+		MSG = rb.getString("DateParseException");
 	}
 
 	/**
-	 * 字节数组为空
-	 */
-	public ByteArrayIsEmptyException() {
-
-		super(MSG);
-	}
-
-	/**
-	 * Main函数测试
+	 * 日期解析异常
 	 * 
-	 * @param args
+	 * @param msg
 	 */
-	public static void main(String[] args) {
+	public DateParseException(String msg) {
 
-		System.out.println(ByteUtils.byteArray2Short(new byte[] {}));
+		super(MSG + msg);
 	}
 }

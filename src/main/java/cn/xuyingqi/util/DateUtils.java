@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.xuyingqi.util.exception.DateParseException;
+
 /**
  * 日期工具类
  * 
@@ -166,6 +168,76 @@ public final class DateUtils {
 	}
 
 	/**
+	 * 日期增加
+	 * 
+	 * @param date
+	 *            日期
+	 * @param year
+	 *            年
+	 * @param month
+	 *            月
+	 * @param week
+	 *            周
+	 * @param day
+	 *            天
+	 * @param hour
+	 *            时
+	 * @param minute
+	 *            分
+	 * @param second
+	 *            秒
+	 * @param millisecond
+	 *            毫秒
+	 * @return
+	 */
+	public static final Date add(Date date, int year, int month, int week, int day, int hour, int minute, int second,
+			int millisecond) {
+
+		Calendar calendar = DateUtils.getCalendar();
+		calendar.setTime(date);
+
+		return DateUtils.add(calendar, year, month, week, day, hour, minute, second, millisecond).getTime();
+	}
+
+	/**
+	 * 日期增加
+	 * 
+	 * @param calendar
+	 *            日期
+	 * @param year
+	 *            年
+	 * @param month
+	 *            月
+	 * @param week
+	 *            周
+	 * @param day
+	 *            天
+	 * @param hour
+	 *            时
+	 * @param minute
+	 *            分
+	 * @param second
+	 *            秒
+	 * @param millisecond
+	 *            毫秒
+	 * @return
+	 */
+	public static final Calendar add(Calendar calendar, int year, int month, int week, int day, int hour, int minute,
+			int second, int millisecond) {
+
+		calendar.add(Calendar.YEAR, year);
+		calendar.add(Calendar.MONTH, month);
+		calendar.add(Calendar.DAY_OF_WEEK_IN_MONTH, week);
+		calendar.add(Calendar.DAY_OF_MONTH, day);
+		calendar.add(Calendar.HOUR_OF_DAY, hour);
+		calendar.add(Calendar.MINUTE, minute);
+		calendar.add(Calendar.SECOND, second);
+		calendar.add(Calendar.MILLISECOND, millisecond);
+
+		return calendar;
+	}
+
+	/**
 	 * 间隔天数
 	 * 
 	 * @param date1
@@ -207,9 +279,11 @@ public final class DateUtils {
 			calendar1.set(java.util.Calendar.HOUR_OF_DAY, 0);
 			calendar1.set(java.util.Calendar.MINUTE, 0);
 			calendar1.set(java.util.Calendar.SECOND, 0);
+			calendar1.set(java.util.Calendar.MILLISECOND, 0);
 			calendar2.set(java.util.Calendar.HOUR_OF_DAY, 0);
 			calendar2.set(java.util.Calendar.MINUTE, 0);
 			calendar2.set(java.util.Calendar.SECOND, 0);
+			calendar2.set(java.util.Calendar.MILLISECOND, 0);
 
 			return DateUtils.intervalDays(calendar1.getTime(), calendar2.getTime(), !ignoreTime);
 		} else {
@@ -282,9 +356,15 @@ public final class DateUtils {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static final Date parseDate(String dateStr, String pattern) throws ParseException {
+	public static final Date parseDate(String dateStr, String pattern) {
 
-		return DateUtils.getDateFormatInstance(pattern).parse(dateStr);
+		try {
+
+			return DateUtils.getDateFormatInstance(pattern).parse(dateStr);
+		} catch (ParseException e) {
+
+			throw new DateParseException("[数据]：" + dateStr + ".[格式]：" + pattern);
+		}
 	}
 
 	/**
@@ -294,7 +374,7 @@ public final class DateUtils {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static final Date parseDateTime(String dateStr) throws ParseException {
+	public static final Date parseDateTime(String dateStr) {
 
 		return DateUtils.parseDate(dateStr, DEFAULT_DATE_TIME_FORMAT);
 	}
@@ -306,7 +386,7 @@ public final class DateUtils {
 	 * @return
 	 * @throws ParseException
 	 */
-	public static final Date parseDate(String dateStr) throws ParseException {
+	public static final Date parseDate(String dateStr) {
 
 		return DateUtils.parseDate(dateStr, DEFAULT_DATE_FORMAT);
 	}
@@ -318,12 +398,6 @@ public final class DateUtils {
 	 */
 	public static void main(String[] args) {
 
-		try {
-
-			System.out.println(DateUtils.intervalDays(DateUtils.parseDate("2018-03-31"), DateUtils.getDate(), true));
-		} catch (ParseException e) {
-
-			e.printStackTrace();
-		}
+		System.out.println(DateUtils.intervalDays(DateUtils.parseDate("2018-03-31"), DateUtils.getDate(), true));
 	}
 }

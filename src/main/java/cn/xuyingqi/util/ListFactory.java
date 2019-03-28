@@ -1,4 +1,4 @@
-package cn.xuyingqi.util.util;
+package cn.xuyingqi.util;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -11,17 +11,6 @@ import java.util.List;
  *
  */
 public final class ListFactory {
-
-	/**
-	 * List类型
-	 * 
-	 * @author XuYQ
-	 *
-	 */
-	public static enum ListType {
-
-		ARRAY_LIST, LINKED_LIST
-	}
 
 	/**
 	 * 私有构造方法
@@ -49,14 +38,22 @@ public final class ListFactory {
 
 		switch (listType) {
 		case ARRAY_LIST:
-
 			return new ArrayList<T>();
 		case LINKED_LIST:
-
 			return new LinkedList<T>();
 		default:
-
 			return new ArrayList<T>();
 		}
+	}
+
+	/**
+	 * List类型
+	 * 
+	 * @author XuYQ
+	 *
+	 */
+	public static enum ListType {
+
+		ARRAY_LIST, LINKED_LIST
 	}
 }

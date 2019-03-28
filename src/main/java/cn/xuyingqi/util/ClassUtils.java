@@ -7,8 +7,6 @@ import java.util.Set;
 
 import org.apache.commons.lang3.text.WordUtils;
 
-import cn.xuyingqi.util.util.SetFactory;
-
 /**
  * 类工具类
  * 
