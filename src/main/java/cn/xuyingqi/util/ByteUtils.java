@@ -973,72 +973,68 @@ public final class ByteUtils {
 
 		return (byte) dataSumNegation;
 	}
-
+	
 	/**
-	 * 天信MODBUS协议计算CRC16校验码
-	 *
-	 * @param bytes
-	 * 
-	 * @return 十六进制字符串
-	 */
-	public static String getCRC(byte[] bytes) {
-		int CRC = 0x0000ffff;
-		int POLYNOMIAL = 0x0000a001;
+	  * 天信MODBUS协议计算CRC16校验码
+	  *
+	  * @param bytes
+	  * 
+	  * @return	十六进制字符串
+	  */
+	 public static String getCRC(byte[] bytes) {
+	     int CRC = 0x0000ffff;
+	     int POLYNOMIAL = 0x0000a001;
 
-		int i, j;
-		for (i = 0; i < bytes.length; i++) {
-			CRC ^= ((int) bytes[i] & 0x000000ff);
-			for (j = 0; j < 8; j++) {
-				if ((CRC & 0x00000001) != 0) {
-					CRC >>= 1;
-					CRC ^= POLYNOMIAL;
-				} else {
-					CRC >>= 1;
+	     int i, j;
+	     for (i = 0; i < bytes.length; i++) {
+	         CRC ^= ((int) bytes[i] & 0x000000ff);
+	         for (j = 0; j < 8; j++) {
+	             if ((CRC & 0x00000001) != 0) {
+	                 CRC >>= 1;
+	                 CRC ^= POLYNOMIAL;
+	             } else {
+	                 CRC >>= 1;
+	             }
+	         }
+	     }
+	     return Integer.toHexString(CRC);
+	 }
+		/**
+		 * 获取文件内某段文件
+		 * 
+		 * @param	file	文件
+		 * 
+		 * @param	byteLength	索要文件字节大小
+		 * 
+		 * @param	count	索要文件段
+		 * 
+		 * @return	索要文件字节数组
+		 * */
+		@SuppressWarnings("resource")
+		public static byte[] getDataByteArrayFromFile(File file,int byteLength,int count){
+			FileInputStream fileInputStream = null;
+		    try {
+		    	fileInputStream = new FileInputStream(file);
+		    	int length = 0;
+		    	byte[] buf = new byte[byteLength];  //建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
+		    	int i = 1;
+				while((length = fileInputStream.read(buf))!=-1){
+				    if(i==count){
+				    	byte[] rtnByteArray = new byte[length];
+				    	System.arraycopy(buf, 0, rtnByteArray, 0, rtnByteArray.length);
+				    	return rtnByteArray;
+				    }
+				    i++;
 				}
+				fileInputStream.close(); //关闭资源
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}catch(IOException e){
+				e.printStackTrace();
 			}
+		    return null;
 		}
-		return Integer.toHexString(CRC);
-	}
-
-	/**
-	 * 获取文件内某段文件
-	 * 
-	 * @param file
-	 *            文件
-	 * 
-	 * @param byteLength
-	 *            索要文件字节大小
-	 * 
-	 * @param count
-	 *            索要文件段
-	 * 
-	 * @return 索要文件字节数组
-	 */
-	@SuppressWarnings("resource")
-	public static byte[] getDataByteArrayFromFile(File file, int byteLength, int count) {
-		FileInputStream fileInputStream = null;
-		try {
-			fileInputStream = new FileInputStream(file);
-			int length = 0;
-			byte[] buf = new byte[byteLength]; // 建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
-			int i = 1;
-			while ((length = fileInputStream.read(buf)) != -1) {
-				if (i == count) {
-					byte[] rtnByteArray = new byte[length];
-					System.arraycopy(buf, 0, rtnByteArray, 0, rtnByteArray.length);
-					return rtnByteArray;
-				}
-				i++;
-			}
-			fileInputStream.close(); // 关闭资源
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return null;
-	}
-
+	
 	/**
 	 * Main函数测试
 	 * 
@@ -1048,36 +1044,33 @@ public final class ByteUtils {
 		String str = "88 00 2f 00 68 d4 ac e3 6b c1 0a 32 30 31 38 31 31 30 38 30 30 30 30 30 30 31 36 52 14 00 00 00 01 04 3e 24 24 0f 00 00 00 00 e2 07 0b 07 32 33 30 ad 16 77 ";
 		str = str.replaceAll(" ", "");
 		System.out.println(str);
-		// System.out.println(BigDecimal.valueOf(Long.valueOf("123456395900")).divide(new
-		// BigDecimal(100)).longValue());
-		// String str = "2863311530";
-		// Integer in = Integer.valueOf(str);
-		// System.out.println(in);
-		// byte[] bt = ByteUtils.long2ByteArray(Long.valueOf(str));
-		// byte[] bt1 = new byte[4];
-		// System.arraycopy(bt, 4, bt1, 0, bt1.length);
-		// System.out.println(ByteUtils.byteArray2DoubleHexString(bt1));
-		// File file = new File("D:/filePath/default/APP2.bin");
-		//
-		// System.out.println("文件名称："+file.getName()+"文件大小："+file.length());
-		//
-		// FileInputStream fileInputStream = null;
-		// try {
-		// fileInputStream = new FileInputStream(file);
-		// int length = 0;
-		// byte[] buf = new byte[fileInputStream.available()];
-		// //建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
-		// while((length = fileInputStream.read(buf))!=-1){
-		// System.out.println("CRC校验码："+ByteUtils.getCRC(buf));
-		// }
-		// fileInputStream.close(); //关闭资源
-		// } catch (FileNotFoundException e) {
-		// e.printStackTrace();
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// System.out.println(BigDecimal.valueOf(2.2).multiply(new
-		// BigDecimal(100)).intValue());
+//		System.out.println(BigDecimal.valueOf(Long.valueOf("123456395900")).divide(new BigDecimal(100)).longValue());
+//		String str = "2863311530";
+//		Integer in = Integer.valueOf(str);
+//		System.out.println(in);
+//		byte[] bt = ByteUtils.long2ByteArray(Long.valueOf(str));
+//		byte[] bt1 = new byte[4];
+//		System.arraycopy(bt, 4, bt1, 0, bt1.length);
+//		System.out.println(ByteUtils.byteArray2DoubleHexString(bt1));
+//		File file = new File("D:/filePath/default/APP2.bin");
+//		
+//		System.out.println("文件名称："+file.getName()+"文件大小："+file.length());
+//		
+//		 FileInputStream fileInputStream = null;
+//		try {
+//			fileInputStream = new FileInputStream(file);
+//			int length = 0;
+//		    byte[] buf = new byte[fileInputStream.available()];  //建立缓存数组，缓存数组的大小一般都是1024的整数倍，理论上越大效率越好
+//				while((length = fileInputStream.read(buf))!=-1){
+//				    System.out.println("CRC校验码："+ByteUtils.getCRC(buf));
+//				}
+//				fileInputStream.close(); //关闭资源
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		System.out.println(BigDecimal.valueOf(2.2).multiply(new BigDecimal(100)).intValue());
 
 	}
 }
