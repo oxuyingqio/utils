@@ -4,7 +4,7 @@ import java.io.File;
 
 import org.junit.Test;
 
-import cn.xuyingqi.util.FileUtils;
+import cn.xuyingqi.utils.FileUtils;
 
 public class FileUtilsTest {
 
