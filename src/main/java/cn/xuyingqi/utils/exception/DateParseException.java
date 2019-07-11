@@ -9,7 +9,7 @@ import java.util.ResourceBundle;
  * @author XuYQ
  *
  */
-public class DateParseException extends RuntimeException {
+public final class DateParseException extends RuntimeException {
 
 	/**
 	 * 
@@ -24,7 +24,7 @@ public class DateParseException extends RuntimeException {
 	static {
 
 		// 获取国际化文件
-		ResourceBundle rb = ResourceBundle.getBundle("net.newcapec.gas.util.i18n.message", Locale.getDefault());
+		ResourceBundle rb = ResourceBundle.getBundle("i18n.utils.message", Locale.getDefault());
 		// 获取异常描述
 		MSG = rb.getString("DateParseException");
 	}

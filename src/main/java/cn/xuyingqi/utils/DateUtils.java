@@ -36,17 +36,6 @@ public final class DateUtils {
 	}
 
 	/**
-	 * 获取当前日期.使用getDate
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	public static final Date getNow() {
-
-		return DateUtils.getDate();
-	}
-
-	/**
 	 * 获取当前日期
 	 * 
 	 * @return
@@ -170,24 +159,15 @@ public final class DateUtils {
 	/**
 	 * 日期增加
 	 * 
-	 * @param date
-	 *            日期
-	 * @param year
-	 *            年
-	 * @param month
-	 *            月
-	 * @param week
-	 *            周
-	 * @param day
-	 *            天
-	 * @param hour
-	 *            时
-	 * @param minute
-	 *            分
-	 * @param second
-	 *            秒
-	 * @param millisecond
-	 *            毫秒
+	 * @param date        日期
+	 * @param year        年
+	 * @param month       月
+	 * @param week        周
+	 * @param day         天
+	 * @param hour        时
+	 * @param minute      分
+	 * @param second      秒
+	 * @param millisecond 毫秒
 	 * @return
 	 */
 	public static final Date add(Date date, int year, int month, int week, int day, int hour, int minute, int second,
@@ -202,24 +182,15 @@ public final class DateUtils {
 	/**
 	 * 日期增加
 	 * 
-	 * @param calendar
-	 *            日期
-	 * @param year
-	 *            年
-	 * @param month
-	 *            月
-	 * @param week
-	 *            周
-	 * @param day
-	 *            天
-	 * @param hour
-	 *            时
-	 * @param minute
-	 *            分
-	 * @param second
-	 *            秒
-	 * @param millisecond
-	 *            毫秒
+	 * @param calendar    日期
+	 * @param year        年
+	 * @param month       月
+	 * @param week        周
+	 * @param day         天
+	 * @param hour        时
+	 * @param minute      分
+	 * @param second      秒
+	 * @param millisecond 毫秒
 	 * @return
 	 */
 	public static final Calendar add(Calendar calendar, int year, int month, int week, int day, int hour, int minute,
@@ -242,8 +213,7 @@ public final class DateUtils {
 	 * 
 	 * @param date1
 	 * @param date2
-	 * @param ignoreTime
-	 *            忽略时间,仅按日期计算
+	 * @param ignoreTime 忽略时间,仅按日期计算
 	 * @return
 	 */
 	public static final int intervalDays(Date date1, Date date2, boolean ignoreTime) {
@@ -267,8 +237,7 @@ public final class DateUtils {
 	 * 
 	 * @param calendar1
 	 * @param calendar2
-	 * @param ignoreTime
-	 *            忽略时间,仅按日期计算
+	 * @param ignoreTime 忽略时间,仅按日期计算
 	 * @return
 	 */
 	public static final int intervalDays(Calendar calendar1, Calendar calendar2, boolean ignoreTime) {
@@ -354,7 +323,6 @@ public final class DateUtils {
 	 * @param dateStr
 	 * @param pattern
 	 * @return
-	 * @throws ParseException
 	 */
 	public static final Date parseDate(String dateStr, String pattern) {
 
@@ -363,7 +331,7 @@ public final class DateUtils {
 			return DateUtils.getDateFormatInstance(pattern).parse(dateStr);
 		} catch (ParseException e) {
 
-			throw new DateParseException("[数据]：" + dateStr + ".[格式]：" + pattern);
+			throw new DateParseException("[数据]" + dateStr + "[格式]" + pattern);
 		}
 	}
 
@@ -372,7 +340,6 @@ public final class DateUtils {
 	 * 
 	 * @param dateStr
 	 * @return
-	 * @throws ParseException
 	 */
 	public static final Date parseDateTime(String dateStr) {
 
@@ -384,7 +351,6 @@ public final class DateUtils {
 	 * 
 	 * @param dateStr
 	 * @return
-	 * @throws ParseException
 	 */
 	public static final Date parseDate(String dateStr) {
 
@@ -398,6 +364,6 @@ public final class DateUtils {
 	 */
 	public static void main(String[] args) {
 
-		System.out.println(DateUtils.intervalDays(DateUtils.parseDate("2018-03-31"), DateUtils.getDate(), true));
+		System.out.println(DateUtils.intervalDays(DateUtils.parseDate("2018-03:31"), DateUtils.getDate(), true));
 	}
 }

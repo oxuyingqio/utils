@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpStatus;
@@ -14,26 +17,30 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
+import cn.xuyingqi.utils.SSLContextFactory.SSLConfig;
+import cn.xuyingqi.utils.SSLContextFactory.SSLConfig.KeyConfig;
 import cn.xuyingqi.utils.exception.HttpException;
 
 /**
- * HttpClient工具类
+ * HttpsClient工具类
  * 
  * @author XuYQ
  *
  */
-public final class HttpClientUtils {
+public final class HttpsClientUtils {
 
 	/**
 	 * 默认编码集
@@ -41,15 +48,18 @@ public final class HttpClientUtils {
 	private static final String CHARSET = "UTF-8";
 
 	/**
-	 * HttpClient连接池
+	 * SSL配置
 	 */
-	private static PoolingHttpClientConnectionManager phccm;
+	private SSLConfig sslConfig;
 
 	/**
-	 * 私有构造方法
+	 * HttpsClient工具类
+	 * 
+	 * @param sslConfig SSL配置
 	 */
-	private HttpClientUtils() {
+	public HttpsClientUtils(SSLConfig sslConfig) {
 
+		this.sslConfig = sslConfig;
 	}
 
 	/**
@@ -73,34 +83,26 @@ public final class HttpClientUtils {
 	}
 
 	/**
-	 * 初始化
+	 * =======================================================================================================
 	 */
-	private synchronized static final void init() {
-
-		// 判断HttpClient连接池是否为空
-		if (phccm == null) {
-
-			// 实例化HttpClient连接池
-			phccm = new PoolingHttpClientConnectionManager();
-			// 设置连接池最大连接数
-			phccm.setMaxTotal(50);
-			// 设置每路由最大连接数.默认值是2
-			phccm.setDefaultMaxPerRoute(5);
-		}
-	}
 
 	/**
 	 * 通过连接池获取HttpClient
 	 * 
 	 * @return
 	 */
-	private static final CloseableHttpClient getHttpClient() {
-
-		// 初始化
-		init();
+	private CloseableHttpClient getHttpClient() {
 
 		// 返回HttpClient
-		return HttpClients.custom().setConnectionManager(phccm).build();
+		return HttpClients.custom().setSSLSocketFactory(
+				new SSLConnectionSocketFactory(SSLContextFactory.getInstance(this.sslConfig), new HostnameVerifier() {
+
+					@Override
+					public boolean verify(String arg0, SSLSession arg1) {
+
+						return true;
+					}
+				})).build();
 	}
 
 	/**
@@ -112,11 +114,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	private static final String getResult(HttpRequestBase request, String charset)
-			throws ClientProtocolException, IOException {
+	private String getResult(HttpRequestBase request, String charset) throws ClientProtocolException, IOException {
 
 		// 获取HttpClient
-		CloseableHttpClient httpClient = getHttpClient();
+		CloseableHttpClient httpClient = this.getHttpClient();
 
 		// 获取响应结果
 		CloseableHttpResponse response = httpClient.execute(request);
@@ -178,7 +179,7 @@ public final class HttpClientUtils {
 	}
 
 	/**
-	 * ==========================================================================================
+	 * =========================================================================================================
 	 */
 
 	/**
@@ -190,10 +191,9 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url)
-			throws URISyntaxException, ClientProtocolException, IOException {
+	public String httpGetRequest(String url) throws URISyntaxException, ClientProtocolException, IOException {
 
-		return httpGetRequest(url, new HashMap<String, Object>());
+		return this.httpGetRequest(url, new HashMap<String, Object>());
 	}
 
 	/**
@@ -206,10 +206,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url, Map<String, Object> params)
+	public String httpGetRequest(String url, Map<String, Object> params)
 			throws URISyntaxException, ClientProtocolException, IOException {
 
-		return httpGetRequest(url, new HashMap<String, Object>(), params);
+		return this.httpGetRequest(url, new HashMap<String, Object>(), params);
 	}
 
 	/**
@@ -223,10 +223,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url, Map<String, Object> headers, Map<String, Object> params)
+	public String httpGetRequest(String url, Map<String, Object> headers, Map<String, Object> params)
 			throws URISyntaxException, ClientProtocolException, IOException {
 
-		return httpGetRequest(url, headers, null, params);
+		return this.httpGetRequest(url, headers, null, params);
 	}
 
 	/**
@@ -241,10 +241,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url, Map<String, Object> headers, int timeout,
-			Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
+	public String httpGetRequest(String url, Map<String, Object> headers, int timeout, Map<String, Object> params)
+			throws URISyntaxException, ClientProtocolException, IOException {
 
-		return httpGetRequest(url, headers,
+		return this.httpGetRequest(url, headers,
 				RequestConfig.custom().setConnectTimeout(timeout * 1000).setConnectionRequestTimeout(timeout * 1000)
 						.setSocketTimeout(timeout * 1000).setRedirectsEnabled(true).build(),
 				params);
@@ -263,11 +263,11 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url, Map<String, Object> headers, String proxyIp, int proxyPort,
+	public String httpGetRequest(String url, Map<String, Object> headers, String proxyIp, int proxyPort,
 			Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
 
-		return httpGetRequest(url, headers, RequestConfig.custom().setProxy(new HttpHost(proxyIp, proxyPort)).build(),
-				params);
+		return this.httpGetRequest(url, headers,
+				RequestConfig.custom().setProxy(new HttpHost(proxyIp, proxyPort)).build(), params);
 	}
 
 	/**
@@ -282,7 +282,7 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpGetRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
+	public String httpGetRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
 			Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
 
 		// 设置地址,参数
@@ -306,7 +306,7 @@ public final class HttpClientUtils {
 		}
 
 		// 获取结果
-		return getResult(httpGet, CHARSET);
+		return this.getResult(httpGet, CHARSET);
 	}
 
 	/**
@@ -321,9 +321,9 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url) throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url) throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, new HashMap<String, Object>());
+		return this.httpPostRequest(url, new HashMap<String, Object>());
 	}
 
 	/**
@@ -335,10 +335,9 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> params)
-			throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, Map<String, Object> params) throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, params, CHARSET);
+		return this.httpPostRequest(url, params, CHARSET);
 	}
 
 	/**
@@ -351,10 +350,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> params, String charset)
+	public String httpPostRequest(String url, Map<String, Object> params, String charset)
 			throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, new HashMap<String, Object>(), params, charset);
+		return this.httpPostRequest(url, new HashMap<String, Object>(), params, charset);
 	}
 
 	/**
@@ -368,10 +367,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> headers, Map<String, Object> params,
-			String charset) throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, Map<String, Object> headers, Map<String, Object> params, String charset)
+			throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, headers, null, params, charset);
+		return this.httpPostRequest(url, headers, null, params, charset);
 	}
 
 	/**
@@ -386,10 +385,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> headers, int timeout,
-			Map<String, Object> params, String charset) throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, Map<String, Object> headers, int timeout, Map<String, Object> params,
+			String charset) throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, headers,
+		return this.httpPostRequest(url, headers,
 				RequestConfig.custom().setConnectTimeout(timeout * 1000).setConnectionRequestTimeout(timeout * 1000)
 						.setSocketTimeout(timeout * 1000).setRedirectsEnabled(true).build(),
 				params, charset);
@@ -407,7 +406,7 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
+	public String httpPostRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
 			Map<String, Object> params, String charset) throws ClientProtocolException, IOException {
 
 		// 实例化HttpPost请求
@@ -429,7 +428,7 @@ public final class HttpClientUtils {
 		httpPost.setEntity(new UrlEncodedFormEntity(param2NVP(params), charset));
 
 		// 获取结果
-		return getResult(httpPost, charset);
+		return this.getResult(httpPost, charset);
 	}
 
 	/**
@@ -445,9 +444,9 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, String body) throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, String body) throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, body, CHARSET);
+		return this.httpPostRequest(url, body, CHARSET);
 	}
 
 	/**
@@ -460,10 +459,9 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, String body, String charset)
-			throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, String body, String charset) throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, new HashMap<String, Object>(), body, charset);
+		return this.httpPostRequest(url, new HashMap<String, Object>(), body, charset);
 	}
 
 	/**
@@ -477,10 +475,10 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> headers, String body, String charset)
+	public String httpPostRequest(String url, Map<String, Object> headers, String body, String charset)
 			throws ClientProtocolException, IOException {
 
-		return httpPostRequest(url, headers, null, body, charset);
+		return this.httpPostRequest(url, headers, null, body, charset);
 	}
 
 	/**
@@ -495,8 +493,8 @@ public final class HttpClientUtils {
 	 * @throws IOException
 	 * @throws ClientProtocolException
 	 */
-	public static final String httpPostRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
-			String body, String charset) throws ClientProtocolException, IOException {
+	public String httpPostRequest(String url, Map<String, Object> headers, RequestConfig requestConfig, String body,
+			String charset) throws ClientProtocolException, IOException {
 
 		// 实例化HttpPost请求
 		HttpPost httpPost = new HttpPost(url);
@@ -517,7 +515,122 @@ public final class HttpClientUtils {
 		httpPost.setEntity(new StringEntity(body, charset));
 
 		// 获取结果
-		return getResult(httpPost, charset);
+		return this.getResult(httpPost, charset);
+	}
+
+	/**
+	 * ===============================================================================================================
+	 */
+
+	/**
+	 * HttpPut请求
+	 * 
+	 * @param url           地址
+	 * @param headers       头
+	 * @param requestConfig 请求配置
+	 * @param params        参数
+	 * @param charset       编码集
+	 * @return
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public String httpPutRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
+			Map<String, Object> params, String charset) throws ClientProtocolException, IOException {
+
+		// 实例化HttpPut请求
+		HttpPut httpPut = new HttpPut(url);
+
+		// 遍历添加头元素
+		for (Map.Entry<String, Object> param : headers.entrySet()) {
+
+			httpPut.addHeader(param.getKey(), String.valueOf(param.getValue()));
+		}
+
+		// 设置请求配置
+		if (requestConfig != null) {
+
+			httpPut.setConfig(requestConfig);
+		}
+
+		// 设置请求参数,及编码格式
+		httpPut.setEntity(new UrlEncodedFormEntity(param2NVP(params), charset));
+
+		// 获取结果
+		return this.getResult(httpPut, charset);
+	}
+
+	/**
+	 * HttpPut请求
+	 * 
+	 * @param url           地址
+	 * @param headers       头
+	 * @param requestConfig 请求配置
+	 * @param body          请求体
+	 * @param charset       编码集
+	 * @return
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public String httpPutRequest(String url, Map<String, Object> headers, RequestConfig requestConfig, String body,
+			String charset) throws ClientProtocolException, IOException {
+
+		// 实例化HttpPut请求
+		HttpPut httpPut = new HttpPut(url);
+
+		// 遍历添加头元素
+		for (Map.Entry<String, Object> param : headers.entrySet()) {
+
+			httpPut.addHeader(param.getKey(), String.valueOf(param.getValue()));
+		}
+
+		// 设置请求配置
+		if (requestConfig != null) {
+
+			httpPut.setConfig(requestConfig);
+		}
+
+		// 设置请求参数,及编码格式
+		httpPut.setEntity(new StringEntity(body, charset));
+
+		// 获取结果
+		return this.getResult(httpPut, charset);
+	}
+
+	/**
+	 * ===============================================================================================================
+	 */
+
+	/**
+	 * HttpDelete请求
+	 * 
+	 * @param url           地址
+	 * @param headers       头
+	 * @param requestConfig 请求配置
+	 * @param charset       编码集
+	 * @return
+	 * @throws IOException
+	 * @throws ClientProtocolException
+	 */
+	public String httpDeleteRequest(String url, Map<String, Object> headers, RequestConfig requestConfig,
+			String charset) throws ClientProtocolException, IOException {
+
+		// 实例化HttpDelete请求
+		HttpDelete httpDelete = new HttpDelete(url);
+
+		// 遍历添加头元素
+		for (Map.Entry<String, Object> param : headers.entrySet()) {
+
+			httpDelete.addHeader(param.getKey(), String.valueOf(param.getValue()));
+		}
+
+		// 设置请求配置
+		if (requestConfig != null) {
+
+			httpDelete.setConfig(requestConfig);
+		}
+
+		// 获取结果
+		return this.getResult(httpDelete, charset);
 	}
 
 	/**
@@ -527,14 +640,19 @@ public final class HttpClientUtils {
 	 */
 	public static void main(String[] args) {
 
-		String url = "http://180.101.147.89:8743/iocm/app/sec/v1.1.0/login";
+		String url = "https://180.101.147.89:8743/iocm/app/sec/v1.1.0/login";
 		Map<String, Object> params = MapFactory.newInstance();
 		params.put("appId", "rzcoF0rr9cNqpIjEGzVZZ1wfl44a");
-		params.put("secret", "456");
+		params.put("secret", "lQELedMNzjLasf8fPbDhlFqwl6sa");
 
 		try {
 
-			String rtn = HttpClientUtils.httpPostRequest(url, params);
+			String rtn = new HttpsClientUtils(new SSLConfig("TLS",
+					new KeyConfig(
+							"D:\\开发资料\\外系统对接\\电信物联网开放平台\\中国电信物联网开放平台应用服务器证书（ca）-北向接口调用认证\\outgoing.CertwithKey.pkcs12",
+							"IoM@1234", "pkcs12", "sunx509"),
+					new KeyConfig("D:\\开发资料\\外系统对接\\电信物联网开放平台\\中国电信物联网开放平台应用服务器证书（ca）-北向接口调用认证\\ca.jks", "Huawei@123",
+							"jks", "sunx509"))).httpPostRequest(url, params);
 			System.out.println(rtn);
 		} catch (ClientProtocolException e) {
 
