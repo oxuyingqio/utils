@@ -5,7 +5,7 @@
 
 	<!-- 模块信息 -->
 	<groupId>cn.xuyingqi</groupId>
-	<artifactId>util</artifactId>
+	<artifactId>utils</artifactId>
 	<version>0.0.1</version>
 	<packaging>jar</packaging>
 	<name>工具</name>
