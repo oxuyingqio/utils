@@ -8,9 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URL;
 import java.nio.channels.FileChannel;
 import java.util.List;
@@ -46,10 +44,8 @@ public class FileUtils {
 	/**
 	 * 将文件source复制到target (FileChannel复制)
 	 * 
-	 * @param source
-	 *            待复制文件
-	 * @param target
-	 *            复制的位置
+	 * @param source 待复制文件
+	 * @param target 复制的位置
 	 */
 	public static void copyFileByChannel(File source, File target) {
 
@@ -83,10 +79,8 @@ public class FileUtils {
 	/**
 	 * 对文件列表进行排序
 	 * 
-	 * @param files
-	 *            待排序的文件数组
-	 * @param order
-	 *            排序规则
+	 * @param files 待排序的文件数组
+	 * @param order 排序规则
 	 */
 	public static List<File> sortFileArray(File[] sources, FileUtils.Order order) {
 
@@ -189,10 +183,8 @@ public class FileUtils {
 	/**
 	 * 下载网络资源到本地文件夹
 	 * 
-	 * @param resourceURLStr
-	 *            网络资源地址
-	 * @param file
-	 *            本地文件夹
+	 * @param resourceURLStr 网络资源地址
+	 * @param file           本地文件夹
 	 */
 	public static void downloadNetworkResource(String resourceURLStr, File file) {
 
@@ -201,8 +193,9 @@ public class FileUtils {
 			// 网络统一资源定位符
 			URL resourceURL = new URL(resourceURLStr);
 			// 获取HTTP连接
-			HttpURLConnection httpURLConnection = (HttpURLConnection) resourceURL
-					.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.70.124", 808)));
+			HttpURLConnection httpURLConnection = (HttpURLConnection) resourceURL.openConnection();
+//			HttpURLConnection httpURLConnection = (HttpURLConnection) resourceURL
+//					.openConnection(new Proxy(Proxy.Type.HTTP, new InetSocketAddress("192.168.70.124", 808)));
 			// 连接
 			httpURLConnection.connect();
 
